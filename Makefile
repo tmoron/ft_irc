@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/22 16:04:56 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/22 18:00:20 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@ NAME = ircserv
 
 CC = c++
 
-SRCS =	main.cpp
+SRCS =	src/main.cpp\
+		src/Server.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -Iinclude
 
 all: $(NAME)
 

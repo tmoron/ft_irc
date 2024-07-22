@@ -3,16 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 16:04:07 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/22 16:18:36 by hubourge         ###   ########.fr       */
+/*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
+/*   Updated: 2024/07/22 20:53:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-/*-------------------------------- Constructor -------------------------------*/
-Server::Server(std::string port, std::string password) {
-	
+int Server::init_socket(uint16_t port)
+{
+    int                 server_fd;
+    struct sockaddr_in  s_addr;
+
+    server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+    if (server_fd < 0)
+        perror("socket");
+    if (server_fd < 0)
+        return (-1);
+    s_addr.sin_family = AF_INET;
+    s_addr.sin_addr.s_addr = INADDR_ANY;
+    s_addr.sin_port = port >> 8 | port << 8;
+    if (bind(server_fd, (struct sockaddr *)&s_addr, \
+    sizeof(struct sockaddr_in)) < 0)
+    {
+        close(server_fd);
+        perror("bind");
+        return (-1);
+    }
+    if (::listen(server_fd, 50) < 0)
+    {
+        close(server_fd);
+        perror("listen");
+        return (-1);
+    }
+    return (server_fd);
+}
+
+Server::Server(std::string port, std::string password)
+{
+	unsigned int port_int;
+	std::stringstream port_stream(port);
+
+	_password = password;
+	port_stream >> port_int;
+	if(port_stream.fail() || !port_stream.eof() || port_stream.bad())
+		throw std::exception();
+	if(port_int > 65535)
+		throw std::exception();
+	_servSocketFd = init_socket((uint16_t)port_int);
+	if(_servSocketFd == -1)
+		throw std::exception();	
+}
+
+void Server::listen()
+{
+	int a = -1;
+	std::cout << "waiting for client" << std::endl;	
+	while(a == -1)
+	{
+		a = accept(_servSocketFd, 0, 0);
+	}
+	std::cout << "got client on fd " << a << std::endl;
 }
