@@ -3,27 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/22 16:17:05 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/23 10:36:16 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-#include <string>
+# include <iostream>
 
 class Client
 {
-    private:
-        int         nb;
-        std::string _name;
-        std::string _buffer;
-        Client(/* args */);
-    public:
-        ~Client();
+	private:
+		int			_nb;
+		std::string	_name;
+		std::string	_buffer;
+
+	public:
+		Client();
+		~Client();
+		
+		void		setBuffer(std::string buffer);
+		std::string	getBuffer();
+
+		void		command(std::string cmd);
 };
 
 
