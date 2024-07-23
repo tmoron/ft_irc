@@ -6,22 +6,19 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 11:34:44 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:52:59 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
 /*------------------------------- Constructors -------------------------------*/
-Client::Client() : _nb(0), _user("default"), _buffer("")
-{
-}
-
-Client::Client(std::string user, std::string nick) : _nb(0), _buffer("")
-{
-	// verifer ou non le format username et nickname 
-	this->_user = user;
-	this->_nick = nick;
+Client::Client(int fd) {
+	_fd = fd;
+	_user = "";
+	_nick = "";
+	_buffer = "";
+	_loggedIn = false;
 }
 
 Client::~Client()

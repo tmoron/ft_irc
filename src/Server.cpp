@@ -27,7 +27,7 @@ Server::Server(std::string port, std::string password)
 	_servSocketFd = init_socket((uint16_t)port_int);
 	if(_servSocketFd == -1)
 		throw std::exception();
-	this->_client = std::vector<Client>();
+	this->_client = std::vector<Client*>();
 }
 
 Server::~Server(void) {}
@@ -65,20 +65,27 @@ int Server::init_socket(uint16_t port)
 void Server::listen()
 {
 	int a = -1;
-	std::cout << "waiting for client" << std::endl;	
-	while(a == -1)
+	std::cout << "waiting for client" << std::endl;
+	while(true)
 	{
 		a = accept(_servSocketFd, 0, 0);
+		if (a != -1) {
+			std::cout << "got client on fd " << a << std::endl;
+			this->addClient(a);
+		}
 	}
-	std::cout << "got client on fd " << a << std::endl;
 }
 
 void	Server::showClient(void)
 {
-	for (unsigned int i = 0; i < this->_client.size(); i++)
-	{
-		std::cout << "Client " << i << " : " << this->_client.at(i).getUser() << ", " << this->_client.at(i).getNick() << std::endl;
-	}
+	// for (unsigned int i = 0; i < this->_client.size(); i++)
+	// {
+	// 	std::cout << "Client " << i << " : " << this->_client.at(i).getUser() << ", " << this->_client.at(i).getNick() << std::endl;
+	// }
+}
+
+void	Server::addClient(int a) {
+	this->_client.push_back(new Client(a));
 }
 
 /*--------------------------------- Getters ----------------------------------*/
@@ -90,14 +97,6 @@ std::string	Server::getPassword() {
 	return (this->_password);
 }
 
-Client		Server::getClient(unsigned int index)
-{
-	if (index >= 0 && index < 100)
-		return (this->_client.at(index));
-	else
-		throw Server::OutOfRangeClientExeption();
-}
-
 /*--------------------------------- Setters ----------------------------------*/
 void		Server::setServSocketFd(int servSocketFd) {
 	this->_servSocketFd = servSocketFd;
@@ -107,10 +106,11 @@ void		Server::setPassword(std::string password) {
 	this->_password = password;
 }
 
-void		Server::setClient(Client client)
-{
-	if (this->_client.size() < 100)
-		this->_client.push_back(client);
-	else
-		throw Server::OutOfRangeClientExeption();
-}
+// void		Server::setClient(Client client)
+// {
+// 	if (this->_client.size() < 100)
+// 		this->_client.push_back(client);
+// 	else
+// 		throw Server::OutOfRangeClientExeption();
+// }
+
