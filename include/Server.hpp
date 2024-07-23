@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 11:27:49 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:26:13 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "Command.hpp"
 #include <vector>
 
 class Server {
@@ -29,6 +30,7 @@ class Server {
 		int					_servSocketFd;
 		std::string			_password;
 		std::vector<Client>	_client;
+        Command             *cmd;
 	
 		int init_socket(uint16_t port);
 	public:

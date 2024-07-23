@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+         #
+#    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/23 11:02:54 by hubourge         ###   ########.fr        #
+#    Updated: 2024/07/23 15:01:39 by pageblanche      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CC = c++
 SRCS =	src/main.cpp\
 		src/Server.cpp\
 		src/Client.cpp\
+		src/Command.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 
