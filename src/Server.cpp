@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/22 20:53:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/23 23:07:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ Server::Server(std::string port, std::string password)
 	_servSocketFd = init_socket((uint16_t)port_int);
 	if(_servSocketFd == -1)
 		throw std::exception();
-	this->_client = std::vector<Client*>();
+	this->_clients = std::vector<Client*>();
+	this->_pollfds = 0;
 }
 
 Server::~Server(void) {}
@@ -65,7 +66,7 @@ int Server::init_socket(uint16_t port)
 void Server::listen()
 {
 	int a = -1;
-	std::cout << "waiting for client" << std::endl;
+	std::cout << "waiting for clients" << std::endl;
 	while(true)
 	{
 		a = accept(_servSocketFd, 0, 0);
@@ -77,9 +78,37 @@ void Server::listen()
 	}
 }
 
+void Server::update_pollfds()
+{
+	if(this->_pollfds)	
+		delete[] _pollfds;
+	this->_pollfds = new struct pollfd[_clients.size()];
+	for(unsigned long i = 0; i < _clients.size(); i++)
+	{
+		this->_pollfds[i].fd = _clients[i]->getFd();
+		this->_pollfds[i].events = POLLIN;
+	}
+}
+
 void	Server::receiveData(void)
 {
-
+	int recv;
+	
+	recv = poll(this->_pollfds, _clients.size(), 1000);
+	if(!recv)
+		return ;
+	for(unsigned long i = 0; i < _clients.size(); i++)
+	{
+		if(this->_pollfds[i].revents & POLLIN)
+			_clients[i]->updateBuffer();
+		if(this->_pollfds[i].revents & POLLHUP)
+		{
+			delete _clients[i];
+			_clients.erase(_clients.begin() + i);
+			std::cout << "removed client " << i << std::endl;
+			this->update_pollfds();
+		}
+	}
 }
 
 void	Server::showClient(void)
@@ -91,7 +120,8 @@ void	Server::showClient(void)
 }
 
 void	Server::addClient(int a) {
-	this->_client.push_back(new Client(a));
+	this->_clients.push_back(new Client(a));
+	this->update_pollfds();
 }
 
 /*--------------------------------- Getters ----------------------------------*/
