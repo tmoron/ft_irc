@@ -12,35 +12,7 @@
 
 #include "Server.hpp"
 
-int Server::init_socket(uint16_t port)
-{
-    int                 server_fd;
-    struct sockaddr_in  s_addr;
-
-    server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
-    if (server_fd < 0)
-        perror("socket");
-    if (server_fd < 0)
-        return (-1);
-    s_addr.sin_family = AF_INET;
-    s_addr.sin_addr.s_addr = INADDR_ANY;
-    s_addr.sin_port = port >> 8 | port << 8;
-    if (bind(server_fd, (struct sockaddr *)&s_addr, \
-    sizeof(struct sockaddr_in)) < 0)
-    {
-        close(server_fd);
-        perror("bind");
-        return (-1);
-    }
-    if (::listen(server_fd, 50) < 0)
-    {
-        close(server_fd);
-        perror("listen");
-        return (-1);
-    }
-    return (server_fd);
-}
-
+/*------------------------------- Constructors -------------------------------*/
 Server::Server(std::string port, std::string password)
 {
 	unsigned int port_int;
@@ -54,7 +26,40 @@ Server::Server(std::string port, std::string password)
 		throw std::exception();
 	_servSocketFd = init_socket((uint16_t)port_int);
 	if(_servSocketFd == -1)
-		throw std::exception();	
+		throw std::exception();
+	this->_client = std::vector<Client>();
+}
+
+Server::~Server(void) {}
+
+/*--------------------------------- Methods ----------------------------------*/
+int Server::init_socket(uint16_t port)
+{
+	int					server_fd;
+	struct sockaddr_in	s_addr;
+
+	server_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+	if (server_fd < 0)
+		perror("socket");
+	if (server_fd < 0)
+		return (-1);
+	s_addr.sin_family = AF_INET;
+	s_addr.sin_addr.s_addr = INADDR_ANY;
+	s_addr.sin_port = port >> 8 | port << 8;
+	if (bind(server_fd, (struct sockaddr *)&s_addr, \
+	sizeof(struct sockaddr_in)) < 0)
+	{
+		close(server_fd);
+		perror("bind");
+		return (-1);
+	}
+	if (::listen(server_fd, 50) < 0)
+	{
+		close(server_fd);
+		perror("listen");
+		return (-1);
+	}
+	return (server_fd);
 }
 
 void Server::listen()
@@ -66,4 +71,46 @@ void Server::listen()
 		a = accept(_servSocketFd, 0, 0);
 	}
 	std::cout << "got client on fd " << a << std::endl;
+}
+
+void	Server::showClient(void)
+{
+	for (unsigned int i = 0; i < this->_client.size(); i++)
+	{
+		std::cout << "Client " << i << " : " << this->_client.at(i).getUser() << ", " << this->_client.at(i).getNick() << std::endl;
+	}
+}
+
+/*--------------------------------- Getters ----------------------------------*/
+int	Server::getServSocketFd() {
+	return (this->_servSocketFd);
+}
+
+std::string	Server::getPassword() {
+	return (this->_password);
+}
+
+Client		Server::getClient(unsigned int index)
+{
+	if (index >= 0 && index < 100)
+		return (this->_client.at(index));
+	else
+		throw Server::OutOfRangeClientExeption();
+}
+
+/*--------------------------------- Setters ----------------------------------*/
+void		Server::setServSocketFd(int servSocketFd) {
+	this->_servSocketFd = servSocketFd;
+}
+
+void		Server::setPassword(std::string password) {
+	this->_password = password;
+}
+
+void		Server::setClient(Client client)
+{
+	if (this->_client.size() < 100)
+		this->_client.push_back(client);
+	else
+		throw Server::OutOfRangeClientExeption();
 }

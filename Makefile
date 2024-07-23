@@ -6,7 +6,7 @@
 #    By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/23 10:25:16 by hubourge         ###   ########.fr        #
+#    Updated: 2024/07/23 11:02:54 by hubourge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS =	src/main.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 
-FLAGS = -Wall  -std=c++98 -Iinclude #-Wextra -Werror
+FLAGS = -Wall -std=c++98 -Iinclude #-Wextra -Werror 
 
 all: $(NAME)
 
