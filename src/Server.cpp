@@ -73,7 +73,13 @@ void Server::listen()
 			std::cout << "got client on fd " << a << std::endl;
 			this->addClient(a);
 		}
+		this->receiveData();
 	}
+}
+
+void	Server::receiveData(void)
+{
+
 }
 
 void	Server::showClient(void)

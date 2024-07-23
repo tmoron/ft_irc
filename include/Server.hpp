@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 16:28:55 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:44:37 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ class Server {
 		void		showClient(void);
 		void		listen(void);
 		void		addClient(int a);
+		void		receiveData(void);
 
 		class OutOfRangeClientExeption : public std::exception {
 			public:
