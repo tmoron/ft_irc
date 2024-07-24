@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 13:13:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 14:24:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void Server::listen()
 			this->addClient(a);
 		}
 		this->receiveData();
-		if (this->_clients.size() > 0)
-			std::cout << "Ceci est un print de test : " << _clients[0]->getBuffer() << std::endl;
 	}
 }
 
