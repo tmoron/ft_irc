@@ -6,25 +6,16 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:44:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:10:05 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include "Client.hpp"
 #include "include.hpp"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <vector>
-# include <iostream>
-# include <sstream>
-# include <poll.h>
+#include "Client.hpp"
 #include "CommandManager.hpp"
 
 class Client;

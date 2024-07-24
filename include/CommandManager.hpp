@@ -6,18 +6,17 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:43:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:11:01 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "Client.hpp"
+#include "Server.hpp"
 
 #ifndef COMMANDMANAGER_HPP
 # define COMMANDMANAGER_HPP
 
 #include "include.hpp"
-#include <string>
-#include <vector>
-#include "Server.hpp"
-#include "Client.hpp"
 
 class Client;
 class Server;

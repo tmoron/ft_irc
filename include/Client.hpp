@@ -6,17 +6,20 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:42:07 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:09:27 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+#include "Server.hpp"
 
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
 # include "include.hpp"
-# include <string>
 
 class Server;
+
 class Client
 {
 	private:
