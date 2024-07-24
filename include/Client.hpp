@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:09:27 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 16:19:06 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,5 @@ class Client
 
 		int			updateBuffer();
 };
-
-
-
 
 #endif

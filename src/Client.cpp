@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:44:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:15:54 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ void Client::handleBuffer()
 }
 
 /*--------------------------------- Setters ----------------------------------*/
-void		Client::setUser(std::string user)
+void	Client::setUser(std::string user)
 {
 	this->_user = user;
 }
-void		Client::setNick(std::string nick)
+void	Client::setNick(std::string nick)
 {
 	this->_nick = nick;
 }

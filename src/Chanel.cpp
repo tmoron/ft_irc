@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Chanel.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 16:48:27 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:29:25 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Chanel.hpp"
 
+/*------------------------------- Constructors -------------------------------*/
 Chanel::Chanel(/* args */)
 {
 }
@@ -20,51 +21,52 @@ Chanel::Chanel(std::string name, std::string topic, std::string password) : _nam
 {
 }
 
-void        Chanel::setName(std::string name)
+Chanel::~Chanel()
 {
-    this->_name = name;
 }
 
-void        Chanel::setTopic(std::string topic)
+/*--------------------------------- Methods ----------------------------------*/
+void	Chanel::addClient(Client* client)
 {
-    this->_topic = topic;
+	if (_clients.size() > 100)
+		return ;
+	// throw std::exception();
+	this->_clients.push_back(client);
 }
 
-void        Chanel::setPassword(std::string password)
-{
-    this->_password = password;
-}
-
-void        Chanel::addClient(Client* client)
-{
-    if (_clients.size() > 100)
-        return ;
-        // throw std::exception();
-    this->_clients.push_back(client);
-}
-
+/*--------------------------------- Getters ----------------------------------*/
 std::string Chanel::getName(void)
 {
-    return this->_name;
+	return this->_name;
 }
 
 std::string Chanel::getTopic(void)
 {
-    return this->_topic;
+	return this->_topic;
 }
 
 std::string Chanel::getPassword(void)
 {
-    return this->_password;
+	return this->_password;
 }
 
-std::vector<Client*> Chanel::getClients(void)
+std::vector<Client*> &Chanel::getClients(void)
 {
-    return this->_clients;
+	return this->_clients;
 }
 
-Chanel::~Chanel()
+/*--------------------------------- Setters ----------------------------------*/
+void	Chanel::setName(std::string name)
 {
-    
+	this->_name = name;
 }
 
+void	Chanel::setTopic(std::string topic)
+{
+	this->_topic = topic;
+}
+
+void	Chanel::setPassword(std::string password)
+{
+	this->_password = password;
+}

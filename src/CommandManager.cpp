@@ -3,19 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 16:06:29 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 16:16:36 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "CommandManager.hpp"
 
+/*------------------------------- Constructors -------------------------------*/
 CommandManager::CommandManager()
 {
 }
 
+CommandManager::~CommandManager()
+{
+}
+
+/*--------------------------------- Methods ----------------------------------*/
 CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
 {
     this->_cmdNames.push_back(cmdName);
@@ -36,19 +42,14 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 	throw std::exception();
 }
 
-
-CommandManager::~CommandManager()
-{
-}
-
-void	commandPass(std::string pass, Client &clt, Server &srv)
+void	CommandManager::commandPass(std::string pass, Client &clt, Server &srv)
 {
 	if (srv.getPassword() == pass)
 	{
 		clt.setLoggedIn(true);
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
 	}
-	else
+	else // peut etre throw une exeption
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 }
 
@@ -78,4 +79,13 @@ void	commandUse(const std::string &arg, Client &client, Server &server)
 		client.setUser(arg);
 	else
 		throw std::exception();
+}
+
+void	CommandManager::sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chanel &chnl)
+{
+	for (unsigned int i = 0; i < cltChnl.size(); i++)
+	{
+		// transmettre le msg au client;
+		// cltChnl.at(i);
+	}
 }

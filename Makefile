@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
+#    By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/23 22:25:42 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/24 15:16:48 by hubourge         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,11 @@ SRCS =	src/main.cpp\
 		src/Server.cpp\
 		src/Client.cpp\
 		src/CommandManager.cpp\
+		src/Chanel.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 
-FLAGS = -g -Wall -std=c++98 -Iinclude #-Wextra -Werror 
+FLAGS = -g -Wall -std=c++98 -Iinclude #-Wextra -Werror
 
 all: $(NAME)
 
@@ -32,7 +33,7 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) 
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
