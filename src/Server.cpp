@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 16:29:42 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:43:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,10 @@ void Server::exec(const std::string &full_cmd, Client &client)
 	this->_commandManager.execCommand(command, args, client, *this);
 }
 
-void Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
+Server &Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
 {
 	this->_commandManager.addCommand(cmdName, funct);
+	return(*this);
 }
 
 /*--------------------------------- Getters ----------------------------------*/

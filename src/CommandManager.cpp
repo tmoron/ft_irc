@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 16:36:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:45:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 			return ;
 		}
 	}
-	std::cout << "PATATE" << std::endl;
-	throw std::exception();
+	std::cout << "unknown command" << std::endl;
+	//throw std::exception();
 }
 
 void	commandPass(const std::string &pass, Client &clt, Server &srv)
@@ -74,7 +74,7 @@ void	commandNick(const std::string &arg, Client &client, Server &server)
 		throw std::exception();
 }
 
-void	commandUse(const std::string &arg, Client &client, Server &server)
+void	commandUser(const std::string &arg, Client &client, Server &server)
 {
 	std::cout << "user command" << std::endl;
 	if (!alreadyUse(server.getClients(), arg))

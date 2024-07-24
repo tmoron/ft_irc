@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:56:17 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:22:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:44:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int main(int argc, char **argv)
 	}
 	Server *srv = new Server(std::string(argv[1]), std::string(argv[2]));
 
-	srv->addCommand("PASS",commandPass);
-
+	srv->addCommand("PASS",commandPass)
+		.addCommand("NICK", commandNick)
+		.addCommand("USER", commandUser);
 	srv->listen();
 	// test_client(srv);
 
