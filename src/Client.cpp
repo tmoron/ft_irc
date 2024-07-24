@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 13:14:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 14:02:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ Client::~Client()
 }
 
 /*--------------------------------- Methods ----------------------------------*/
-void	Client::updateBuffer()
+int	Client::updateBuffer()
 {
 	char buffer[1024];
 	unsigned long len;
@@ -35,16 +35,11 @@ void	Client::updateBuffer()
 	std::cout << "new data form client " << this->_fd << std::endl;
 	len = recv(this->_fd, buffer, 1024, MSG_DONTWAIT);
 	if(!len)
-	{
-		std::cout << "no data :,(" << std::endl;
-		return ;
-	}
+		return (1);
 	std::cout << "add" << std::endl;
-	//std::stringstream ss;
-	//ss << buffer;
-	//this->_buffer = ss.str();
 	this->_buffer += std::string(buffer, len);
 	this->handleBuffer();
+	return(0);
 }
 
 void Client::handleBuffer()

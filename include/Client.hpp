@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 11:39:54 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:56:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class Client
 		std::string	getNick();
 		int			getFd();
 		std::string getBuffer();
-		void		updateBuffer();
+		int			updateBuffer();
 };
 
 

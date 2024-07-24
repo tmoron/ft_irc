@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: copilot <copilot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 17:02:43 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 17:08:55 by pageblanche      ###   ########.fr       */
+/*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
+/*   Updated: 2024/07/24 14:01:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
