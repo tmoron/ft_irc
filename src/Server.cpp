@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/23 23:07:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 13:13:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	Server::receiveData(void)
 	recv = poll(this->_pollfds, _clients.size(), 1000);
 	if(!recv)
 		return ;
-	std::cout << "test est ce que ca boucle" << std::endl;
 	for(unsigned long i = 0; i < _clients.size(); i++)
 	{
 		if(this->_pollfds[i].revents & POLLIN)

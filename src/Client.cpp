@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 12:23:38 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:14:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ void	Client::updateBuffer()
 		return ;
 	}
 	std::cout << "add" << std::endl;
-	std::stringstream ss;
-	ss << buffer;
-	this->_buffer = ss.str();
-	// std::cout << "\n\n\n\n buff ici la = " << buffer << "/n/n/n/n/n" << std::endl;
-	// this->_buffer += std::string(buffer, len);
-	// std::cout << "\n\n\n\n buff recu ici meme = " << buffer << "\n\n\n\n\n" << std::endl;
-	// std::cout << "\n\n\n\n buff ici la = " << this->_buffer << "\n\n\n\n\n" << std::endl;
+	//std::stringstream ss;
+	//ss << buffer;
+	//this->_buffer = ss.str();
+	this->_buffer += std::string(buffer, len);
 	this->handleBuffer();
 }
 
