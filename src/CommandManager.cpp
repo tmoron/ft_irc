@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 15:05:02 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:33:37 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,32 @@ void	CommandManager::commandPass(std::string pass, Client &clt, Server &srv)
 	}
 	else
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
+}
+
+bool	alreadyUse(std::vector<Client*> clients, std::string nick)
+{
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i]->getNick() == nick)
+			return true;
+	}
+	return false;
+}
+
+void	commandNick(const std::string &arg, Client &client, Server &server)
+{
+	std::cout << "nick command" << std::endl;
+	if (!alreadyUse(server.getClients(), arg))
+		client.setNick(arg);
+	else
+		throw std::exception();
+}
+
+void	commandUse(const std::string &arg, Client &client, Server &server)
+{
+	std::cout << "user command" << std::endl;
+	if (!alreadyUse(server.getClients(), arg))
+		client.setUser(arg);
+	else
+		throw std::exception();
 }

@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 18:52:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 15:18:24 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ class Server {
 		void		setPassword(std::string password);
 		// void		setClient(Client client);
 
-		int			getServSocketFd();
-		std::string	getPassword();
+		int						getServSocketFd();
+		std::string				getPassword();
+		std::vector<Client*>	&getClients();
 
 		void		showClient(void);
 		void		listen(void);

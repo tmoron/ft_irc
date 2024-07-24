@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:04:53 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:32:56 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,9 @@ std::string Client::getBuffer()
 bool	Client::getLoggedIn()
 {
 	return (this->_loggedIn);
+}
+
+std::vector<Client*>	&Server::getClients()
+{
+	return (this->_clients);
 }
