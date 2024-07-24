@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 19:53:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 21:00:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void Server::exec(const std::string &full_cmd, Client &client)
 	{
 		command = full_cmd.substr(0, full_cmd.find(' ' , 0));
 		args = full_cmd.substr(full_cmd.find(' ', 0) + 1);
+		args = trim(' ', args);
 	}
 	else
 	{

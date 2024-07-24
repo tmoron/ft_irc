@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 20:21:23 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 23:27:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(co
 
 void CommandManager::execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server)
 {
-	std::cout << "exec command : " << cmdName << std::endl;
 	for (size_t i = 0; i < this->_cmdNames.size(); i++)
 	{
 		if (this->_cmdNames[i] == cmdName)
@@ -40,20 +39,27 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 			return ;
 		}
 	}
-	std::cout << "unknown command" << std::endl;
-	std::cout << "command : " << cmdName << std::endl;
 	writeError(client, 0, 421, cmdName + std::string(" :Unknown command"));
-	//throw std::exception();
 }
 
 void	commandPass(const std::string &pass, Client &clt, Server &srv)
 {
+	if(pass.length() == 0)
+	{
+		writeError(clt, 0, 461, "PASS :Not enough parameters");   
+		return ;
+	}
+	if(clt.isRegistered())
+	{
+		writeError(clt, 0, 462, ":You may not reregister");
+		return ;
+	}
 	if (srv.getPassword() == pass)
 	{
 		clt.setLoggedIn(true);
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
 	}
-	else // peut etre throw une exeption
+	else // peut etre throw une exeption //non
 	{
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 		writeError(clt, 0, 464, ":Password incorect" );
@@ -62,8 +68,9 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 
 void	commandKick(Channel &chnl, Client &clt, std::string msg)
 {
-	// if (!chnl)
-		// ERR_NOSUCHCHANNEL tom erreur ?
+	//cette fonction ne prends pas le bons parametres et channel ne peut pas être null, c'est une reference
+	//if (!chnl)
+	 //	writeError(clt,0, 403, "#AAAAAAAAAAAAAAAAAA :No such channel");
 	std::vector<Client*> chnlClt = chnl.getClients();
 	for (unsigned int i = 0; i < chnlClt.size() - 1; i++)
 	{
@@ -75,7 +82,9 @@ void	commandKick(Channel &chnl, Client &clt, std::string msg)
 			return ;
 		}
 	}
+	//i n'est pas defini, il est defini que dans le for
 	// if (i == chnlClt.size())
+		//writeError(clt, 0, 442, "<channel> :You're not on that channel");
 		// ERR_NOTONCHANNEL tom erreur ?
 }
 
@@ -91,20 +100,36 @@ bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick
 
 void	commandNick(const std::string &arg, Client &client, Server &server)
 {
+	if(!arg.length())
+	{
+		writeError(client, 0, 431, ":No nickname given");
+		return ;
+	}
+	if(!client.getLoggedIn())
+		return;
 	std::cout << "nick command" << std::endl;
 	if (!alreadyUse(server.getClients(), &client, arg))
 		client.setNick(arg);
 	else
-		throw std::exception();
+		writeError(client, 0, 433, arg + " :Nickname is already in use");
+		
 }
 
 void	commandUser(const std::string &arg, Client &client, Server &server)
 {
+	std::vector<std::string> arg_split;
+
 	std::cout << "user command" << std::endl;
-	if (!alreadyUse(server.getClients(), &client, arg))
-		client.setUser(arg);
-	else
-		throw std::exception();
+	if(client.isRegistered())
+	{
+		writeError(client, 0, 462, ":You may not reregister");
+		return ;
+	}
+	arg_split = ft_split(arg, ' ');	
+	std::cout << "number of args : " << arg_split.size() << std::endl;
+	if(arg_split.size() != 4)
+		writeError(client, 0 ,461, "USER :Not enough parameters");
+	client.setUser(arg);
 }
 
 void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
@@ -118,4 +143,5 @@ void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chan
 
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 {
+	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi)
 }

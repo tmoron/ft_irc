@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 19:54:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 22:32:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,18 @@ void Client::handleBuffer()
 
 int			Client::sendMessage(Client &from, std::string &to, std::string &message)
 {
-	if(!this->_loggedIn || !this->_user.length() || !this->_nick.length())
+	if(!this->isRegistered())
 		return(0);
 	std::stringstream msg;
 	msg << from.getNick() << "!" << from.getUser() << "@localhost ";
 	msg << to << " :" << message << "\n";
 	send(this->_fd, msg.str().c_str(), msg.str().length(),MSG_DONTWAIT);
 	return(1);
+}
+
+int	Client::isRegistered()
+{
+	return(this->_loggedIn && this->_user.length() && this->_nick.length());
 }
 
 /*--------------------------------- Setters ----------------------------------*/
@@ -103,12 +108,12 @@ std::string Client::getBuffer()
 	return (this->_buffer);
 }
 
-bool	Client::getLoggedIn()
-{
-	return (this->_loggedIn);
-}
-
 std::vector<Client*>	&Server::getClients()
 {
 	return (this->_clients);
+}
+
+int Client::getLoggedIn()
+{
+	return(this->_loggedIn);
 }

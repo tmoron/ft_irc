@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 19:52:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 22:31:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ class Client
 		std::string	getNick();
 		std::string getBuffer();
 		int			getFd();
-		bool		getLoggedIn();
+		int			isRegistered();
+		int			getLoggedIn();
 
 		int			updateBuffer();
 		int			sendMessage(Client &from, std::string &to, std::string &message);

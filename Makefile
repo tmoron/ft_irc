@@ -6,7 +6,7 @@
 #    By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/24 20:20:16 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/24 21:02:23 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS =	src/main.cpp\
 		src/Client.cpp\
 		src/CommandManager.cpp\
 		src/Channel.cpp\
+		src/utils.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
