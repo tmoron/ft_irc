@@ -75,6 +75,8 @@ void Server::listen()
 			this->addClient(a);
 		}
 		this->receiveData();
+		if (this->_clients.size() > 0)
+			std::cout << "Ceci est un print de test : " << _clients[0]->getBuffer() << std::endl;
 	}
 }
 
@@ -97,10 +99,13 @@ void	Server::receiveData(void)
 	recv = poll(this->_pollfds, _clients.size(), 1000);
 	if(!recv)
 		return ;
+	std::cout << "test est ce que ca boucle" << std::endl;
 	for(unsigned long i = 0; i < _clients.size(); i++)
 	{
 		if(this->_pollfds[i].revents & POLLIN)
+		{
 			_clients[i]->updateBuffer();
+		}
 		if(this->_pollfds[i].revents & POLLHUP)
 		{
 			delete _clients[i];

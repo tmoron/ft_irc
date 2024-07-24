@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 23:33:07 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 12:23:38 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ Client::~Client()
 }
 
 /*--------------------------------- Methods ----------------------------------*/
-
-
 void	Client::updateBuffer()
 {
 	char buffer[1024];
@@ -42,7 +40,13 @@ void	Client::updateBuffer()
 		return ;
 	}
 	std::cout << "add" << std::endl;
-	this->_buffer += std::string(buffer, len);
+	std::stringstream ss;
+	ss << buffer;
+	this->_buffer = ss.str();
+	// std::cout << "\n\n\n\n buff ici la = " << buffer << "/n/n/n/n/n" << std::endl;
+	// this->_buffer += std::string(buffer, len);
+	// std::cout << "\n\n\n\n buff recu ici meme = " << buffer << "\n\n\n\n\n" << std::endl;
+	// std::cout << "\n\n\n\n buff ici la = " << this->_buffer << "\n\n\n\n\n" << std::endl;
 	this->handleBuffer();
 }
 
@@ -84,3 +88,7 @@ int Client::getFd()
 	return(this->_fd);
 }
 
+std::string Client::getBuffer()
+{
+	return (this->_buffer);
+}
