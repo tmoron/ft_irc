@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 16:45:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:07:43 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,25 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 }
 
+void	commandKick(Channel &chnl, Client &clt, std::string msg)
+{
+	// if (!chnl)
+		// ERR_NOSUCHCHANNEL tom erreur ?
+	std::vector<Client*> chnlClt = chnl.getClients();
+	for (unsigned int i = 0; i < chnlClt.size() - 1; i++)
+	{
+		if (chnlClt.at(i) == &clt)
+		{
+			chnlClt.erase(chnlClt.begin() + i);
+			if (msg.length() != 0)
+				std::cout << msg << std::endl;
+			return ;
+		}
+	}
+	// if (i == chnlClt.size())
+		// ERR_NOTONCHANNEL tom erreur ?
+}
+
 bool	alreadyUse(std::vector<Client*> clients, std::string nick)
 {
 	for (size_t i = 0; i < clients.size(); i++)
@@ -83,7 +102,7 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 		throw std::exception();
 }
 
-void	CommandManager::sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chanel &chnl)
+void	CommandManager::sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
 {
 	for (unsigned int i = 0; i < cltChnl.size(); i++)
 	{

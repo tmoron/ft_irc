@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Chanel.hpp                                         :+:      :+:    :+:   */
+/*   Channel.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHANEL_HPP
-# define CHANEL_HPP
+#ifndef Channel_HPP
+# define Channel_HPP
 
 #include <string>
 #include <vector>
 #include "Client.hpp"
 
-class Chanel
+class Channel
 {
     private:
         std::string _name;
         std::string _topic;
         std::string _password;
         std::vector<Client*> _clients;
-        Chanel(/* args */);
+        Channel(/* args */);
 
     public:
-        Chanel(std::string name, std::string topic, std::string password);
-        ~Chanel();
+        Channel(std::string name, std::string topic, std::string password);
+        ~Channel();
 
         void        setName(std::string name);
         void        setTopic(std::string topic);
