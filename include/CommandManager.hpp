@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/23 17:19:57 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:01:38 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,23 @@
 
 #include<string>
 #include<vector>
+#include "Client.hpp"
+#include "Server.hpp"
+
+class Server;
+class Client;
 
 class CommandManager
 {
     private:
         std::vector <std::string> _cmdNames;
-        std::vector <void (*)()> _cmdFuncts;
+        std::vector <void (*)(const std::string &, Client &, Server &)> _cmdFuncts;
 
     public:
         CommandManager();
 
-		CommandManager &addCommand(std::string cmdName, void (*funct)());
-		void 			execCommand(std::string cmdName);
+		CommandManager &addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
+		void 			execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server);
 
         ~CommandManager();
 };
