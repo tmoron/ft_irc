@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:37:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 19:54:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void Client::handleBuffer()
 		_server.exec(_buffer.substr(0, len), *this);
 		_buffer.erase(0, len + 1);
 	}
+}
+
+int			Client::sendMessage(Client &from, std::string &to, std::string &message)
+{
+	if(!this->_loggedIn || !this->_user.length() || !this->_nick.length())
+		return(0);
+	std::stringstream msg;
+	msg << from.getNick() << "!" << from.getUser() << "@localhost ";
+	msg << to << " :" << message << "\n";
+	send(this->_fd, msg.str().c_str(), msg.str().length(),MSG_DONTWAIT);
+	return(1);
 }
 
 /*--------------------------------- Setters ----------------------------------*/

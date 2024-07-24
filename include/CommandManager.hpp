@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:52:49 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:18:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ class CommandManager
 
 		CommandManager	&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
 		void			execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server);
-		void			sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl);
 };
 
+void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl);
 void	commandPass(const std::string &pass, Client &clt, Server &srv);
 void	commandNick(const std::string &arg, Client &client, Server &server);
 void	commandUser(const std::string &arg, Client &client, Server &server);
 void	commandKick(Channel &chnl, Client &clt, std::string msg);
+void	commandPrivMsg(const std::string &arg, Client &client, Server &server);
 
 #endif

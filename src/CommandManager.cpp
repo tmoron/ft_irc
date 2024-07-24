@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 18:07:43 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:21:23 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 		}
 	}
 	std::cout << "unknown command" << std::endl;
+	std::cout << "command : " << cmdName << std::endl;
+	writeError(client, 0, 421, cmdName + std::string(" :Unknown command"));
 	//throw std::exception();
 }
 
@@ -52,7 +54,10 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
 	}
 	else // peut etre throw une exeption
+	{
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
+		writeError(clt, 0, 464, ":Password incorect" );
+	}
 }
 
 void	commandKick(Channel &chnl, Client &clt, std::string msg)
@@ -74,11 +79,11 @@ void	commandKick(Channel &chnl, Client &clt, std::string msg)
 		// ERR_NOTONCHANNEL tom erreur ?
 }
 
-bool	alreadyUse(std::vector<Client*> clients, std::string nick)
+bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
 {
 	for (size_t i = 0; i < clients.size(); i++)
 	{
-		if (clients[i]->getNick() == nick)
+		if (clients[i]->getNick() == nick && clients[i] != current)
 			return true;
 	}
 	return false;
@@ -87,7 +92,7 @@ bool	alreadyUse(std::vector<Client*> clients, std::string nick)
 void	commandNick(const std::string &arg, Client &client, Server &server)
 {
 	std::cout << "nick command" << std::endl;
-	if (!alreadyUse(server.getClients(), arg))
+	if (!alreadyUse(server.getClients(), &client, arg))
 		client.setNick(arg);
 	else
 		throw std::exception();
@@ -96,17 +101,21 @@ void	commandNick(const std::string &arg, Client &client, Server &server)
 void	commandUser(const std::string &arg, Client &client, Server &server)
 {
 	std::cout << "user command" << std::endl;
-	if (!alreadyUse(server.getClients(), arg))
+	if (!alreadyUse(server.getClients(), &client, arg))
 		client.setUser(arg);
 	else
 		throw std::exception();
 }
 
-void	CommandManager::sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
+void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
 {
 	for (unsigned int i = 0; i < cltChnl.size(); i++)
 	{
 		// transmettre le msg au client;
 		// cltChnl.at(i);
 	}
+}
+
+void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
+{
 }

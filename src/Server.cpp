@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 16:43:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 19:53:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,22 @@ Server &Server::addCommand(std::string cmdName, void (*funct)(const std::string 
 {
 	this->_commandManager.addCommand(cmdName, funct);
 	return(*this);
+}
+
+void writeError(Client &client, Channel *channel, int code, std::string description)
+{
+	int fd;
+	std::string err_msg;
+	std::stringstream ss;
+
+	fd = client.getFd();
+	ss << ":localhost " << code;
+	if(channel)
+		ss << " #" << channel->getName();
+	ss << " : " << description + "\n";
+	err_msg = ss.str();
+	std::cout << "data to send : " << err_msg;
+	send(fd, err_msg.c_str(), err_msg.length(), MSG_DONTWAIT);
 }
 
 /*--------------------------------- Getters ----------------------------------*/

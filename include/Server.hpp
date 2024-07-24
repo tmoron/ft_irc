@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:42:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:08:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ class Server {
 				}
 		};
 };
+
+void writeError(Client &client, Channel *channel, int code, std::string description);
 
 #endif

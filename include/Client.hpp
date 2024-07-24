@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:19:06 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:52:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ class Client
 		bool		getLoggedIn();
 
 		int			updateBuffer();
+		int			sendMessage(Client &from, std::string &to, std::string &message);
 };
 
 #endif
