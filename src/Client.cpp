@@ -6,11 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/07/24 16:15:54 by hubourge         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/24 16:31:00 by tomoron          ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/07/24 16:37:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
