@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:18:24 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:44:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "CommandManager.hpp"
 #include <vector>
 # include <iostream>
 # include <sstream>
 # include <poll.h>
+#include "CommandManager.hpp"
 
 class Client;
+class CommandManager;
 
 class Server {
 	private:
@@ -35,6 +36,7 @@ class Server {
 		std::string				_password;
 		std::vector<Client*>	_clients;
 		struct pollfd			*_pollfds;
+		CommandManager			_commandManager;
 
 		int	init_socket(uint16_t port);
 		void update_pollfds();
@@ -55,6 +57,7 @@ class Server {
 		void		listen(void);
 		void		addClient(int a);
 		void		receiveData(void);
+		void		exec(const std::string &full_cmd, Client &client);
 
 		class OutOfRangeClientExeption : public std::exception {
 			public:

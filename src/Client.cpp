@@ -6,14 +6,15 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:32:56 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:44:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
 /*------------------------------- Constructors -------------------------------*/
-Client::Client(int fd) {
+Client::Client(int fd, Server &srv): _server(srv)
+{
 	_fd = fd;
 	_user = "";
 	_nick = "";
@@ -44,15 +45,16 @@ int	Client::updateBuffer()
 
 void Client::handleBuffer()
 {
-	//unsigned long len;
+	unsigned long len;
+	std::string command;
 
 	std::cout << "Buffer for client on fd " << this->_fd << " :" << std::endl;
 	std::cout << this->_buffer << std::flush;
-	//while(_buffer.find('\n', 0) != std::string::npos) //WIP do whatever you want
-	//{
-	//	len = _buffer.find('\n', 0) + 1;
-	//	_buffer.
-	//}
+	while(_buffer.find('\n', 0) != std::string::npos) //WIP do whatever you want
+	{
+		len = _buffer.find('\n', 0);
+		_server.exec(_buffer.substr(0, len), *this);
+	}
 }
 
 /*--------------------------------- Setters ----------------------------------*/

@@ -6,22 +6,20 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:32:19 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:43:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CommandManager_HPP
-#define CommandManager_HPP
+#ifndef COMMANDMANAGER_HPP
+# define COMMANDMANAGER_HPP
 
 #include "include.hpp"
-#include<string>
-#include<vector>
-#include "Client.hpp"
+#include <string>
+#include <vector>
 #include "Server.hpp"
+#include "Client.hpp"
 
-class Server;
 class Client;
-
 class Server;
 
 class CommandManager
@@ -34,12 +32,11 @@ class CommandManager
         CommandManager();
         ~CommandManager();
 
-		CommandManager &addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
-		void 			execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server);
-        void            commandPass(std::string pass, Client &clt, Server &srv);
-		void			commandNick(const std::string &arg, Client &client, Server &server);
-		void			commandUser(const std::string &arg, Client &client, Server &server);
-
+        CommandManager &addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
+        void            execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server);
 };
 
+void	commandPass(std::string pass, Client &clt, Server &srv);
+void	commandNick(const std::string &arg, Client &client, Server &server);
+void	commandUser(const std::string &arg, Client &client, Server &server);
 #endif

@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 15:33:37 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:44:55 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ CommandManager::~CommandManager()
 {
 }
 
-void	CommandManager::commandPass(std::string pass, Client &clt, Server &srv)
+void	commandPass(std::string pass, Client &clt, Server &srv)
 {
 	if (srv.getPassword() == pass)
 	{

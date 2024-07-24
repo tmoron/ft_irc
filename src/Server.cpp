@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 14:24:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 15:31:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,26 @@ void	Server::showClient(void)
 }
 
 void	Server::addClient(int a) {
-	this->_clients.push_back(new Client(a));
+	this->_clients.push_back(new Client(a, *this));
 	this->update_pollfds();
+}
+
+void Server::exec(const std::string &full_cmd, Client &client)
+{
+	std::string command;
+	std::string args;
+
+	if(full_cmd.find('\n', 0) != std::string::npos)
+	{
+		command = full_cmd.substr(0, full_cmd.find('\n' , 0));
+		args = full_cmd.substr(full_cmd.find('\n', 0) + 1);
+	}
+	else
+	{
+		command = full_cmd;
+		args = "";
+	}
+	this->_commandManager.execCommand(command, args, client, *this);
 }
 
 /*--------------------------------- Getters ----------------------------------*/

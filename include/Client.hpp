@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 15:38:10 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:07 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define CLIENT_HPP
 
 # include "include.hpp"
-# include <iostream>
+# include <string>
 
+class Server;
 class Client
 {
 	private:
@@ -24,11 +25,12 @@ class Client
 		std::string	_nick;
 		std::string	_buffer;
 		bool		_loggedIn;
+		Server		&_server;
 
 		void handleBuffer();
 
 	public:
-		Client(int fd);
+		Client(int fd, Server &srv);
 		~Client(void);
 
 		void		setUser(std::string user);
