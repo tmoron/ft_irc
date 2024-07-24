@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:18:48 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:35:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class CommandManager
 		void			sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chanel &chnl);
 };
 
-void	commandPass(std::string pass, Client &clt, Server &srv);
+void	commandPass(const std::string &pass, Client &clt, Server &srv);
 void	commandNick(const std::string &arg, Client &client, Server &server);
 void	commandUser(const std::string &arg, Client &client, Server &server);
 

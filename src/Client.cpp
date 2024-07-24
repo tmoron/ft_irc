@@ -6,7 +6,11 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/07/24 16:15:54 by hubourge         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/24 16:31:00 by tomoron          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +58,7 @@ void Client::handleBuffer()
 	{
 		len = _buffer.find('\n', 0);
 		_server.exec(_buffer.substr(0, len), *this);
+		_buffer.erase(0, len + 1);
 	}
 }
 

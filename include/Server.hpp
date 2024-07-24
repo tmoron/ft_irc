@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 16:10:05 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 16:19:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class Server {
 		void		addClient(int a);
 		void		receiveData(void);
 		void		exec(const std::string &full_cmd, Client &client);
+		void		addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
 
 		class OutOfRangeClientExeption : public std::exception {
 			public:

@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 15:31:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/24 16:29:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,10 @@ void Server::exec(const std::string &full_cmd, Client &client)
 	std::string command;
 	std::string args;
 
-	if(full_cmd.find('\n', 0) != std::string::npos)
+	if(full_cmd.find(' ', 0) != std::string::npos)
 	{
-		command = full_cmd.substr(0, full_cmd.find('\n' , 0));
-		args = full_cmd.substr(full_cmd.find('\n', 0) + 1);
+		command = full_cmd.substr(0, full_cmd.find(' ' , 0));
+		args = full_cmd.substr(full_cmd.find(' ', 0) + 1);
 	}
 	else
 	{
@@ -142,6 +142,11 @@ void Server::exec(const std::string &full_cmd, Client &client)
 		args = "";
 	}
 	this->_commandManager.execCommand(command, args, client, *this);
+}
+
+void Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
+{
+	this->_commandManager.addCommand(cmdName, funct);
 }
 
 /*--------------------------------- Getters ----------------------------------*/

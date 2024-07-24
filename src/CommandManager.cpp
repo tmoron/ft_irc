@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 16:16:36 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:36:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(co
 
 void CommandManager::execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server)
 {
+	std::cout << "exec command : " << cmdName << std::endl;
 	for (size_t i = 0; i < this->_cmdNames.size(); i++)
 	{
 		if (this->_cmdNames[i] == cmdName)
@@ -39,10 +40,11 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 			return ;
 		}
 	}
+	std::cout << "PATATE" << std::endl;
 	throw std::exception();
 }
 
-void	CommandManager::commandPass(std::string pass, Client &clt, Server &srv)
+void	commandPass(const std::string &pass, Client &clt, Server &srv)
 {
 	if (srv.getPassword() == pass)
 	{
