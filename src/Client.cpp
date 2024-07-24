@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 14:34:16 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:04:53 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void		Client::setNick(std::string nick)
 {
 	this->_nick = nick;
 }
+void	Client::setLoggedIn(bool b)
+{
+	this->_loggedIn = b;
+}
 
 /*--------------------------------- Getters ----------------------------------*/
 std::string	Client::getUser()
@@ -83,4 +87,9 @@ int Client::getFd()
 std::string Client::getBuffer()
 {
 	return (this->_buffer);
+}
+
+bool	Client::getLoggedIn()
+{
+	return (this->_loggedIn);
 }

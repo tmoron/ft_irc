@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 15:01:18 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/24 15:05:02 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,15 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 
 CommandManager::~CommandManager()
 {
+}
+
+void	CommandManager::commandPass(std::string pass, Client &clt, Server &srv)
+{
+	if (srv.getPassword() == pass)
+	{
+		clt.setLoggedIn(true);
+		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
+	}
+	else
+		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 }
