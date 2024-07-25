@@ -1,0 +1,19 @@
+1 ---> Faire les commandes :
+JOIN
+ADDCHANNEL
+DELCHANNEL
+KICK
+MODE
+INVITE
+TOPIC
+
+
+2 --> Verifier si les commandes fonctionnent :
+Pass	OK
+NICK
+USER
+
+
+3 --> Faire la class exception
+
+4 --> Faire le parsing de ce que le serveur recoit

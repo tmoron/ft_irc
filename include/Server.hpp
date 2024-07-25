@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 10:43:06 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:04:48 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "include.hpp"
 #include "Client.hpp"
 #include "CommandManager.hpp"
+#include "Channel.hpp"
 
 class Client;
 class CommandManager;
@@ -28,6 +29,7 @@ class Server {
 		std::vector<Client*>	_clients;
 		struct pollfd			*_pollfds;
 		CommandManager			_commandManager;
+		std::vector<Channel*>	_channels;
 
 		int		init_socket(uint16_t port);
 		void	update_pollfds();

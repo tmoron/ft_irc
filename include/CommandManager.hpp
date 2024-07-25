@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 20:18:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:07:56 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chan
 void	commandPass(const std::string &pass, Client &clt, Server &srv);
 void	commandNick(const std::string &arg, Client &client, Server &server);
 void	commandUser(const std::string &arg, Client &client, Server &server);
-void	commandKick(Channel &chnl, Client &clt, std::string msg);
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server);
+void	commandKick(Channel &chnl, Client &clt, std::string msg);
+void	commandInvite();
+void	commandAddChannel(); // a faire
+void	commandDelChannel(); // a faire aussi
 
 #endif

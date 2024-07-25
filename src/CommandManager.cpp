@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 10:40:03 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:22:03 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		writeError(clt, 0, 462, ":You may not reregister");
 		return ;
 	}
-	if (srv.getPassword() == pass)
+	if (srv.getPassword().compare(pass))
 	{
 		clt.setLoggedIn(true);
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
 	}
-	else // peut etre throw une exeption //non //d'accord
+	else
 	{
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 		writeError(clt, 0, 464, ":Password incorect" );
@@ -68,24 +68,33 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 
 void	commandKick(Channel &chnl, Client &clt, std::string msg)
 {
-	//cette fonction ne prends pas le bons parametres et channel ne peut pas être null, c'est une reference
+	//cette fonction ne prends pas le bons parametres // ca marche
 	//if (!chnl)
 	 //	writeError(clt,0, 403, "#AAAAAAAAAAAAAAAAAA :No such channel");
 	std::vector<Client*> chnlClt = chnl.getClients();
-	unsigned int i;
+	unsigned int	i;
 	for (i = 0; i < chnlClt.size() - 1; i++)
 	{
 		if (chnlClt.at(i) == &clt)
 		{
 			chnlClt.erase(chnlClt.begin() + i);
+			// KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
+			// KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
+			// :WiZ KICK #Finnish John                 ;    KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca 
+			std::cout << "Kick " << clt.getNick() << " from " << chnl.getName(); // c'est peut etre pas des std::cout mais au moins c'est la
 			if (msg.length() != 0)
-				std::cout << msg << std::endl;
+				std::cout << " using '" << msg << "' as the reason (comment)."; 
 			return ;
 		}
 	}
 	if (i == chnlClt.size())
 		writeError(clt, 0, 442, "<channel> :You're not on that channel");
 		// ERR_NOTONCHANNEL tom erreur ?
+}
+
+void	commandInvite()
+{
+	
 }
 
 bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
