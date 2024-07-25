@@ -3,36 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:56:17 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 10:33:13 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:19:10 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "Client.hpp"
-#include <iostream>
-#include <string>
-#include <sstream>
-
-// void	test_client(Server *srv)
-// {
-// 	std::string user;
-
-// 	for (int i = 0; i < 100; i++)
-// 	{
-// 		std::stringstream ss;
-// 		ss << "tom_" << i;
-// 		user = ss.str();
-// 		try {
-// 			srv->setClient(Client(i, user, "tomorom"));
-// 		}
-// 		catch (std::exception &e) {std::cerr << e.what() << std::endl;}
-// 	}
-// 	std::cout << " ================= Show client =================" << std::endl;
-// 	srv->showClient();
-// }
+#include "include.hpp"
 
 int main(int argc, char **argv)
 {
