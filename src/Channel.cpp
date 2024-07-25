@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 10:33:34 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:51:12 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	Channel::addClient(Client* client)
 {
 	if (_clients.size() > 100)
 		return ;
-	// throw std::exception();
+	else
+		throw ToManyClientsException();
 	this->_clients.push_back(client);
 }
 

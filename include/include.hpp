@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:32:26 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/24 20:58:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:33:01 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 # include <sstream>
 # include <string>
 # include <vector>
-# include <exception>
 # include "utils.hpp"
-
+# include  "AllException.hpp"
 
 # define MAX_MSG_SIZE 50000
 # define MAX_CLIENT 100

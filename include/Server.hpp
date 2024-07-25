@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 11:04:48 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:08:46 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ class Server {
 		void		exec(const std::string &full_cmd, Client &client);
 		Server		&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
 
-		class OutOfRangeClientExeption : public std::exception {
-			public:
-				virtual const char* what() const throw() {
-					return "Index out of range";
-				}
-		};
 };
 
 void writeError(Client &client, Channel *channel, int code, std::string description);
