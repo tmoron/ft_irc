@@ -2,8 +2,6 @@
 JOIN
 KICK
 MODE
-INVITE
-TOPIC
 
 
 2 --> Verifier si les commandes fonctionnent :
@@ -12,6 +10,9 @@ NICK
 USER
 ADDCHANNEL
 DELCHANNEL
+INVITE
+TOPIC
+
 
 
 3 --> Faire la class exception
