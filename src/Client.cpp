@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 15:55:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 22:43:19 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,50 @@ void	Client::handleBuffer()
 	}
 }
 
-int			Client::sendMessage(Client &from, std::string &to, std::string &message)
+void		Client::sendStr(std::string msg)
+{
+	msg += "\n";
+	send(this->_fd, msg.c_str(), msg.length(), MSG_DONTWAIT);
+}
+
+int			Client::sendMessage(Client &from ,const std::string &to,const std::string &message)
 {
 	if(!this->isRegistered())
 		return(0);
 	std::stringstream msg;
-	msg << from.getNick() << "!" << from.getUser() << "@localhost ";
-	msg << to << " :" << message << "\n";
-	send(this->_fd, msg.str().c_str(), msg.str().length(),MSG_DONTWAIT);
+	msg << ":" << from.getIdentifier() << " ";
+	msg << to << " :" << message;
+	this->sendStr(msg.str());
 	return(1);
 }
 
 int	Client::isRegistered()
 {
 	return(this->_loggedIn && this->_user.length() && this->_nick.length());
+}
+
+void		Client::joinChannel(const std::string name)
+{
+	std::string msg;
+
+	msg = ":" + this->getIdentifier() + " JOIN " + name;
+	this->sendStr(msg);
+}
+
+std::string	Client::getIdentifier()
+{
+	return(this->_nick + "!" + this->_user + "@localhost");
+}
+
+void	Client::sendInfo(Channel *channel, int code, std::string description)
+{
+	std::stringstream	ss;
+
+	ss << ":localhost " << code;
+	if(channel)
+		ss << " " << channel->getName();
+	ss << " :" << description;
+	this->sendStr(ss.str());
 }
 
 /*--------------------------------- Setters ----------------------------------*/
@@ -113,3 +143,4 @@ int Client::getLoggedIn()
 {
 	return(this->_loggedIn);
 }
+

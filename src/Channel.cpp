@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 19:25:09 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 22:53:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ Channel::Channel(void)
 {
 }
 
-Channel::Channel(std::string name, Client *client) : _name(name), _operator(client)
+Channel::Channel(std::string name, Client *client) : _name(name)
 {
+	this->_topic = "";
+	this->_password = "";
+	this->_userLimit = 100;
+	this->_operators.push_back(client);
 }
 
 Channel::~Channel(void)
@@ -26,13 +30,32 @@ Channel::~Channel(void)
 }
 
 /*--------------------------------- Methods ----------------------------------*/
-void	Channel::addClient(Client* client)
+int	Channel::addClient(Client* client)
 {
-	if (_clients.size() > 100)
-		return ;
-	else
-		throw ToManyClientsException();
-	this->_clients.push_back(client);
+	if (_clients.size() > this->_userLimit)
+	{
+		client->sendInfo(0, 471, this->_name + " :Cannot join channel (+l)");
+		return(0);
+	}
+	if(std::find(this->_clients.begin(), this->_clients.end(), client) == this->_clients.end())
+		this->_clients.push_back(client);
+	return(1);
+}
+
+std::string Channel::getNames()
+{
+	std::string res;
+
+	res = "";
+	for(unsigned int i = 0; i < this->_clients.size(); i++)
+	{
+		if(std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
+			res += "@";
+		res += this->_clients[i]->getNick();
+		if(i != this->_clients.size() - 1)
+			res += " ";
+	}
+	return(res);
 }
 
 void	Channel::delClient(std::string nick)
@@ -46,12 +69,17 @@ void	Channel::delClient(std::string nick)
 
 int	Channel::inviteInChannel(Client &invitor,	Client &invited,  Channel &channel)
 {
-	if (invitor.getNick() != channel.getOperator()->getNick())
+	if (!isOperator(&invitor))
 	{
-		writeError(invitor, 0, 482, ":You're not channel operator");
+		invitor.sendInfo(0, 482, ":You're not channel operator");
 	}
 	channel.getInvite().push_back(&invited);
 	return (0);
+}
+
+bool Channel::isOperator(Client *client)
+{
+	return(std::find(this->_operators.begin(), this->_operators.end(), client) != this->_clients.end());
 }
 
 /*--------------------------------- Getters ----------------------------------*/
@@ -75,9 +103,9 @@ std::vector<Client*> &Channel::getClients(void)
 	return this->_clients;
 }
 
-Client *Channel::getOperator()
+std::vector<Client*> Channel::getOperators()
 {
-	return this->_operator;
+	return this->_operators;
 }
 
 std::vector<Client*> &Channel::getInvite(void)
@@ -101,7 +129,7 @@ void	Channel::setPassword(std::string password)
 	this->_password = password;
 }
 
-void Channel::setOperator(Client *newoperator)
+void Channel::addOperator(Client *newoperator)
 {
-	this->_operator = newoperator;
+	this->_operators.push_back(newoperator);
 }

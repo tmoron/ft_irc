@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:32:26 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/25 15:47:18 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 20:33:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ extern int g_sig;
 # include <vector>
 # include "utils.hpp"
 # include <signal.h> 
+# include <algorithm>
 # include  "AllException.hpp"
 
 # define MAX_MSG_SIZE 50000

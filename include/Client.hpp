@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 10:43:33 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 22:45:07 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "include.hpp"
 
 class Server;
+class Channel;
 
 class Client
 {
@@ -48,7 +49,13 @@ class Client
 
 		int			isRegistered();
 		int			updateBuffer();
-		int			sendMessage(Client &from, std::string &to, std::string &message);
+		int			sendMessage(Client &from,const std::string &to,const std::string &message);
+		void		joinChannel(const std::string name);
+		void		sendStr(std::string msg);
+		std::string	getIdentifier();
+		void		sendInfo(Channel *channel, int code, std::string description);
 };
+
+# include "Channel.hpp"
 
 #endif

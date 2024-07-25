@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/25 17:36:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 22:39:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ Server::~Server(void)
 }
 
 /*--------------------------------- Methods ----------------------------------*/
+void	Server::broadcast(std::string message)
+{
+	for(unsigned int i = 0;i < this->_clients.size(); i++)
+	{
+		std::cout << "send to " << this->_clients[i]->getFd() << std::endl;
+		send(this->_clients[i]->getFd(), message.c_str(), message.length(), MSG_DONTWAIT);
+	}
+}
+
 int Server::init_socket(uint16_t port)
 {
 	int					server_fd;
@@ -134,7 +143,7 @@ Channel	*Server::getChannel(std::string &name, Client *client, int create)
 	unsigned int	i;
 	Channel *res;
 
-	for (i = 0; i < this->_channels.size() - 1; i++)
+	for (i = 0; i < this->_channels.size(); i++)
 	{
 		if (this->_channels[i]->getName() == name)
 		{
@@ -142,6 +151,8 @@ Channel	*Server::getChannel(std::string &name, Client *client, int create)
 		}
 	}
 	if(!create)
+		return(0);
+	if(name[0] != '#')
 		return(0);
 	res = new Channel(name, client);
 	this->_channels.push_back(res);
@@ -191,21 +202,6 @@ Server	&Server::addCommand(std::string cmdName, void (*funct)(const std::string 
 	return(*this);
 }
 
-void	writeError(Client &client, Channel *channel, int code, std::string description)
-{
-	std::string			err_msg;
-	std::stringstream	ss;
-	int					fd;
-
-	fd = client.getFd();
-	ss << ":localhost " << code;
-	if(channel)
-		ss << " #" << channel->getName();
-	ss << " : " << description + "\n";
-	err_msg = ss.str();
-	std::cout << "data to send : " << err_msg;
-	send(fd, err_msg.c_str(), err_msg.length(), MSG_DONTWAIT);
-}
 
 /*--------------------------------- Getters ----------------------------------*/
 int	Server::getServSocketFd() {

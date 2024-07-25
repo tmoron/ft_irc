@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 18:20:00 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 22:45:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class Server {
 		void					setServSocketFd(int servSocketFd);
 		void					setPassword(std::string password);
 
+		void					broadcast(std::string message);
 		int						getServSocketFd();
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
@@ -57,7 +58,5 @@ class Server {
 		Server		&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
 
 };
-
-void writeError(Client &client, Channel *channel, int code, std::string description);
 
 #endif
