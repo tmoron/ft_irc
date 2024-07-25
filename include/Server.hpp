@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 15:08:46 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 15:46:36 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ class Server {
 		int						getServSocketFd();
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
+		std::vector<Channel*>	&getChannels();
 
-		void		listen(void);
 		void		addClient(int a);
+		void		addChannel(std::string name, std::string topic, std::string password);
+		void		delChannel(std::string name);
+		void		listen(void);
 		void		receiveData(void);
 		void		exec(const std::string &full_cmd, Client &client);
 		Server		&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));

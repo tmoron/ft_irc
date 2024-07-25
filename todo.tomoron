@@ -1,7 +1,5 @@
 1 ---> Faire les commandes :
 JOIN
-ADDCHANNEL
-DELCHANNEL
 KICK
 MODE
 INVITE
@@ -12,6 +10,8 @@ TOPIC
 Pass	OK
 NICK
 USER
+ADDCHANNEL
+DELCHANNEL
 
 
 3 --> Faire la class exception

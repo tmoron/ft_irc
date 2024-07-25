@@ -86,7 +86,7 @@ void Server::listen()
 
 void Server::update_pollfds()
 {
-	if(this->_pollfds)	
+	if(this->_pollfds)
 		delete[] _pollfds;
 	this->_pollfds = new struct pollfd[_clients.size()];
 	for(unsigned long i = 0; i < _clients.size(); i++)
@@ -99,7 +99,7 @@ void Server::update_pollfds()
 void	Server::receiveData(void)
 {
 	int	recv;
-	
+
 	recv = poll(this->_pollfds, _clients.size(), 1000);
 	if(!recv)
 		return ;
@@ -123,6 +123,36 @@ void	Server::addClient(int a) {
 	this->_clients.push_back(new Client(a, *this));
 	this->update_pollfds();
 }
+
+/*--------------------------------- Channel ----------------------------------*/
+void	Server::addChannel(std::string name, std::string topic, std::string password)
+{
+	unsigned int	i;
+	for (i = 0; i < this->_channels.size() - 1; i++)
+	{
+		if (this->_channels[i]->getName() == name)
+		{
+			// erreur tom le channel name existe deja
+			return ;
+		}
+	}
+	this->_channels.push_back(new Channel(name, topic, password));
+}
+
+void	Server::delChannel(std::string name)
+{
+	unsigned int	i;
+	for (i = 0; i < this->_channels.size() - 1; i++)
+	{
+		if (this->_channels[i]->getName() == name)
+		{
+			this->_channels.erase(this->_channels.begin() + i);
+			return ;
+		}
+	}
+	// erreur? tom le n'existe pas
+}
+
 
 void	Server::exec(const std::string &full_cmd, Client &client)
 {
@@ -174,6 +204,15 @@ std::string	Server::getPassword() {
 	return (this->_password);
 }
 
+std::vector<Client*>	&Server::getClients()
+{
+	return (this->_clients);
+}
+
+std::vector<Channel*>	&Server::getChannels()
+{
+	return (this->_channels);
+}
 /*--------------------------------- Setters ----------------------------------*/
 void	Server::setServSocketFd(int servSocketFd) {
 	this->_servSocketFd = servSocketFd;

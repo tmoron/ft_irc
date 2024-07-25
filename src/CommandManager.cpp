@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 15:22:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 15:46:27 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 {
 	if(pass.length() == 0)
 	{
-		writeError(clt, 0, 461, "PASS :Not enough parameters");   
+		writeError(clt, 0, 461, "PASS :Not enough parameters");
 		return ;
 	}
 	if(clt.isRegistered())
@@ -66,35 +66,32 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 	}
 }
 
-void	commandKick(Channel &chnl, Client &clt, std::string msg)
+void	commandKick(const std::string &arg, Client &client, Server &server)
 {
-	//cette fonction ne prends pas le bons parametres // ca marche
-	//if (!chnl)
-	 //	writeError(clt,0, 403, "#AAAAAAAAAAAAAAAAAA :No such channel");
-	std::vector<Client*> chnlClt = chnl.getClients();
-	unsigned int	i;
-	for (i = 0; i < chnlClt.size() - 1; i++)
-	{
-		if (chnlClt.at(i) == &clt)
-		{
-			chnlClt.erase(chnlClt.begin() + i);
-			// KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
-			// KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
-			// :WiZ KICK #Finnish John                 ;    KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca 
-			std::cout << "Kick " << clt.getNick() << " from " << chnl.getName(); // c'est peut etre pas des std::cout mais au moins c'est la
-			if (msg.length() != 0)
-				std::cout << " using '" << msg << "' as the reason (comment)."; 
-			return ;
-		}
-	}
-	if (i == chnlClt.size())
-		writeError(clt, 0, 442, "<channel> :You're not on that channel");
-		// ERR_NOTONCHANNEL tom erreur ?
+	// server;
+	// unsigned int	i;
+	// for (i = 0; i < chnlClt.size() - 1; i++)
+	// {
+	// 	if (chnlClt.at(i) == &clt)
+	// 	{
+	// 		chnlClt.erase(chnlClt.begin() + i);
+	// 		// KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
+	// 		// KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
+	// 		// :WiZ KICK #Finnish John                 ;    KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca
+	// 		std::cout << "Kick " << clt.getNick() << " from " << chnl.getName(); // c'est peut etre pas des std::cout mais au moins c'est la
+	// 		if (msg.length() != 0)
+	// 			std::cout << " using '" << msg << "' as the reason (comment).";
+	// 		return ;
+	// 	}
+	// }
+	// if (i == chnlClt.size())
+	// 	writeError(clt, 0, 442, "<channel> :You're not on that channel");
+	// 	// ERR_NOTONCHANNEL tom erreur ?
 }
 
 void	commandInvite()
 {
-	
+
 }
 
 bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
@@ -121,7 +118,7 @@ void	commandNick(const std::string &arg, Client &client, Server &server)
 		client.setNick(arg);
 	else
 		writeError(client, 0, 433, arg + " :Nickname is already in use");
-		
+
 }
 
 void	commandUser(const std::string &arg, Client &client, Server &server)
@@ -134,7 +131,7 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 		writeError(client, 0, 462, ":You may not reregister");
 		return ;
 	}
-	arg_split = ft_split(arg, ' ');	
+	arg_split = ft_split(arg, ' ');
 	std::cout << "number of args : " << arg_split.size() << std::endl;
 	if(arg_split.size() != 4)
 		writeError(client, 0 ,461, "USER :Not enough parameters");
@@ -162,6 +159,6 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 	arg_split = ft_split(arg, ' ');
 	if(arg_split.size() == 0)
 		writeError(client, 0, 461, "JOIN :Not enough parameters");
-	
-	
+
+
 }

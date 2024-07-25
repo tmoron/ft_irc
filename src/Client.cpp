@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 10:34:33 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:18:47 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,6 @@ int	Client::getFd()
 std::string	Client::getBuffer()
 {
 	return (this->_buffer);
-}
-
-std::vector<Client*>	&Server::getClients()
-{
-	return (this->_clients);
 }
 
 int Client::getLoggedIn()
