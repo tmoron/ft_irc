@@ -221,6 +221,16 @@ std::vector<Channel*>	&Server::getChannels()
 {
 	return (this->_channels);
 }
+
+Client	*Server::getClient(std::string nick)
+{
+	for(unsigned long i = 0; i < _clients.size(); i++)
+	{
+		if(_clients[i]->getNick() == nick)
+			return(_clients[i]);
+	}
+	return NULL;
+}
 /*--------------------------------- Setters ----------------------------------*/
 void	Server::setServSocketFd(int servSocketFd) {
 	this->_servSocketFd = servSocketFd;

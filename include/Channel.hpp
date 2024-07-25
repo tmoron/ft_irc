@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 17:20:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:24:53 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Channel
 		std::string				_password;
 		Client					*_operator;
 		std::vector<Client*>	_clients;
+		std::vector<Client*>	_invite;
 		Channel(void);
 
 	public:
@@ -41,7 +42,9 @@ class Channel
 		std::string				getPassword(void);
 		std::vector<Client*>	&getClients(void);
 		Client					*getOperator();
+		std::vector<Client*>	&getInvite(void);
 
+		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		void		addClient(Client* client);
 };
 

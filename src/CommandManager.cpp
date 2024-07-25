@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 17:40:54 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 18:24:41 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,6 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 	// 	// ERR_NOTONCHANNEL tom erreur ?
 }
 
-void	commandInvite()
-{
-
-}
 
 bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
 {
@@ -102,6 +98,28 @@ bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick
 			return true;
 	}
 	return false;
+}
+
+void	commandInvite(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string> arg_split = ft_split(arg, ' ');
+	if (arg_split.size() < 3)
+	{
+		writeError(client, 0, 461, "INVITE :Not enough parameters");
+		return ;
+	}
+	if (alreadyUse(server.getClients(), &client, arg_split[1]))
+	{
+		writeError(client, 0, 401, arg_split[1] + " :No such nick/channel");
+		return ;
+	}
+	if (server.getChannel(arg_split[2], 0, 0) == 0)
+	{
+		writeError(client, 0, 403, arg_split[2] + " :No such channel");
+		return ;
+	}
+	Channel *chnl = server.getChannel(arg_split[2], 0, 0);
+	chnl->inviteInChannel(client, *server.getClient(arg_split[1]), *chnl);
 }
 
 void	commandNick(const std::string &arg, Client &client, Server &server)

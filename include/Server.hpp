@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 17:36:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:20:00 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class Server {
 		int						getServSocketFd();
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
+		Client					*getClient(std::string nick);
 		std::vector<Channel*>	&getChannels();
 
 		void		addClient(int a);

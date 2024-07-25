@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 17:21:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:26:22 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ void	Channel::addClient(Client* client)
 	this->_clients.push_back(client);
 }
 
+int	Channel::inviteInChannel(Client &invitor,	Client &invited,  Channel &channel)
+{
+	if (invitor.getNick() != channel.getOperator()->getNick())
+	{
+		writeError(invitor, 0, 482, ":You're not channel operator");
+	}
+	channel.getInvite().push_back(&invited);
+	return (0);
+}
+
 /*--------------------------------- Getters ----------------------------------*/
 std::string Channel::getName(void)
 {
@@ -59,6 +69,11 @@ std::vector<Client*> &Channel::getClients(void)
 Client *Channel::getOperator()
 {
 	return this->_operator;
+}
+
+std::vector<Client*> &Channel::getInvite(void)
+{
+	return this->_invite;
 }
 
 /*--------------------------------- Setters ----------------------------------*/
