@@ -15,8 +15,8 @@
 /*------------------------------- Constructors -------------------------------*/
 Server::Server(std::string port, std::string password)
 {
-	unsigned int port_int;
-	std::stringstream port_stream(port);
+	unsigned int		port_int;
+	std::stringstream	port_stream(port);
 
 	_password = password;
 	port_stream >> port_int;
@@ -31,7 +31,9 @@ Server::Server(std::string port, std::string password)
 	this->_pollfds = 0;
 }
 
-Server::~Server(void) {}
+Server::~Server(void)
+{
+}
 
 /*--------------------------------- Methods ----------------------------------*/
 int Server::init_socket(uint16_t port)
@@ -92,7 +94,7 @@ void Server::update_pollfds()
 
 void	Server::receiveData(void)
 {
-	int recv;
+	int	recv;
 	
 	recv = poll(this->_pollfds, _clients.size(), 1000);
 	if(!recv)
@@ -113,23 +115,15 @@ void	Server::receiveData(void)
 	}
 }
 
-void	Server::showClient(void)
-{
-	// for (unsigned int i = 0; i < this->_client.size(); i++)
-	// {
-	// 	std::cout << "Client " << i << " : " << this->_client.at(i).getUser() << ", " << this->_client.at(i).getNick() << std::endl;
-	// }
-}
-
 void	Server::addClient(int a) {
 	this->_clients.push_back(new Client(a, *this));
 	this->update_pollfds();
 }
 
-void Server::exec(const std::string &full_cmd, Client &client)
+void	Server::exec(const std::string &full_cmd, Client &client)
 {
-	std::string command;
-	std::string args;
+	std::string	command;
+	std::string	args;
 
 	if(full_cmd.find(' ', 0) != std::string::npos)
 	{
@@ -145,17 +139,17 @@ void Server::exec(const std::string &full_cmd, Client &client)
 	this->_commandManager.execCommand(command, args, client, *this);
 }
 
-Server &Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
+Server	&Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
 {
 	this->_commandManager.addCommand(cmdName, funct);
 	return(*this);
 }
 
-void writeError(Client &client, Channel *channel, int code, std::string description)
+void	writeError(Client &client, Channel *channel, int code, std::string description)
 {
-	int fd;
-	std::string err_msg;
-	std::stringstream ss;
+	std::string			err_msg;
+	std::stringstream	ss;
+	int					fd;
 
 	fd = client.getFd();
 	ss << ":localhost " << code;
@@ -177,19 +171,10 @@ std::string	Server::getPassword() {
 }
 
 /*--------------------------------- Setters ----------------------------------*/
-void		Server::setServSocketFd(int servSocketFd) {
+void	Server::setServSocketFd(int servSocketFd) {
 	this->_servSocketFd = servSocketFd;
 }
 
-void		Server::setPassword(std::string password) {
+void	Server::setPassword(std::string password) {
 	this->_password = password;
 }
-
-// void		Server::setClient(Client client)
-// {
-// 	if (this->_client.size() < 100)
-// 		this->_client.push_back(client);
-// 	else
-// 		throw Server::OutOfRangeClientExeption();
-// }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 18:08:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:43:06 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,20 @@ class Server {
 		struct pollfd			*_pollfds;
 		CommandManager			_commandManager;
 
-		int	init_socket(uint16_t port);
-		void update_pollfds();
+		int		init_socket(uint16_t port);
+		void	update_pollfds();
 
 	public:
 		Server(std::string port, std::string password); // Default constructor
 		~Server(void);
 
-		void		setServSocketFd(int servSocketFd);
-		void		setPassword(std::string password);
-		// void		setClient(Client client);
+		void					setServSocketFd(int servSocketFd);
+		void					setPassword(std::string password);
 
 		int						getServSocketFd();
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
 
-		void		showClient(void);
 		void		listen(void);
 		void		addClient(int a);
 		void		receiveData(void);

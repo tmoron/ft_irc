@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 22:32:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:34:33 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	Client::updateBuffer()
 	return(0);
 }
 
-void Client::handleBuffer()
+void	Client::handleBuffer()
 {
 	unsigned long len;
 	std::string command;
@@ -98,12 +98,12 @@ std::string	Client::getNick()
 	return (this->_nick);
 }
 
-int Client::getFd()
+int	Client::getFd()
 {
 	return(this->_fd);
 }
 
-std::string Client::getBuffer()
+std::string	Client::getBuffer()
 {
 	return (this->_buffer);
 }

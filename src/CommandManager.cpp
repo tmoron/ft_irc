@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/24 23:27:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:40:03 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ CommandManager::~CommandManager()
 /*--------------------------------- Methods ----------------------------------*/
 CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
 {
-    this->_cmdNames.push_back(cmdName);
-    this->_cmdFuncts.push_back(funct);
-    return *this;
+	this->_cmdNames.push_back(cmdName);
+	this->_cmdFuncts.push_back(funct);
+	return (*this);
 }
 
 void CommandManager::execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server)
@@ -59,7 +59,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		clt.setLoggedIn(true);
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
 	}
-	else // peut etre throw une exeption //non
+	else // peut etre throw une exeption //non //d'accord
 	{
 		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 		writeError(clt, 0, 464, ":Password incorect" );
@@ -72,7 +72,8 @@ void	commandKick(Channel &chnl, Client &clt, std::string msg)
 	//if (!chnl)
 	 //	writeError(clt,0, 403, "#AAAAAAAAAAAAAAAAAA :No such channel");
 	std::vector<Client*> chnlClt = chnl.getClients();
-	for (unsigned int i = 0; i < chnlClt.size() - 1; i++)
+	unsigned int i;
+	for (i = 0; i < chnlClt.size() - 1; i++)
 	{
 		if (chnlClt.at(i) == &clt)
 		{
@@ -82,9 +83,8 @@ void	commandKick(Channel &chnl, Client &clt, std::string msg)
 			return ;
 		}
 	}
-	//i n'est pas defini, il est defini que dans le for
-	// if (i == chnlClt.size())
-		//writeError(clt, 0, 442, "<channel> :You're not on that channel");
+	if (i == chnlClt.size())
+		writeError(clt, 0, 442, "<channel> :You're not on that channel");
 		// ERR_NOTONCHANNEL tom erreur ?
 }
 
@@ -143,5 +143,5 @@ void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chan
 
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 {
-	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi)
+	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi) // a bas bravo
 }

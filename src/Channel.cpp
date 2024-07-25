@@ -6,14 +6,14 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/24 20:18:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:33:34 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 
 /*------------------------------- Constructors -------------------------------*/
-Channel::Channel(/* args */)
+Channel::Channel(void)
 {
 }
 
@@ -21,7 +21,7 @@ Channel::Channel(std::string name, std::string topic, std::string password) : _n
 {
 }
 
-Channel::~Channel()
+Channel::~Channel(void)
 {
 }
 

@@ -13,33 +13,33 @@
 #ifndef Channel_HPP
 # define Channel_HPP
 
-#include <string>
-#include <vector>
-#include "Client.hpp"
+# include <string>
+# include <vector>
+# include "Client.hpp"
 
 class Channel
 {
-    private:
-        std::string _name;
-        std::string _topic;
-        std::string _password;
-        std::vector<Client*> _clients;
-        Channel(/* args */);
+	private:
+		std::string				_name;
+		std::string				_topic;
+		std::string				_password;
+		std::vector<Client*>	_clients;
+		Channel(void);
 
-    public:
-        Channel(std::string name, std::string topic, std::string password);
-        ~Channel();
+	public:
+		Channel(std::string name, std::string topic, std::string password);
+		~Channel();
 
-        void        setName(std::string name);
-        void        setTopic(std::string topic);
-        void        setPassword(std::string password);
-        void        addClient(Client* client);
+		void		setName(std::string name);
+		void		setTopic(std::string topic);
+		void		setPassword(std::string password);
 
-        std::string getName(void);
-        std::string getTopic(void);
-        std::string getPassword(void);
-        std::vector<Client*> &getClients(void);
+		std::string				getName(void);
+		std::string				getTopic(void);
+		std::string				getPassword(void);
+		std::vector<Client*>	&getClients(void);
 
+		void		addClient(Client* client);
 };
 
 

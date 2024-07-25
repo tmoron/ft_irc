@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/24 23:27:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:42:37 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
 
-std::string trim(char c, std::string str)
+std::string	trim(char c, std::string str)
 {
-	int i;
+	int	i;
 	
 	i = 0;
 	while(str[i] == c)
@@ -31,9 +31,9 @@ std::string trim(char c, std::string str)
 
 std::vector<std::string> ft_split(std::string str, char sep)
 {
-	std::vector <std::string> res;
-	std::string part;
-	std::stringstream ss;
+	std::vector <std::string>	res;
+	std::string					part;
+	std::stringstream			ss;
 
 	ss << str;
 	while(!ss.eof())
