@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 15:46:27 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:20:59 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,12 @@ void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 void commandJoin(const std::string &arg, Client &client, Server &server)
 {
 	std::vector<std::string>	arg_split;
+	std::string channel_name;
+	Channel *channel;
 
 	arg_split = ft_split(arg, ' ');
 	if(arg_split.size() == 0)
-		writeError(client, 0, 461, "JOIN :Not enough parameters");
-
-
+		writeError(client, 0, 461, "JOIN :Not enough parameters");	
+	channel_name = arg_split[1];
+	channel = server.getChannel(channel_name, &client);
 }

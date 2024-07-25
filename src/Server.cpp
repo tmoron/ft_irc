@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/24 21:00:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:15:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,13 @@ void	Server::receiveData(void)
 	{
 		if(this->_pollfds[i].revents & POLLIN)
 		{
-			_clients[i]->updateBuffer();
-		}
-		if(this->_pollfds[i].revents & POLLHUP)
-		{
-			delete _clients[i];
-			_clients.erase(_clients.begin() + i);
-			std::cout << "removed client " << i << std::endl;
-			this->update_pollfds();
+			if (_clients[i]->updateBuffer())
+			{
+				delete _clients[i];
+				_clients.erase(_clients.begin() + i);
+				std::cout << "removed client " << i << std::endl;
+				this->update_pollfds();
+			}
 		}
 	}
 }
@@ -130,18 +129,21 @@ void	Server::addClient(int a) {
 }
 
 /*--------------------------------- Channel ----------------------------------*/
-void	Server::addChannel(std::string name, std::string topic, std::string password)
+Channel	*Server::getChannel(std::string &name, Client *client)
 {
 	unsigned int	i;
+	Channel *res;
+
 	for (i = 0; i < this->_channels.size() - 1; i++)
 	{
 		if (this->_channels[i]->getName() == name)
 		{
-			// erreur tom le channel name existe deja
-			return ;
+			return (this->_channels[i]);
 		}
 	}
-	this->_channels.push_back(new Channel(name, topic, password));
+	res = new Channel(name, client);
+	this->_channels.push_back(res);
+	return(res);
 }
 
 void	Server::delChannel(std::string name)
@@ -155,7 +157,6 @@ void	Server::delChannel(std::string name)
 			return ;
 		}
 	}
-	// erreur? tom le n'existe pas
 }
 
 

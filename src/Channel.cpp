@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 14:51:12 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 17:21:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Channel::Channel(void)
 {
 }
 
-Channel::Channel(std::string name, std::string topic, std::string password) : _name(name), _topic(topic), _password(password)
+Channel::Channel(std::string name, Client *client) : _name(name), _operator(client)
 {
 }
 
@@ -56,6 +56,11 @@ std::vector<Client*> &Channel::getClients(void)
 	return this->_clients;
 }
 
+Client *Channel::getOperator()
+{
+	return this->_operator;
+}
+
 /*--------------------------------- Setters ----------------------------------*/
 void	Channel::setName(std::string name)
 {
@@ -70,4 +75,9 @@ void	Channel::setTopic(std::string topic)
 void	Channel::setPassword(std::string password)
 {
 	this->_password = password;
+}
+
+void Channel::setOperator(Client *newoperator)
+{
+	this->_operator = newoperator;
 }
