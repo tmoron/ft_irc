@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/25 10:42:37 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:53:53 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,10 @@ std::vector<std::string> ft_split(std::string str, char sep)
 			res.push_back(part);
 	}
 	return(res);
+}
+
+void Handler(int signum)
+{
+	std::cout << "Server shutting down" << std::endl;
+	g_sig = 1;
 }

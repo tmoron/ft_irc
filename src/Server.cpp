@@ -33,6 +33,11 @@ Server::Server(std::string port, std::string password)
 
 Server::~Server(void)
 {
+	close(_servSocketFd);
+	for(unsigned long i = 0; i < _clients.size(); i++)
+		delete _clients[i];
+	if(this->_pollfds)
+		delete[] this->_pollfds;
 }
 
 /*--------------------------------- Methods ----------------------------------*/
@@ -65,7 +70,7 @@ void Server::listen()
 {
 	int a = -1;
 	std::cout << "waiting for clients" << std::endl;
-	while(true)
+	while(!g_sig)
 	{
 		a = accept(_servSocketFd, 0, 0);
 		if (a != -1) {
