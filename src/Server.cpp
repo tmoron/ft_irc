@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/25 17:15:42 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:36:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	Server::addClient(int a) {
 }
 
 /*--------------------------------- Channel ----------------------------------*/
-Channel	*Server::getChannel(std::string &name, Client *client)
+Channel	*Server::getChannel(std::string &name, Client *client, int create)
 {
 	unsigned int	i;
 	Channel *res;
@@ -141,6 +141,8 @@ Channel	*Server::getChannel(std::string &name, Client *client)
 			return (this->_channels[i]);
 		}
 	}
+	if(!create)
+		return(0);
 	res = new Channel(name, client);
 	this->_channels.push_back(res);
 	return(res);

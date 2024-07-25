@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 17:20:59 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:37:49 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,5 +162,6 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 	if(arg_split.size() == 0)
 		writeError(client, 0, 461, "JOIN :Not enough parameters");	
 	channel_name = arg_split[1];
-	channel = server.getChannel(channel_name, &client);
+	channel = server.getChannel(channel_name, &client, 1);
+	channel->addClient(&client);
 }
