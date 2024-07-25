@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 18:44:06 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 19:27:16 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,38 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 
 void	commandKick(const std::string &arg, Client &client, Server &server)
 {
-	// server;
-	// unsigned int	i;
-	// for (i = 0; i < chnlClt.size() - 1; i++)
-	// {
-	// 	if (chnlClt.at(i) == &clt)
-	// 	{
-	// 		chnlClt.erase(chnlClt.begin() + i);
-	// 		// KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
-	// 		// KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
-	// 		// :WiZ KICK #Finnish John                 ;    KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca
-	// 		std::cout << "Kick " << clt.getNick() << " from " << chnl.getName(); // c'est peut etre pas des std::cout mais au moins c'est la
-	// 		if (msg.length() != 0)
-	// 			std::cout << " using '" << msg << "' as the reason (comment).";
-	// 		return ;
-	// 	}
-	// }
-	// if (i == chnlClt.size())
-	// 	writeError(clt, 0, 442, "<channel> :You're not on that channel");
-	// 	// ERR_NOTONCHANNEL tom erreur ?
+	std::vector<std::string>	argSplit;
+
+	argSplit = ft_split(arg, ' ');
+	if(argSplit.size() < 3)
+		writeError(client, 0, 461, "KICK :Not enough parameters");
+	// :WiZ KICK #Finnish John ; KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca
+	if (argSplit[0].find(':')) // jsp il faut se referer a la doc
+		return ;
+
+	std::vector<Channel*>		_channels = server.getChannels();
+	std::vector<std::string>	chnlName = ft_split(argSplit[1], ',');
+	std::vector<std::string>	kickName = ft_split(argSplit[2], ',');
+	std::string					reasonMsg;
+	if (argSplit.size() >= 4)
+		reasonMsg = argSplit[3];
+
+	for (int i = 0; i < _channels.size() - 1; i++) // channels available
+	{
+		for (int j = 0; j < chnlName.size() - 1; j++) // channel to kick
+		{
+			if (_channels[i]->getName() == chnlName[j]) // channel found
+			{
+				for (int k = 0; k < kickName.size() - 1; k++) // people to kick
+				{
+					// if (server.getClient(kickName) != NULL)
+						// faut kick ici
+				}
+			}
+		}
+	}
+	// KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
+	// KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
 }
 
 
@@ -200,7 +213,7 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 
 	arg_split = ft_split(arg, ' ');
 	if(arg_split.size() == 0)
-		writeError(client, 0, 461, "JOIN :Not enough parameters");	
+		writeError(client, 0, 461, "JOIN :Not enough parameters");
 	channel_name = arg_split[1];
 	channel = server.getChannel(channel_name, &client, 1);
 	channel->addClient(&client);

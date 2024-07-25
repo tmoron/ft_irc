@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 18:31:13 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 19:27:10 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	commandJoin(const std::string &arg, Client &client, Server &server);
 void	commandKick(Channel &chnl, Client &clt, std::string msg);
 void	commandTopic(const std::string &arg, Client &client, Server &server);
 void	commandInvite();
-void	commandAddChannel(); // a faire
-void	commandDelChannel(); // a faire aussi
+void	commandAddChannel();
+void	commandDelChannel();
 
 
 #endif
