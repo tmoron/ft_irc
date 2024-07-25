@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 18:24:53 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 18:48:09 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class Channel
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		void		addClient(Client* client);
+		void		delClient(std::string nick);
 };
 
 

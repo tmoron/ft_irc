@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 18:26:22 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 19:25:09 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ void	Channel::addClient(Client* client)
 	else
 		throw ToManyClientsException();
 	this->_clients.push_back(client);
+}
+
+void	Channel::delClient(std::string nick)
+{
+	for (unsigned int i = 0; i < this->_clients.size() - 1; i++)
+	{
+		if (this->_clients[i]->getNick() == nick)
+			this->_clients.erase(this->_clients.begin() + i);
+	}
 }
 
 int	Channel::inviteInChannel(Client &invitor,	Client &invited,  Channel &channel)

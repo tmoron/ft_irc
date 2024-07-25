@@ -1,7 +1,9 @@
 1 ---> Faire les commandes :
 JOIN
-KICK
 MODE
+KICK a tester
+INVITE
+TOPIC
 
 
 2 --> Verifier si les commandes fonctionnent :

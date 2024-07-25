@@ -83,7 +83,7 @@ void Server::listen()
 			{
 				std::cerr << e.what() << '\n';
 			}
-			
+
 		}
 		this->receiveData();
 	}
@@ -148,6 +148,11 @@ Channel	*Server::getChannel(std::string &name, Client *client, int create)
 	return(res);
 }
 
+std::vector<Channel*>	&Server::getChannels()
+{
+	return (this->_channels);
+}
+
 void	Server::delChannel(std::string name)
 {
 	unsigned int	i;
@@ -160,7 +165,6 @@ void	Server::delChannel(std::string name)
 		}
 	}
 }
-
 
 void	Server::exec(const std::string &full_cmd, Client &client)
 {
@@ -215,11 +219,6 @@ std::string	Server::getPassword() {
 std::vector<Client*>	&Server::getClients()
 {
 	return (this->_clients);
-}
-
-std::vector<Channel*>	&Server::getChannels()
-{
-	return (this->_channels);
 }
 
 Client	*Server::getClient(std::string nick)
