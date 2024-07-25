@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 18:24:41 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 18:44:06 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,28 @@ void	commandInvite(const std::string &arg, Client &client, Server &server)
 	}
 	Channel *chnl = server.getChannel(arg_split[2], 0, 0);
 	chnl->inviteInChannel(client, *server.getClient(arg_split[1]), *chnl);
+}
+
+void	commandTopic(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string> arg_split = ft_split(arg, ' ');
+	if (arg_split.size() < 2)
+	{
+		writeError(client, 0, 461, "TOPIC :Not enough parameters");
+		return ;
+	}
+	if (arg_split.size() == 2 && server.getChannel(arg_split[1], 0, 0))
+	{
+		Channel *chnl = server.getChannel(arg_split[1], 0, 0);
+		// writeMessage(client, 0, 332, chnl->getName() + " :" + chnl->getTopic());
+	}
+	else if (arg_split.size() >= 3 && server.getChannel(arg_split[1], 0, 0))
+	{
+		Channel *chnl = server.getChannel(arg_split[1], 0, 0);
+		chnl->setTopic(arg_split[2]);
+	}
+	else
+		writeError(client, 0, 403, arg_split[1] + " :No such channel");
 }
 
 void	commandNick(const std::string &arg, Client &client, Server &server)
