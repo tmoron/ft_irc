@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 15:06:37 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/25 15:22:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,4 +153,15 @@ void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chan
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 {
 	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi) // a bas bravo
+}
+
+void commandJoin(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string>	arg_split;
+
+	arg_split = ft_split(arg, ' ');
+	if(arg_split.size() == 0)
+		writeError(client, 0, 461, "JOIN :Not enough parameters");
+	
+	
 }
