@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 15:45:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 15:51:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	Client::isRegistered()
 
 std::string	Client::getIdentifier()
 {
-	return(this->_nick + "!" + this->_user + "@localhost");
+	return(this->_user + "!" + this->_nick + "@localhost");
 }
 
 /*--------------------------------- Setters ----------------------------------*/
