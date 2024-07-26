@@ -52,7 +52,7 @@ void	Server::broadcast(std::string message)
 	}
 }
 
-int Server::init_socket(uint16_t port)
+int	Server::init_socket(uint16_t port)
 {
 	int					server_fd;
 	struct sockaddr_in	s_addr;
@@ -77,7 +77,7 @@ int Server::init_socket(uint16_t port)
 	return (server_fd);
 }
 
-void Server::listen()
+void	Server::listen()
 {
 	int a = -1;
 	std::cout << "waiting for clients" << std::endl;
@@ -100,7 +100,7 @@ void Server::listen()
 	}
 }
 
-void Server::update_pollfds()
+void	Server::update_pollfds()
 {
 	if(this->_pollfds)
 		delete[] _pollfds;
@@ -139,7 +139,31 @@ void	Server::addClient(int a) {
 	this->update_pollfds();
 }
 
-/*--------------------------------- Channel ----------------------------------*/
+void	Server::exec(const std::string &full_cmd, Client &client)
+{
+	std::string	command;
+	std::string	args;
+
+	if(full_cmd.find(' ', 0) != std::string::npos)
+	{
+		command = full_cmd.substr(0, full_cmd.find(' ' , 0));
+		args = full_cmd.substr(full_cmd.find(' ', 0) + 1);
+		args = trim(' ', args);
+	}
+	else
+	{
+		command = full_cmd;
+		args = "";
+	}
+	this->_commandManager.execCommand(command, args, client, *this);
+}
+
+Server	&Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
+{
+	this->_commandManager.addCommand(cmdName, funct);
+	return(*this);
+}
+
 Channel	*Server::getChannel(std::string &name, Client *client, int create)
 {
 	unsigned int	i;
@@ -178,32 +202,6 @@ void	Server::delChannel(std::string name)
 		}
 	}
 }
-
-void	Server::exec(const std::string &full_cmd, Client &client)
-{
-	std::string	command;
-	std::string	args;
-
-	if(full_cmd.find(' ', 0) != std::string::npos)
-	{
-		command = full_cmd.substr(0, full_cmd.find(' ' , 0));
-		args = full_cmd.substr(full_cmd.find(' ', 0) + 1);
-		args = trim(' ', args);
-	}
-	else
-	{
-		command = full_cmd;
-		args = "";
-	}
-	this->_commandManager.execCommand(command, args, client, *this);
-}
-
-Server	&Server::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
-{
-	this->_commandManager.addCommand(cmdName, funct);
-	return(*this);
-}
-
 
 /*--------------------------------- Getters ----------------------------------*/
 int	Server::getServSocketFd() {

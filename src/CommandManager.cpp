@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/25 23:09:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:46:12 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,31 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 	client.sendInfo(0, 421, cmdName + std::string(" :Unknown command"));
 }
 
+/*--------------------------------- Commands ---------------------------------*/
+bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
+{
+	for (size_t i = 0; i < clients.size(); i++)
+	{
+		if (clients[i]->getNick() == nick && clients[i] != current)
+			return true;
+	}
+	return false;
+}
+
+void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
+{
+	for (unsigned int i = 0; i < cltChnl.size(); i++)
+	{
+		// transmettre le msg au client;
+		// cltChnl.at(i);
+	}
+}
+
+void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
+{
+	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi) // a bas bravo
+}
+
 void	commandPass(const std::string &pass, Client &clt, Server &srv)
 {
 	if(pass.length() == 0)
@@ -65,6 +90,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		clt.sendInfo(0, 464, ":Password incorect" );
 	}
 }
+
 // KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
 // KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
 // :WiZ KICK #Finnish John ; KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca
@@ -106,17 +132,6 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 			}
 		}
 	}
-}
-
-
-bool	alreadyUse(std::vector<Client*> &clients, Client *current, std::string nick)
-{
-	for (size_t i = 0; i < clients.size(); i++)
-	{
-		if (clients[i]->getNick() == nick && clients[i] != current)
-			return true;
-	}
-	return false;
 }
 
 void	commandInvite(const std::string &arg, Client &client, Server &server)
@@ -196,20 +211,6 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 	if(arg_split.size() != 4)
 		client.sendInfo(0 ,461, "USER :Not enough parameters");
 	client.setUser(arg_split[0]);
-}
-
-void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl)
-{
-	for (unsigned int i = 0; i < cltChnl.size(); i++)
-	{
-		// transmettre le msg au client;
-		// cltChnl.at(i);
-	}
-}
-
-void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
-{
-	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi) // a bas bravo
 }
 
 void commandJoin(const std::string &arg, Client &client, Server &server)

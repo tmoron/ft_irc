@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 22:53:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:42:54 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,6 @@ int	Channel::addClient(Client* client)
 	return(1);
 }
 
-std::string Channel::getNames()
-{
-	std::string res;
-
-	res = "";
-	for(unsigned int i = 0; i < this->_clients.size(); i++)
-	{
-		if(std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
-			res += "@";
-		res += this->_clients[i]->getNick();
-		if(i != this->_clients.size() - 1)
-			res += " ";
-	}
-	return(res);
-}
-
 void	Channel::delClient(std::string nick)
 {
 	for (unsigned int i = 0; i < this->_clients.size() - 1; i++)
@@ -80,6 +64,22 @@ int	Channel::inviteInChannel(Client &invitor,	Client &invited,  Channel &channel
 bool Channel::isOperator(Client *client)
 {
 	return(std::find(this->_operators.begin(), this->_operators.end(), client) != this->_clients.end());
+}
+
+std::string Channel::getNames()
+{
+	std::string res;
+
+	res = "";
+	for(unsigned int i = 0; i < this->_clients.size(); i++)
+	{
+		if(std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
+			res += "@";
+		res += this->_clients[i]->getNick();
+		if(i != this->_clients.size() - 1)
+			res += " ";
+	}
+	return(res);
 }
 
 /*--------------------------------- Getters ----------------------------------*/
