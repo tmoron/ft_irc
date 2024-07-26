@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 17:51:51 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/26 17:57:19 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ bool verifOption(std::string option)
 	return true;
 }
 
-void	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
+int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
 {
 	for (unsigned int i = 1; i < argSplit.size(); i++)
 	{
@@ -270,12 +270,13 @@ void	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &mo
 			else
 			{
 				client.sendInfo(0, 472, argSplit[i] + " :is unknown mode char to me for " + argSplit[0]);
-				return ;
+				return 1;
 			}
 		}
 		else
 			modeQueue.push(argSplit[i]);
 	}
+	return 0;
 }
 
 void	commandMode(const std::string &arg, Client &client, Server &server)
@@ -292,5 +293,6 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	}
 	Channel *channel = server.getChannel(argSplit[0], 0, 0);
 	std::queue<std::string>	modeQueue;
-	pushInQueue(argSplit, modeQueue, client);
+	if (pushInQueue(argSplit, modeQueue, client))
+		return ;
 }
