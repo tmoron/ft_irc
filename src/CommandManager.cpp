@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 17:47:48 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/26 17:51:51 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,20 +259,8 @@ bool verifOption(std::string option)
 	return true;
 }
 
-void	commandMode(const std::string &arg, Client &client, Server &server)
+void	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
 {
-	std::vector<std::string>	argSplit;
-
-	argSplit = ft_split(arg, ' ');
-	if(argSplit.size() < 3)
-		client.sendInfo(0, 461, "MODE :Not enough parameters");
-	if (server.getChannel(argSplit[0], 0, 0) == 0)
-	{
-		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
-		return ;
-	}
-	Channel *channel = server.getChannel(argSplit[0], 0, 0);
-	std::queue<std::string>	modeQueue;
 	for (unsigned int i = 1; i < argSplit.size(); i++)
 	{
 		if (argSplit[i][0] == '+' || argSplit[i][0] == '-')
@@ -288,4 +276,21 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 		else
 			modeQueue.push(argSplit[i]);
 	}
+}
+
+void	commandMode(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string>	argSplit;
+
+	argSplit = ft_split(arg, ' ');
+	if(argSplit.size() < 3)
+		client.sendInfo(0, 461, "MODE :Not enough parameters");
+	if (server.getChannel(argSplit[0], 0, 0) == 0)
+	{
+		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
+		return ;
+	}
+	Channel *channel = server.getChannel(argSplit[0], 0, 0);
+	std::queue<std::string>	modeQueue;
+	pushInQueue(argSplit, modeQueue, client);
 }
