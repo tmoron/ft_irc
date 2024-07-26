@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 17:57:19 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/26 17:59:38 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 
 bool verifOption(std::string option)
 {
-	std::string		allowedOption = "+-opsitnbv";
+	std::string		allowedOption = "+-itkol";
 	for (size_t i = 0; i < option.length(); i++)
 	{
 		if (allowedOption.find(option[i]) == std::string::npos)
