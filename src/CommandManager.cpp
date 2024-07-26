@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 18:12:23 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:34:54 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,11 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 
 void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
 {
+	if (chnl.isOperator(&client))
+	{
+		client.sendInfo(0, 482, "MODE :More privileges needed");
+		return ;
+	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Channel mode is invite only");
@@ -313,6 +318,11 @@ void	commandModeI(const std::string &arg, Client &client, Server &server, Channe
 
 void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
 {
+	if (chnl.isOperator(&client))
+	{
+		client.sendInfo(0, 482, "MODE :More privileges needed");
+		return ;
+	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Channel mode is topic operator only");
@@ -327,20 +337,35 @@ void	commandModeT(const std::string &arg, Client &client, Server &server, Channe
 
 void	commandModeK(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
-	if (cmdOpt[0] == '+')
+	if (chnl.isOperator(&client))
 	{
-		client.sendInfo(0, 324, ":Set the channel key to " + cmdArg);
-		chnl.setPassword(cmdArg);
+		client.sendInfo(0, 482, "MODE :More privileges needed");
+		return ;
 	}
-	else if (cmdOpt[0] == '-')
+	if (cmdOpt[0] == '-')
 	{
-		client.sendInfo(0, 324, ":Unset the channel key");
+		client.sendInfo(0, 0, ":Unset the channel key"); // trouver le bon code
 		chnl.setPassword("");
+	}
+	else if (chnl.getPassword() != "")
+	{
+		client.sendInfo(0, 467, ":Channel key is already set");
+		return ;
+	}
+	else if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 0, ":Set the channel key to " + cmdArg); // trouver le bon code
+		chnl.setPassword(cmdArg);
 	}
 }
 
 void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
 {
+	if (chnl.isOperator(&client))
+	{
+		client.sendInfo(0, 482, "MODE :More privileges needed");
+		return ;
+	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Channel mode is topic operator only");
@@ -355,6 +380,11 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 
 void	commandModeL(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
+	if (chnl.isOperator(&client))
+	{
+		client.sendInfo(0, 482, "MODE :More privileges needed");
+		return ;
+	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Set the channel limit to " + arg);
