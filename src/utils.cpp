@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/25 15:53:53 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/26 18:10:31 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 std::string	trim(char c, std::string str)
 {
 	int	i;
-	
+
 	i = 0;
 	while(str[i] == c)
 		i++;
@@ -38,7 +38,7 @@ std::vector<std::string> ft_split(std::string str, char sep)
 	ss << str;
 	while(!ss.eof())
 	{
-		getline(ss, part, sep); 
+		getline(ss, part, sep);
 		if(part.length() != 0)
 			res.push_back(part);
 	}
@@ -49,4 +49,14 @@ void Handler(int signum)
 {
 	std::cout << "Server shutting down" << std::endl;
 	g_sig = 1;
+}
+
+long unsigned int	stdStringToLongUnsignedInt(std::string str)
+{
+	long unsigned int	res;
+	std::stringstream	ss;
+
+	ss << str;
+	ss >> res;
+	return(res);
 }

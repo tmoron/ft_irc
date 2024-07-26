@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 18:03:33 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:12:23 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,5 +353,19 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 	}
 }
 
-void	commandModeL(const std::string &arg, Client &client, Server &server);
+void	commandModeL(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
+{
+	if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 324, ":Set the channel limit to " + arg);
+		if (stdStringToLongUnsignedInt(cmdArg) > MAX_CHANNEL_USER)
+			chnl.setUserLimit(MAX_CHANNEL_USER);
+		else
+			chnl.setUserLimit(stdStringToLongUnsignedInt(cmdArg));
+	}
+	else if (cmdOpt[0] == '-')
+	{
+		client.sendInfo(0, 324, ":Unset the channel limit");
+	}
+}
 
