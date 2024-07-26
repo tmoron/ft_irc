@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 15:46:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:47:48 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,18 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 // — k : Définir/supprimer la clé du canal (mot de passe)
 // — o : Donner/retirer le privilège de l’opérateur de canal
 // — l : Définir/supprimer la limite d’utilisateurs pour le canal
+
+bool verifOption(std::string option)
+{
+	std::string		allowedOption = "+-opsitnbv";
+	for (size_t i = 0; i < option.length(); i++)
+	{
+		if (allowedOption.find(option[i]) == std::string::npos)
+			return false;
+	}
+	return true;
+}
+
 void	commandMode(const std::string &arg, Client &client, Server &server)
 {
 	std::vector<std::string>	argSplit;
@@ -254,4 +266,26 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	argSplit = ft_split(arg, ' ');
 	if(argSplit.size() < 3)
 		client.sendInfo(0, 461, "MODE :Not enough parameters");
+	if (server.getChannel(argSplit[0], 0, 0) == 0)
+	{
+		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
+		return ;
+	}
+	Channel *channel = server.getChannel(argSplit[0], 0, 0);
+	std::queue<std::string>	modeQueue;
+	for (unsigned int i = 1; i < argSplit.size(); i++)
+	{
+		if (argSplit[i][0] == '+' || argSplit[i][0] == '-')
+		{
+			if (verifOption(argSplit[i]))
+				modeQueue.push(argSplit[i]);
+			else
+			{
+				client.sendInfo(0, 472, argSplit[i] + " :is unknown mode char to me for " + argSplit[0]);
+				return ;
+			}
+		}
+		else
+			modeQueue.push(argSplit[i]);
+	}
 }
