@@ -36,6 +36,8 @@ Server::~Server(void)
 	close(_servSocketFd);
 	for(unsigned long i = 0; i < _clients.size(); i++)
 		delete _clients[i];
+	for (unsigned long i = 0; i < _channels.size(); i++)
+		delete _channels[i];
 	if(this->_pollfds)
 		delete[] this->_pollfds;
 }
