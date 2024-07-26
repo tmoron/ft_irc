@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 19:27:10 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:52:08 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	commandNick(const std::string &arg, Client &client, Server &server);
 void	commandUser(const std::string &arg, Client &client, Server &server);
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server);
 void	commandJoin(const std::string &arg, Client &client, Server &server);
-void	commandKick(Channel &chnl, Client &clt, std::string msg);
+void	commandKick(const std::string &arg, Client &client, Server &server);
 void	commandTopic(const std::string &arg, Client &client, Server &server);
+void	commandMode(const std::string &arg, Client &client, Server &server);
 void	commandInvite();
 void	commandAddChannel();
 void	commandDelChannel();

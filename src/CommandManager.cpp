@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 14:46:12 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:16:35 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 	}
 }
 
+// KICK <channel> <user> [<comment>]
 // KICK &Melbourne Matthew                 ;    Kick Matthew from &Melbourne
 // KICK #Finnish John :Speaking English    ;    Kick John from #Finnish using "Speaking English" as the reason (comment).
 // :WiZ KICK #Finnish John ; KICK message from WiZ to remove John from channel #Finnish          // ce le suprime peut etre pas ca
@@ -236,5 +237,19 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 		client.sendInfo(channel, 353, " " + channel_name + " :" + channel->getNames());
 		client.sendInfo(channel, 366, channel_name + " :End of /NAMES list");
 	}
-	
+}
+
+// MODE <channel> {[+|-]|o|p|s|i|t|n|b|v} [<limit>] [<user>] [<ban mask>]
+// — i : Définir/supprimer le canal sur invitation uniquement
+// — t : Définir/supprimer les restrictions de la commande TOPIC pour les opérateurs de canaux
+// — k : Définir/supprimer la clé du canal (mot de passe)
+// — o : Donner/retirer le privilège de l’opérateur de canal
+// — l : Définir/supprimer la limite d’utilisateurs pour le canal
+void	commandMode(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string>	argSplit;
+
+	argSplit = ft_split(arg, ' ');
+	if(argSplit.size() < 3)
+		client.sendInfo(0, 461, "MODE :Not enough parameters");
 }
