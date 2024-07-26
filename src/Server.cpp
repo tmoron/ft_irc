@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/25 22:39:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:12:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ Server::Server(std::string port, std::string password)
 
 Server::~Server(void)
 {
-	close(_servSocketFd);
 	for(unsigned long i = 0; i < _clients.size(); i++)
 		delete _clients[i];
 	for (unsigned long i = 0; i < _channels.size(); i++)
 		delete _channels[i];
 	if(this->_pollfds)
 		delete[] this->_pollfds;
+	close(_servSocketFd);
 }
 
 /*--------------------------------- Methods ----------------------------------*/
@@ -85,7 +85,6 @@ void	Server::listen()
 	{
 		a = accept(_servSocketFd, 0, 0);
 		if (a != -1) {
-			std::cout << "got client on fd " << a << std::endl;
 			try
 			{
 				this->addClient(a);
@@ -127,7 +126,6 @@ void	Server::receiveData(void)
 			{
 				delete _clients[i];
 				_clients.erase(_clients.begin() + i);
-				std::cout << "removed client " << i << std::endl;
 				this->update_pollfds();
 			}
 		}

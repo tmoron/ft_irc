@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 14:44:11 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:45:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ int	Client::updateBuffer()
 	char			buffer[1024];
 	unsigned long	len;
 
-	std::cout << "new data form client " << this->_fd << std::endl;
 	len = recv(this->_fd, buffer, 1024, MSG_DONTWAIT);
 	if(!len || len == (unsigned long)-1)
 		return (1);
-	std::cout << "add" << std::endl;
-	std::cout << "len : " << len << std::endl;
 	this->_buffer += std::string(buffer, len);
 	this->handleBuffer();
 	return(0);
@@ -49,8 +46,6 @@ void	Client::handleBuffer()
 	unsigned long	len;
 	std::string		command;
 
-	std::cout << "Buffer for client on fd " << this->_fd << " :" << std::endl;
-	std::cout << this->_buffer << std::flush;
 	while(_buffer.find('\n', 0) != std::string::npos) 
 	{
 		len = _buffer.find('\n', 0);
@@ -90,14 +85,6 @@ void	Client::sendInfo(Channel *channel, int code, std::string description)
 int	Client::isRegistered()
 {
 	return(this->_loggedIn && this->_user.length() && this->_nick.length());
-}
-
-void	Client::joinChannel(const std::string name)
-{
-	std::string msg;
-
-	msg = ":" + this->getIdentifier() + " JOIN " + name;
-	this->sendStr(msg);
 }
 
 std::string	Client::getIdentifier()

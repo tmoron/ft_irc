@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 14:42:54 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:45:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ Channel::Channel(std::string name, Client *client) : _name(name)
 	this->_password = "";
 	this->_userLimit = 100;
 	this->_operators.push_back(client);
+	this->_clients.push_back(client);
+	//settings
+	
 }
 
 Channel::~Channel(void)
@@ -82,6 +85,19 @@ std::string Channel::getNames()
 	return(res);
 }
 
+void Channel::sendStr(std::string str)
+{
+	for(unsigned long i = 0; i < _clients.size(); i++)
+		_clients[i]->sendStr(str);
+}
+
+void		Channel::clientJoin(const std::string name, Client &client)
+{
+	std::string msg;
+
+	msg = ":" + client.getIdentifier() + " JOIN " + name;
+	this->sendStr(msg);
+}
 /*--------------------------------- Getters ----------------------------------*/
 std::string Channel::getName(void)
 {

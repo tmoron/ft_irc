@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 15:16:35 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:46:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 	{
 		if (this->_cmdNames[i] == cmdName)
 		{
+			std::cout << "exec command \"" << cmdName << "\"" << std::endl;
 			this->_cmdFuncts[i](arg, client, server);
 			return ;
 		}
 	}
+	std::cout << "unknown command : \"" << cmdName << "\"" << std::endl;
 	client.sendInfo(0, 421, cmdName + std::string(" :Unknown command"));
 }
 
@@ -229,7 +231,7 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 		return;
 	if(channel->addClient(&client))
 	{
-		client.joinChannel(channel_name);
+		channel->clientJoin(channel_name, client);
 		if(channel->getTopic().length())
 			client.sendInfo(channel, 332, channel_name + " :" + channel->getTopic());
 		else

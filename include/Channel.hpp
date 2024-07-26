@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 21:20:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:58:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ class Channel
 	private:
 		std::string				_name;
 		std::string				_topic;
-		std::string				_password;
 		std::vector<Client*>	_operators;
 		std::vector<Client*>	_clients;
 		std::vector<Client*>	_invite;
+
+		bool					_inviteOnly;
 		long unsigned int		_userLimit;
+		bool					_topicOperatorOnly;
+		std::string				_password;
 
 		Channel(void);
 
@@ -47,6 +50,8 @@ class Channel
 		std::vector<Client*>	&getInvite(void);
 		std::string				getNames();
 		bool					isOperator(Client *client);
+		void					sendStr(std::string str);
+		void					clientJoin(const std::string name, Client &client);
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		int			addClient(Client* client);
