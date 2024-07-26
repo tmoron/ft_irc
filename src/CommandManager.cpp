@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommandManager.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 17:59:38 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/26 18:03:33 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 
 	arg_split = ft_split(arg, ' ');
 	if(arg_split.size() == 0)
-		client.sendInfo(0, 461, "JOIN :Not enough parameters");	
+		client.sendInfo(0, 461, "JOIN :Not enough parameters");
 	channel_name = arg_split[0];
 	channel = server.getChannel(channel_name, &client, 1);
 	if(!channel)
@@ -296,3 +296,62 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	if (pushInQueue(argSplit, modeQueue, client))
 		return ;
 }
+
+void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+{
+	if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 324, ":Channel mode is invite only");
+		chnl.setInviteOnly(true);
+	}
+	else if (cmdOpt[0] == '-')
+	{
+		client.sendInfo(0, 324, ":Channel mode is not invite only");
+		chnl.setInviteOnly(false);
+	}
+}
+
+void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+{
+	if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 324, ":Channel mode is topic operator only");
+		chnl.setTopicOperatorOnly(true);
+	}
+	else if (cmdOpt[0] == '-')
+	{
+		client.sendInfo(0, 324, ":Channel mode is not topic operator only");
+		chnl.setTopicOperatorOnly(false);
+	}
+}
+
+void	commandModeK(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
+{
+	if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 324, ":Set the channel key to " + cmdArg);
+		chnl.setPassword(cmdArg);
+	}
+	else if (cmdOpt[0] == '-')
+	{
+		client.sendInfo(0, 324, ":Unset the channel key");
+		chnl.setPassword("");
+	}
+}
+
+void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+{
+	if (cmdOpt[0] == '+')
+	{
+		client.sendInfo(0, 324, ":Channel mode is topic operator only");
+		chnl.setTopicOperatorOnly(true);
+	}
+	else if (cmdOpt[0] == '-')
+	{
+		client.sendInfo(0, 324, ":Channel mode is not topic operator only");
+		chnl.setTopicOperatorOnly(false);
+	}
+}
+
+void	commandModeL(const std::string &arg, Client &client, Server &server);
+

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 15:45:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:43:55 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ Channel::Channel(std::string name, Client *client) : _name(name)
 {
 	this->_topic = "";
 	this->_password = "";
-	this->_userLimit = 100;
+	this->_userLimit = 1000;
 	this->_operators.push_back(client);
 	this->_clients.push_back(client);
+	this->_inviteOnly = false;
+	this->_topicOperatorOnly = false;
 	//settings
-	
 }
 
 Channel::~Channel(void)
@@ -129,6 +130,21 @@ std::vector<Client*> &Channel::getInvite(void)
 	return this->_invite;
 }
 
+bool Channel::getInviteOnly(void)
+{
+	return (this->_inviteOnly);
+}
+
+long unsigned int Channel::getUserLimit(void)
+{
+	return (this->_userLimit);
+}
+
+bool Channel::getTopicOperatorOnly(void)
+{
+	return (this->_topicOperatorOnly);
+}
+
 /*--------------------------------- Setters ----------------------------------*/
 void	Channel::setName(std::string name)
 {
@@ -148,4 +164,19 @@ void	Channel::setPassword(std::string password)
 void Channel::addOperator(Client *newoperator)
 {
 	this->_operators.push_back(newoperator);
+}
+
+void Channel::setInviteOnly(bool boolean)
+{
+	this->_inviteOnly = boolean;
+}
+
+void Channel::setUserLimit(long unsigned int limit)
+{
+	this->_userLimit = limit;
+}
+
+void Channel::setTopicOperatorOnly(bool boolean)
+{
+	this->_topicOperatorOnly = boolean;
 }

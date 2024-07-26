@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 14:58:54 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 17:42:38 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ class Channel
 		void		setTopic(std::string topic);
 		void		setPassword(std::string password);
 		void		addOperator(Client *newoperator);
+		void		setInviteOnly(bool boolean);
+		void		setUserLimit(long unsigned int limit);
+		void		setTopicOperatorOnly(bool boolean);
 
 		std::string				getName(void);
 		std::string				getTopic(void);
@@ -52,6 +55,9 @@ class Channel
 		bool					isOperator(Client *client);
 		void					sendStr(std::string str);
 		void					clientJoin(const std::string name, Client &client);
+		bool					getInviteOnly();
+		long unsigned int		getUserLimit();
+		bool					getTopicOperatorOnly();
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		int			addClient(Client* client);
