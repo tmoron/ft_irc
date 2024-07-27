@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/27 02:03:06 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/27 15:16:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 {	
 	std::vector<std::string> arg_split;
 	Channel *channel;
+	Client *client_dest;
 
 	arg_split = ft_split_irc(arg);
 	if(arg_split.size() == 0)
@@ -87,6 +88,16 @@ void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 			return;
 		}
 		channel->sendMsg(client, arg_split[1]);
+	}
+	else
+	{
+		client_dest = server.getClient(arg_split[0]);
+		if(!client_dest)
+		{
+			client.sendInfo(0, 401, arg_split[0] + " :No such nick/channel");
+			return ;
+		}
+		client_dest->sendMsg(client, arg_split[0], arg_split[1]);
 	}
 }
 
