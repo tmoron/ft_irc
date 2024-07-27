@@ -1,10 +1,6 @@
 1 ---> Faire les commandes :
 JOIN
 MODE
-KICK a tester
-INVITE
-TOPIC
-
 
 2 --> Verifier si les commandes fonctionnent :
 Pass	OK
@@ -14,8 +10,7 @@ ADDCHANNEL
 DELCHANNEL
 INVITE
 TOPIC
-
-
+KICK
 
 3 --> Faire la class exception
 
