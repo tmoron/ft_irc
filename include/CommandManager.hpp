@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 17:27:39 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:35:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	commandModeT(const std::string &arg, Client &client, Server &server);
 void	commandModeK(const std::string &arg, Client &client, Server &server);
 void	commandModeO(const std::string &arg, Client &client, Server &server);
 void	commandModeL(const std::string &arg, Client &client, Server &server);
+void	commandWho(const std::string &arg, Client &client, Server &server);
+void	commandPing(const std::string &arg, Client &client, Server &server);
 void	commandInvite();
 void	commandAddChannel();
 void	commandDelChannel();

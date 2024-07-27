@@ -6,7 +6,8 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/26 18:10:31 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/27 01:58:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:02:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +46,27 @@ std::vector<std::string> ft_split(std::string str, char sep)
 	return(res);
 }
 
+std::vector<std::string> ft_split_irc(std::string str)
+{
+	std::vector <std::string>	res;
+	unsigned long				len;
+
+	while (str.length())
+	{
+		if(str[0] == ':')
+			len = std::string::npos;
+		else
+			len = str.find(' ', 0);
+		if(len)
+			res.push_back(str.substr(0, len));
+		if(len != std::string::npos)
+			str.erase(0, len + 1);
+		else
+			str.erase(0, std::string::npos);
+	}
+	return(res);
+}
+
 void Handler(int signum)
 {
 	std::cout << "Server shutting down" << std::endl;
@@ -59,4 +81,19 @@ long unsigned int	stdStringToLongUnsignedInt(std::string str)
 	ss << str;
 	ss >> res;
 	return(res);
+}
+
+std::string removeChar(const std::string &input, char c)
+{
+	unsigned long pos;
+	std::string str;
+
+	str = input;
+	pos = str.find(c, 0);
+	while(pos != std::string::npos)
+	{
+		str.erase(pos, 1);
+		pos = str.find(c, 0);
+	}
+	return(str);
 }

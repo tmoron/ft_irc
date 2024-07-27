@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 17:43:55 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:54:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ Channel::Channel(std::string name, Client *client) : _name(name)
 	this->_clients.push_back(client);
 	this->_inviteOnly = false;
 	this->_topicOperatorOnly = false;
-	//settings
 }
 
 Channel::~Channel(void)
@@ -99,7 +98,16 @@ void		Channel::clientJoin(const std::string name, Client &client)
 	msg = ":" + client.getIdentifier() + " JOIN " + name;
 	this->sendStr(msg);
 }
+
+void		Channel::sendMsg(Client &client, const std::string &message)
+{
+	for(unsigned long i = 0; i < _clients.size(); i++)
+		if(&client != _clients[i])
+			_clients[i]->sendMsg(client, this->_name, message);
+}
+
 /*--------------------------------- Getters ----------------------------------*/
+
 std::string Channel::getName(void)
 {
 	return this->_name;

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 15:51:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/27 00:56:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
 Client::Client(int fd, Server &srv): _server(srv)
 {
 	_fd = fd;
-	_user = "";
 	_nick = "";
 	_buffer = "";
 	_loggedIn = false;
+
+	_user = "";
+	_hostname = "";
+	_servername = "";
+	_realname = "";
 }
 
 Client::~Client()
@@ -60,25 +64,26 @@ void	Client::sendStr(std::string msg)
 	send(this->_fd, msg.c_str(), msg.length(), MSG_DONTWAIT);
 }
 
-int		Client::sendMessage(Client &from ,const std::string &to,const std::string &message)
+int		Client::sendMsg(Client &from ,const std::string &to,const std::string &message)
 {
 	if(!this->isRegistered())
 		return(0);
 	std::stringstream msg;
-	msg << ":" << from.getIdentifier() << " ";
-	msg << to << " :" << message;
+	msg << ":" << from.getIdentifier() << " PRIVMSG ";
+	msg << to << " " << message;
 	this->sendStr(msg.str());
 	return(1);
 }
 
-void	Client::sendInfo(Channel *channel, int code, std::string description)
+void	Client::sendInfo(Channel *channel, int code, std::string data)
 {
 	std::stringstream	ss;
 
 	ss << ":localhost " << code;
+	ss << " " << this->_nick;
 	if(channel)
 		ss << " " << channel->getName();
-	ss << " :" << description;
+	ss << " " << data;
 	this->sendStr(ss.str());
 }
 
@@ -89,7 +94,18 @@ int	Client::isRegistered()
 
 std::string	Client::getIdentifier()
 {
-	return(this->_user + "!" + this->_nick + "@localhost");
+	return(this->_nick + "!" + this->_user + "@localhost");
+}
+			
+std::string Client::getWho(Channel *channel)
+{
+	std::string res;
+
+	res = channel->getName() + " " + this->_user + " ";
+	res += this->_hostname + " " +  this->_servername + " ";
+	res += this->_nick + " H" + (channel->isOperator(this) ? "@" : "");
+	res += " :0 " + this->_realname;
+	return(res);
 }
 
 /*--------------------------------- Setters ----------------------------------*/
@@ -99,11 +115,27 @@ void	Client::setUser(std::string user)
 }
 void	Client::setNick(std::string nick)
 {
+	if(!this->_nick.length())
+		this->sendStr(":localhost 001 " + nick + " :welcome to the best irc server you've ever seen");
+	else
+		this->sendStr(":" + this->_nick+" NICK " + nick);
 	this->_nick = nick;
 }
 void	Client::setLoggedIn(bool b)
 {
 	this->_loggedIn = b;
+}
+void	Client::setHostname(std::string hostname)
+{
+	this->_hostname = hostname;
+}
+void	Client::setServername(std::string servername)
+{
+	this->_servername = servername;
+}
+void	Client::setRealname(std::string realname)
+{
+	this->_realname = realname;
 }
 
 /*--------------------------------- Getters ----------------------------------*/
@@ -131,3 +163,17 @@ int Client::getLoggedIn()
 	return(this->_loggedIn);
 }
 
+std::string	Client::getHostname()
+{
+	return(this->_hostname);
+}
+
+std::string Client::getServername()
+{
+	return(this->_servername);
+}
+
+std::string Client::getRealname()
+{
+	return(this->_realname);
+}

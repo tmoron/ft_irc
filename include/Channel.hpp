@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 17:42:38 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:45:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class Channel
 		bool					getInviteOnly();
 		long unsigned int		getUserLimit();
 		bool					getTopicOperatorOnly();
+		void					sendMsg(Client &client, const std::string &message);
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		int			addClient(Client* client);

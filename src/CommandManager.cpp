@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/26 18:34:54 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/27 02:03:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 	{
 		if (this->_cmdNames[i] == cmdName)
 		{
-			std::cout << "exec command \"" << cmdName << "\"" << std::endl;
 			this->_cmdFuncts[i](arg, client, server);
 			return ;
 		}
 	}
-	std::cout << "unknown command : \"" << cmdName << "\"" << std::endl;
 	client.sendInfo(0, 421, cmdName + std::string(" :Unknown command"));
 }
 
@@ -65,8 +63,31 @@ void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Chan
 }
 
 void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
-{
-	//flemme (si quelqu'un d'autre vois ça , il y a la methode "sendMessage" pour envoyer un message, j'ai pas testé, j'ai la flemme aussi) // a bas bravo
+{	
+	std::vector<std::string> arg_split;
+	Channel *channel;
+
+	arg_split = ft_split_irc(arg);
+	if(arg_split.size() == 0)
+	{
+		client.sendInfo(0, 411, ":No recipient given PRIVMSG");
+		return;
+	}
+	if(arg_split.size() == 1)
+	{
+		client.sendInfo(0, 412, ":No text to send");
+		return;
+	}
+	if(arg_split[0][0] == '#')
+	{
+		channel = server.getChannel(arg_split[0], 0 ,0);
+		if(!channel)
+		{
+			client.sendInfo(0, 404, arg_split[0] + " :Cannot send to channel");
+			return;
+		}
+		channel->sendMsg(client, arg_split[1]);
+	}
 }
 
 void	commandPass(const std::string &pass, Client &clt, Server &srv)
@@ -81,7 +102,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		clt.sendInfo(0, 462, ":You may not reregister");
 		return ;
 	}
-	if (srv.getPassword().compare(pass))
+	if (srv.getPassword() == pass)
 	{
 		clt.setLoggedIn(true);
 		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
@@ -170,7 +191,6 @@ void	commandTopic(const std::string &arg, Client &client, Server &server)
 	if (arg_split.size() == 2 && server.getChannel(arg_split[1], 0, 0))
 	{
 		//Channel *chnl = server.getChannel(arg_split[1], 0, 0);
-		client.sendStr(":localhost 332 #test :coucou");
 		// writeMessage(client, 0, 332, chnl->getName() + " :" + chnl->getTopic());
 	}
 	else if (arg_split.size() >= 3 && server.getChannel(arg_split[1], 0, 0))
@@ -191,7 +211,6 @@ void	commandNick(const std::string &arg, Client &client, Server &server)
 	}
 	if(!client.getLoggedIn())
 		return;
-	std::cout << "nick command" << std::endl;
 	if (!alreadyUse(server.getClients(), &client, arg))
 		client.setNick(arg);
 	else
@@ -203,17 +222,18 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 {
 	std::vector<std::string> arg_split;
 
-	std::cout << "user command" << std::endl;
 	if(client.isRegistered())
 	{
 		client.sendInfo(0, 462, ":You may not reregister");
 		return ;
 	}
 	arg_split = ft_split(arg, ' ');
-	std::cout << "number of args : " << arg_split.size() << std::endl;
 	if(arg_split.size() != 4)
 		client.sendInfo(0 ,461, "USER :Not enough parameters");
 	client.setUser(arg_split[0]);
+	client.setHostname(arg_split[1]);
+	client.setServername(arg_split[2]);
+	client.setRealname(arg_split[3]);
 }
 
 void commandJoin(const std::string &arg, Client &client, Server &server)
@@ -233,11 +253,12 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 	{
 		channel->clientJoin(channel_name, client);
 		if(channel->getTopic().length())
-			client.sendInfo(channel, 332, channel_name + " :" + channel->getTopic());
+			client.sendInfo(channel, 332, ":" + channel->getTopic());
 		else
-			client.sendInfo(channel, 332, channel_name + " :No topic is set");
-		client.sendInfo(channel, 353, " " + channel_name + " :" + channel->getNames());
-		client.sendInfo(channel, 366, channel_name + " :End of /NAMES list");
+			client.sendInfo(channel, 332, ":No topic is set");
+		//client.sendStr(":localhost 353 = #test :@tom");
+		client.sendInfo(0, 353, "= " + channel_name + " :" + channel->getNames());
+		client.sendInfo(0, 366, channel_name + " :End of /NAMES list");
 	}
 }
 
@@ -399,3 +420,34 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 	}
 }
 
+void commandWho(const std::string &arg, Client &client, Server &server)
+{
+	std::vector<std::string> arg_split;
+	std::vector<Client *> clients;
+	Channel *channel;
+
+	arg_split = ft_split(arg, ' ');
+	if(arg_split.size() < 1)
+	{
+		client.sendInfo(0, 461, "WHO :Not enough parameters");
+		return;
+	}
+	if(arg_split.size() > 1)
+		return;
+	if(arg_split[0][0] == '#')
+	{
+		channel = server.getChannel(arg_split[0], 0 , 0);
+		if(channel)
+			clients = channel->getClients();
+		for(unsigned int i = 0; i < clients.size(); i++)
+		{
+			client.sendInfo(0, 352, clients[i]->getWho(channel));
+		}
+		client.sendInfo(0, 315, arg_split[0] + " :End of /WHO list");
+	}
+}
+
+void commandPing(const std::string &arg, Client &client, Server &server)
+{
+	client.sendStr(":localhost PONG " + arg);
+}

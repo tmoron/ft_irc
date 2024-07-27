@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/25 22:45:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:18:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class Server {
 		void		delChannel(std::string name);
 		void		listen(void);
 		void		receiveData(void);
-		void		exec(const std::string &full_cmd, Client &client);
+		void		exec(std::string full_cmd, Client &client);
 		Server		&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
 
 };
