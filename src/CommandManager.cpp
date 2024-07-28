@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/28 15:50:42 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:31:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 	if (srv.getPassword() == pass)
 		clt.setLoggedIn(true);
 	else
-		clt.sendInfo(0, 464, ":Password incorect" );
+		clt.sendInfo(0, 464, pass + " :Password incorect" );
 }
 
 // KICK <channel> <user> [<comment>]
@@ -191,24 +191,28 @@ void	commandInvite(const std::string &arg, Client &client, Server &server)
 
 void	commandTopic(const std::string &arg, Client &client, Server &server)
 {
-	std::vector<std::string> arg_split = ft_split(arg, ' ');
-	if (arg_split.size() < 2)
+	std::vector<std::string> arg_split = ft_split_irc(arg);
+	if (arg_split.size() < 1)
 	{
 		client.sendInfo(0, 461, "TOPIC :Not enough parameters");
 		return ;
 	}
-	if (arg_split.size() == 2 && server.getChannel(arg_split[1], 0, 0))
+	if (arg_split.size() == 1 && server.getChannel(arg_split[0], 0, 0))
 	{
-		//Channel *chnl = server.getChannel(arg_split[1], 0, 0);
-		// writeMessage(client, 0, 332, chnl->getName() + " :" + chnl->getTopic());
+		Channel *chnl = server.getChannel(arg_split[0], 0, 0);
+		if(chnl->getTopic().length())
+			client.sendInfo(chnl, 332, chnl->getTopic());
+		else
+			client.sendInfo(chnl, 332, ":No topic is set");
 	}
-	else if (arg_split.size() >= 3 && server.getChannel(arg_split[1], 0, 0))
+	else if (arg_split.size() >= 2 && server.getChannel(arg_split[0], 0, 0))
 	{
-		Channel *chnl = server.getChannel(arg_split[1], 0, 0);
-		chnl->setTopic(arg_split[2]);
+		Channel *chnl = server.getChannel(arg_split[0], 0, 0);
+		chnl->setTopic(arg_split[1]);
+		chnl->sendStr(":" + client.getNick() + " TOPIC " + arg_split[0] + " " + arg_split[1]);
 	}
 	else
-		client.sendInfo(0, 403, arg_split[1] + " :No such channel");
+		client.sendInfo(0, 403, arg_split[0] + " :No such channel");
 }
 
 void	commandNick(const std::string &arg, Client &client, Server &server)
@@ -263,10 +267,9 @@ void commandJoin(const std::string &arg, Client &client, Server &server)
 	{
 		channel->clientJoin(channel_name, client);
 		if(channel->getTopic().length())
-			client.sendInfo(channel, 332, ":" + channel->getTopic());
+			client.sendInfo(channel, 332, channel->getTopic());
 		else
 			client.sendInfo(channel, 332, ":No topic is set");
-		//client.sendStr(":localhost 353 = #test :@tom");
 		client.sendInfo(0, 353, "= " + channel_name + " :" + channel->getNames());
 		client.sendInfo(0, 366, channel_name + " :End of /NAMES list");
 	}
