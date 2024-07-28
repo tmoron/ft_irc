@@ -6,12 +6,13 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/27 15:44:15 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:48:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "CommandManager.hpp"
 #include "include.hpp"
+#include "commands.hpp"
+
+int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client);
 
 // MODE <channel> {[+|-]|o|p|s|i|t|n|b|v} [<limit>] [<user>] [<ban mask>]
 // — i : Définir/supprimer le canal sur invitation uniquement

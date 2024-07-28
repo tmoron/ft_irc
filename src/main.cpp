@@ -6,11 +6,12 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:56:17 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/28 15:38:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 00:50:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "commands.hpp"
 #include "include.hpp"
 
 int	g_sig = 0;
