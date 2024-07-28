@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:19:22 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/26 23:35:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:28:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@ class CommandManager
 	private:
 		std::vector <std::string>	_cmdNames;
 		std::vector <void (*)(const std::string &, Client &, Server &)>	_cmdFuncts;
+		std::vector<bool> _cmdRequireRegister;
 
 	public:
 		CommandManager();
 		~CommandManager();
 
-		CommandManager	&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &));
+		CommandManager	&addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &), bool requireRegister);
 		void			execCommand(std::string cmdName, const std::string &arg, Client &client, Server &server);
+
 };
 
 void	sendMsgAllClientChannel(std::string msg, std::vector<Client*> cltChnl, Channel &chnl);

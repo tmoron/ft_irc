@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:56:17 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/27 15:19:27 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:38:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ int main(int argc, char **argv)
 	{
 		signal(SIGINT, Handler);
 		Server *srv = new Server(std::string(argv[1]), std::string(argv[2]));
-		srv->addCommand("PASS",commandPass)
-			.addCommand("NICK", commandNick)
-			.addCommand("USER", commandUser)
-			.addCommand("JOIN", commandJoin)
-			.addCommand("TOPIC", commandTopic)
-			.addCommand("WHO", commandWho)
-			.addCommand("PING", commandPing)
-			.addCommand("PRIVMSG",commandPrivMsg)
-			.addCommand("KICK", commandKick);
+		srv->addCommand("PASS",commandPass, 0)
+			.addCommand("NICK", commandNick, 0)
+			.addCommand("USER", commandUser, 0)
+			.addCommand("JOIN", commandJoin, 1)
+			.addCommand("TOPIC", commandTopic, 1)
+			.addCommand("WHO", commandWho, 1)
+			.addCommand("PING", commandPing, 1)
+			.addCommand("PRIVMSG",commandPrivMsg, 1)
+			.addCommand("KICK", commandKick, 1);
 		srv->listen();
 		
 		delete srv;

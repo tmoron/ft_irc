@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:02:43 by copilot           #+#    #+#             */
-/*   Updated: 2024/07/27 15:44:00 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:50:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ CommandManager::~CommandManager()
 }
 
 /*--------------------------------- Methods ----------------------------------*/
-CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &))
+CommandManager &CommandManager::addCommand(std::string cmdName, void (*funct)(const std::string &, Client &, Server &), bool requireRegister)
 {
 	this->_cmdNames.push_back(cmdName);
 	this->_cmdFuncts.push_back(funct);
+	this->_cmdRequireRegister.push_back(requireRegister);
 	return (*this);
 }
 
@@ -35,7 +36,10 @@ void CommandManager::execCommand(std::string cmdName, const std::string &arg, Cl
 	{
 		if (this->_cmdNames[i] == cmdName)
 		{
-			this->_cmdFuncts[i](arg, client, server);
+			if(this->_cmdRequireRegister[i] && !client.isRegistered())
+				client.sendInfo(0, 451, ":You have not registered");
+			else
+				this->_cmdFuncts[i](arg, client, server);
 			return ;
 		}
 	}
@@ -114,15 +118,9 @@ void	commandPass(const std::string &pass, Client &clt, Server &srv)
 		return ;
 	}
 	if (srv.getPassword() == pass)
-	{
 		clt.setLoggedIn(true);
-		std::cout << "Client " << clt.getNick() << " as a valid password" << std::endl;
-	}
 	else
-	{
-		std::cout << "Client " << clt.getNick() << " as a wrong password" << std::endl;
 		clt.sendInfo(0, 464, ":Password incorect" );
-	}
 }
 
 // KICK <channel> <user> [<comment>]
@@ -220,8 +218,6 @@ void	commandNick(const std::string &arg, Client &client, Server &server)
 		client.sendInfo(0, 431, ":No nickname given");
 		return ;
 	}
-	if(!client.getLoggedIn())
-		return;
 	if (!alreadyUse(server.getClients(), &client, arg))
 		client.setNick(arg);
 	else
@@ -240,7 +236,10 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 	}
 	arg_split = ft_split(arg, ' ');
 	if(arg_split.size() != 4)
+	{
 		client.sendInfo(0 ,461, "USER :Not enough parameters");
+		return ;
+	}
 	client.setUser(arg_split[0]);
 	client.setHostname(arg_split[1]);
 	client.setServername(arg_split[2]);
