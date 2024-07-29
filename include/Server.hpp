@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 17:10:21 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:38:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ class Server {
 		void					setServSocketFd(int servSocketFd);
 		void					setPassword(std::string password);
 
-		void					broadcast(std::string message);
+		void					sendStr(std::string message);
 		int						getServSocketFd();
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
@@ -50,6 +50,7 @@ class Server {
 
 		void		addClient(int a);
 		Channel		*getChannel(std::string &name, Client *client, int create);
+		void		delClient(Client *client);
 
 		void		delChannel(std::string name);
 		void		listen(void);

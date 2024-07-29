@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/27 00:56:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:51:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	Client::setNick(std::string nick)
 	if(!this->_nick.length())
 		this->sendStr(":localhost 001 " + nick + " :welcome to the best irc server you've ever seen");
 	else
-		this->sendStr(":" + this->_nick+" NICK " + nick);
+		this->_server.sendStr(":" + this->_nick+" NICK " + nick);
 	this->_nick = nick;
 }
 void	Client::setLoggedIn(bool b)

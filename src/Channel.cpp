@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 17:14:41 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:39:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,19 @@ int	Channel::addClient(Client* client)
 	return(1);
 }
 
-void	Channel::delClient(std::string nick)
+void	Channel::delClient(Client *client)
+{
+	for (unsigned int i = 0; i < this->_clients.size(); i++)
+	{
+		if (this->_clients[i] == client)
+		{
+			this->_clients.erase(this->_clients.begin() + i);
+			return;
+		}
+	}
+}
+
+void	Channel::delClient(std::string &nick)
 {
 	for (unsigned int i = 0; i < this->_clients.size(); i++)
 	{
@@ -54,12 +66,13 @@ void	Channel::delClient(std::string nick)
 	}
 }
 
-int	Channel::inviteInChannel(Client &invitor,	Client &invited,  Channel &channel)
+int	Channel::inviteInChannel(Client &invitor, Client &invited, Channel &channel)
 {
 	if (!isOperator(&invitor))
 	{
 		invitor.sendInfo(0, 482, ":You're not channel operator");
 	}
+	invited.sendStr(":" + invitor.getNick() + " INVITE " + invited.getNick() + " " + channel.getName());
 	channel.getInvite().push_back(&invited);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/29 15:32:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:29:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ Server::~Server(void)
 }
 
 /*--------------------------------- Methods ----------------------------------*/
-void	Server::broadcast(std::string message)
+void	Server::sendStr(std::string message)
 {
 	for(unsigned int i = 0;i < this->_clients.size(); i++)
 	{
-		std::cout << "send to " << this->_clients[i]->getFd() << std::endl;
-		send(this->_clients[i]->getFd(), message.c_str(), message.length(), MSG_DONTWAIT);
+		this->_clients[i]->sendStr(message);
 	}
 }
 
@@ -124,17 +123,26 @@ void	Server::receiveData(void)
 		if(this->_pollfds[i].revents & POLLIN)
 		{
 			if (_clients[i]->updateBuffer())
-			{
-				delete _clients[i];
-				_clients.erase(_clients.begin() + i);
-				this->update_pollfds();
-			}
+				this->delClient(_clients[i]);
 		}
 	}
 }
 
 void	Server::addClient(int a) {
 	this->_clients.push_back(new Client(a, *this));
+	this->update_pollfds();
+}
+
+void	Server::delClient(Client *client)
+{
+	for(unsigned int i = 0;i < _channels.size(); i++)
+		_channels[i]->delClient(client);
+	for(unsigned int i = 0; i < _clients.size(); i++)
+	{
+		if(_clients[i] == client)
+			_clients.erase(_clients.begin() + i);
+	}
+	delete client;
 	this->update_pollfds();
 }
 

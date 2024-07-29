@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/27 00:45:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:31:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ class Channel
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		int			addClient(Client* client);
-		void		delClient(std::string nick);
+		void		delClient(Client* client);
+		void		delClient(std::string &nick);
 };
 
 

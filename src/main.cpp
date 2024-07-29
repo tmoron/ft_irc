@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:56:17 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 16:13:17 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/29 17:40:19 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int main(int argc, char **argv)
 			.addCommand("PING", commandPing, 1)
 			.addCommand("PRIVMSG",commandPrivMsg, 1)
 			.addCommand("KICK", commandKick, 1)
-			.addCommand("MODE", commandMode, 1);
+			.addCommand("MODE", commandMode, 1)
+			.addCommand("INVITE",commandInvite,1);
 		srv->listen();
 		
 		delete srv;

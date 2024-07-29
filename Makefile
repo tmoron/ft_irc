@@ -6,7 +6,7 @@
 #    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/29 00:31:24 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/29 16:58:53 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ OBJS = $(SRCS:.cpp=.o)
 
 FLAGS = -g -Wall -std=c++98 -Iinclude #-Wextra -Werror
 
-all: $(NAME)
+all:
+	@make --no-print-directory -j16 $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
