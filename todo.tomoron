@@ -9,7 +9,7 @@ NICK
 USER
 INVITE
 TOPIC
-KICK
+KICK	OK (check ca aussi : kick chnl1,chnl2 john1,john2)
 
 3 --> Faire la class exception
 

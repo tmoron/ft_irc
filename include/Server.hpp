@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/28 15:37:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:10:21 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Server {
 		std::string				getPassword();
 		std::vector<Client*>	&getClients();
 		Client					*getClient(std::string nick);
-		std::vector<Channel*>	&getChannels();
+		std::vector<Channel*>	getChannels();
 
 		void		addClient(int a);
 		Channel		*getChannel(std::string &name, Client *client, int create);

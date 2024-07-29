@@ -185,7 +185,7 @@ Channel	*Server::getChannel(std::string &name, Client *client, int create)
 	return(res);
 }
 
-std::vector<Channel*>	&Server::getChannels()
+std::vector<Channel*>	Server::getChannels()
 {
 	return (this->_channels);
 }
@@ -193,7 +193,7 @@ std::vector<Channel*>	&Server::getChannels()
 void	Server::delChannel(std::string name)
 {
 	unsigned int	i;
-	for (i = 0; i < this->_channels.size() - 1; i++)
+	for (i = 0; i < this->_channels.size(); i++)
 	{
 		if (this->_channels[i]->getName() == name)
 		{

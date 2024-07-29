@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/28 15:54:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:14:41 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	Channel::addClient(Client* client)
 
 void	Channel::delClient(std::string nick)
 {
-	for (unsigned int i = 0; i < this->_clients.size() - 1; i++)
+	for (unsigned int i = 0; i < this->_clients.size(); i++)
 	{
 		if (this->_clients[i]->getNick() == nick)
 			this->_clients.erase(this->_clients.begin() + i);
