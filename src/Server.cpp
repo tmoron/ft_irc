@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/28 15:37:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 15:32:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	Server::update_pollfds()
 	{
 		this->_pollfds[i].fd = _clients[i]->getFd();
 		this->_pollfds[i].events = POLLIN;
+		this->_pollfds[i].revents = 0;
 	}
 }
 
