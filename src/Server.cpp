@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/29 21:12:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 23:46:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	Server::listen()
 		if (a != -1) {
 			try
 			{
+				std::cout << "new client :" << a << std::endl;
 				this->addClient(a);
 			}
 			catch(const ToManyClientsException& e)

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/27 00:44:20 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 00:03:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ class Client
 		std::string _servername;
 		std::string _realname;
 
+		int			_quit;
+
 		void handleBuffer();
 
 	public:
@@ -60,6 +62,7 @@ class Client
 		int			isRegistered();
 		int			updateBuffer();
 		int			sendMsg(Client &from,const std::string &to,const std::string &message);
+		void		quit();
 		void		sendStr(std::string msg);
 		std::string	getIdentifier();
 		void		sendInfo(Channel *channel, int code, std::string description);

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 15:51:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 00:02:58 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,21 @@ Client::Client(int fd, Server &srv): _server(srv)
 	_hostname = "";
 	_servername = "";
 	_realname = "";
+	_quit = 0;
 }
 
 Client::~Client()
 {
+	std::cout << "delete client : " << _fd << std::endl;
 	close(_fd);
 }
 
 /*--------------------------------- Methods ----------------------------------*/
+void	Client::quit()
+{
+	this->_quit = 1;
+}
+
 int	Client::updateBuffer()
 {
 	char			buffer[1024];
@@ -42,6 +49,8 @@ int	Client::updateBuffer()
 		return (1);
 	this->_buffer += std::string(buffer, len);
 	this->handleBuffer();
+	if(this->_quit)
+		return(1);
 	return(0);
 }
 

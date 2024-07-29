@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:31:51 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 18:08:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 23:40:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	commandWho(const std::string &arg, Client &client, Server &server);
 void	commandPing(const std::string &arg, Client &client, Server &server);
 void	commandInvite(const std::string &arg, Client &client, Server &server);
 void	commandPart(const std::string &arg, Client &client, Server &server);
+void	commandQuit(const std::string &arg, Client &client, Server &server);
 
 void	commandMode(const std::string &arg, Client &client, Server &server);
 void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
