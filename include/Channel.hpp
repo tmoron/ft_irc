@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 16:31:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:06:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Channel
 		Channel(void);
 
 	public:
-		Channel(std::string name, Client *client);
+		Channel(std::string name);
 		~Channel();
 
 		void		setName(std::string name);
@@ -53,8 +53,8 @@ class Channel
 		std::vector<Client*>	&getInvite(void);
 		std::string				getNames();
 		bool					isOperator(Client *client);
+		bool					isOnChannel(Client *client);
 		void					sendStr(std::string str);
-		void					clientJoin(const std::string name, Client &client);
 		bool					getInviteOnly();
 		long unsigned int		getUserLimit();
 		bool					getTopicOperatorOnly();
@@ -62,8 +62,11 @@ class Channel
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
 		int			addClient(Client* client);
-		void		delClient(Client* client);
+		void		delClient(Client *client, const std::string &reason);
+		void		delClient(std::string &nick, const std::string &reason);
 		void		delClient(std::string &nick);
+		void		delOperator(Client *client);
+		void		init();
 };
 
 

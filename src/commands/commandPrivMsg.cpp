@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:27:31 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 00:41:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:38:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "include.hpp"
@@ -31,8 +31,8 @@ void	commandPrivMsg(const std::string &arg, Client &client, Server &server)
 	}
 	if(arg_split[0][0] == '#')
 	{
-		channel = server.getChannel(arg_split[0], 0 ,0);
-		if(!channel)
+		channel = server.getChannel(arg_split[0], 0);
+		if(!channel || !channel->isOnChannel(&client))
 		{
 			client.sendInfo(0, 404, arg_split[0] + " :Cannot send to channel");
 			return;

@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:23:52 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 00:41:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:19:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "include.hpp"
@@ -28,7 +28,7 @@ void commandWho(const std::string &arg, Client &client, Server &server)
 		return;
 	if(arg_split[0][0] == '#')
 	{
-		channel = server.getChannel(arg_split[0], 0 , 0);
+		channel = server.getChannel(arg_split[0], 0);
 		if(channel)
 			clients = channel->getClients();
 		for(unsigned int i = 0; i < clients.size(); i++)

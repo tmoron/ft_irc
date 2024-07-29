@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:55:07 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 17:38:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:12:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class Server {
 		std::vector<Channel*>	getChannels();
 
 		void		addClient(int a);
-		Channel		*getChannel(std::string &name, Client *client, int create);
+		Channel		*getChannel(std::string &name, int create);
 		void		delClient(Client *client);
 
 		void		delChannel(std::string name);

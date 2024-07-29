@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 17:39:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:27:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,9 @@ Channel::Channel(void)
 {
 }
 
-Channel::Channel(std::string name, Client *client) : _name(name)
+Channel::Channel(std::string name) : _name(name)
 {
-	this->_topic = "";
-	this->_password = "";
-	this->_userLimit = 1000;
-	this->_operators.push_back(client);
-	this->_clients.push_back(client);
-	this->_inviteOnly = false;
-	this->_topicOperatorOnly = false;
+	this->init();
 }
 
 Channel::~Channel(void)
@@ -33,8 +27,27 @@ Channel::~Channel(void)
 }
 
 /*--------------------------------- Methods ----------------------------------*/
+void Channel::init()
+{
+	this->_operators.empty();
+	this->_clients.empty();
+	this->_invite.empty();
+	this->_topic = "";
+	this->_password = "";
+	this->_userLimit = 1000;
+	this->_inviteOnly = false;
+	this->_topicOperatorOnly = false;
+}
+
 int	Channel::addClient(Client* client)
 {
+	if(!this->_clients.size())
+	{
+		this->init();
+		this->_operators.push_back(client);
+	}
+	if(!client)
+		return(0);
 	if (_clients.size() > this->_userLimit)
 	{
 		client->sendInfo(0, 471, this->_name + " :Cannot join channel (+l)");
@@ -45,12 +58,36 @@ int	Channel::addClient(Client* client)
 	return(1);
 }
 
-void	Channel::delClient(Client *client)
+void	Channel::delClient(Client *client,const std::string &reason)
 {
+	if(!client)
+		return;
 	for (unsigned int i = 0; i < this->_clients.size(); i++)
 	{
 		if (this->_clients[i] == client)
 		{
+			if(reason.length())
+				this->sendStr(":" + client->getNick() + " PART " + this->_name + " " + reason);
+			else
+				this->sendStr(":" + client->getNick() + " PART " + this->_name);
+			this->delOperator(this->_clients[i]);
+			this->_clients.erase(this->_clients.begin() + i);
+			return;
+		}
+	}
+}
+
+void	Channel::delClient(std::string &nick,const std::string &reason)
+{
+	for (unsigned int i = 0; i < this->_clients.size(); i++)
+	{
+		if (this->_clients[i]->getNick() == nick)
+		{
+			if(reason.length())
+				this->sendStr(":" + nick + " PART " + this->_name + " " + reason);
+			else
+				this->sendStr(":" + nick + " PART " + this->_name);
+			this->delOperator(this->_clients[i]);
 			this->_clients.erase(this->_clients.begin() + i);
 			return;
 		}
@@ -62,8 +99,22 @@ void	Channel::delClient(std::string &nick)
 	for (unsigned int i = 0; i < this->_clients.size(); i++)
 	{
 		if (this->_clients[i]->getNick() == nick)
+		{
+			this->delOperator(this->_clients[i]);
 			this->_clients.erase(this->_clients.begin() + i);
+			return;
+		}
 	}
+}
+
+void Channel::delOperator(Client *client)
+{
+	std::vector<Client *>::iterator pos;
+
+	pos = std::find(this->_operators.begin(), this->_operators.end(), client);
+	if(pos == this->_operators.end())
+		return ;
+	this->_operators.erase(pos);
 }
 
 int	Channel::inviteInChannel(Client &invitor, Client &invited, Channel &channel)
@@ -79,7 +130,12 @@ int	Channel::inviteInChannel(Client &invitor, Client &invited, Channel &channel)
 
 bool Channel::isOperator(Client *client)
 {
-	return(std::find(this->_operators.begin(), this->_operators.end(), client) != this->_clients.end());
+	return(std::find(this->_operators.begin(), this->_operators.end(), client) != this->_operators.end());
+}
+
+bool Channel::isOnChannel(Client *client)
+{
+	return(std::find(this->_clients.begin(), this->_clients.end(), client) != this->_clients.end());
 }
 
 std::string Channel::getNames()
@@ -102,14 +158,6 @@ void Channel::sendStr(std::string str)
 {
 	for(unsigned long i = 0; i < _clients.size(); i++)
 		_clients[i]->sendStr(str);
-}
-
-void		Channel::clientJoin(const std::string name, Client &client)
-{
-	std::string msg;
-
-	msg = ":" + client.getIdentifier() + " JOIN " + name;
-	this->sendStr(msg);
 }
 
 void		Channel::sendMsg(Client &client, const std::string &message)

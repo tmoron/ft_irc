@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/29 16:29:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 21:12:56 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	Server::addClient(int a) {
 void	Server::delClient(Client *client)
 {
 	for(unsigned int i = 0;i < _channels.size(); i++)
-		_channels[i]->delClient(client);
+		_channels[i]->delClient(client, "quit");
 	for(unsigned int i = 0; i < _clients.size(); i++)
 	{
 		if(_clients[i] == client)
@@ -172,7 +172,7 @@ Server	&Server::addCommand(std::string cmdName, void (*funct)(const std::string 
 	return(*this);
 }
 
-Channel	*Server::getChannel(std::string &name, Client *client, int create)
+Channel	*Server::getChannel(std::string &name, int create)
 {
 	unsigned int	i;
 	Channel *res;
@@ -188,7 +188,7 @@ Channel	*Server::getChannel(std::string &name, Client *client, int create)
 		return(0);
 	if(name[0] != '#')
 		return(0);
-	res = new Channel(name, client);
+	res = new Channel(name);
 	this->_channels.push_back(res);
 	return(res);
 }

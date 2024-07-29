@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/29 18:56:49 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/29 21:40:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 		client.sendInfo(0, 461, "MODE :Not enough parameters");
 		return ;
 	}
-	if (server.getChannel(argSplit[0], 0, 0) == 0)
+	if (server.getChannel(argSplit[0], 0) == 0)
 	{
 		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
 		return ;
 	}
-	Channel *channel = server.getChannel(argSplit[0], 0, 0);
+	Channel *channel = server.getChannel(argSplit[0], 0);
 	if (pushInQueue(argSplit, modeQueue, client))
 	{
 		std::cout << "error in pushInQueue" << std::endl;

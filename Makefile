@@ -6,7 +6,7 @@
 #    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/29 16:58:53 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/29 18:18:52 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS =	src/main.cpp\
 		src/commands/commandUser.cpp\
 		src/commands/commandPrivMsg.cpp\
 		src/commands/commandTopic.cpp\
+		src/commands/commandPart.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 
