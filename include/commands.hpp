@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:31:51 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 00:42:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:03:55 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	commandJoin(const std::string &arg, Client &client, Server &server);
 void	commandKick(const std::string &arg, Client &client, Server &server);
 void	commandTopic(const std::string &arg, Client &client, Server &server);
 void	commandMode(const std::string &arg, Client &client, Server &server);
-void	commandModeI(const std::string &arg, Client &client, Server &server);
-void	commandModeT(const std::string &arg, Client &client, Server &server);
-void	commandModeK(const std::string &arg, Client &client, Server &server);
-void	commandModeO(const std::string &arg, Client &client, Server &server);
-void	commandModeL(const std::string &arg, Client &client, Server &server);
+void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
+void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
+void	commandModeK(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
+void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
+void	commandModeL(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg);
 void	commandWho(const std::string &arg, Client &client, Server &server);
 void	commandPing(const std::string &arg, Client &client, Server &server);
 

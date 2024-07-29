@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   commandMode.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/29 00:48:54 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/29 17:12:28 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "include.hpp"
+
 #include "commands.hpp"
 
 int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client);
@@ -22,25 +22,54 @@ int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &mod
 // — l : Définir/supprimer la limite d’utilisateurs pour le canal
 void	commandMode(const std::string &arg, Client &client, Server &server)
 {
-	std::vector<std::string>	argSplit;
-
+	std::vector<void (*)(const std::string &, Client &, Server &, Channel &, std::string &, std::string &)>	functmode;
+	std::vector<std::string>																				argSplit;
+	std::queue<std::string>																					modeQueue;
+	std::string																								allowedOption = "itkol";
+	
 	argSplit = ft_split(arg, ' ');
-	if(argSplit.size() < 3)
+	if(argSplit.size() < 2)
+	{
 		client.sendInfo(0, 461, "MODE :Not enough parameters");
+		return ;
+	}
 	if (server.getChannel(argSplit[0], 0, 0) == 0)
 	{
 		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
 		return ;
 	}
 	Channel *channel = server.getChannel(argSplit[0], 0, 0);
-	std::queue<std::string>	modeQueue;
 	if (pushInQueue(argSplit, modeQueue, client))
 		return ;
+	functmode.push_back(commandModeI);
+	functmode.push_back(commandModeT);
+	functmode.push_back(commandModeK);
+	functmode.push_back(commandModeO);
+	functmode.push_back(commandModeL);
+	while (!modeQueue.empty())
+	{
+		std::string optionc = modeQueue.front();
+		modeQueue.pop();
+		for (size_t i = 0; i < optionc.length(); i++)
+		{
+			if (allowedOption.find(optionc[i]) == std::string::npos)
+			{
+				client.sendInfo(0, 472, optionc + " :is unknown mode char to me for " + argSplit[0]);
+				return ;
+			}
+			functmode[allowedOption.find(optionc[i])](arg, client, server, *channel, optionc, modeQueue.front());
+			if (modeQueue.empty())
+				break ;
+			modeQueue.pop();
+		}
+	}
+	
 }
 
 /*--------------------------------- Options ----------------------------------*/
-void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
+	(void) cmdArg;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -58,8 +87,9 @@ void	commandModeI(const std::string &arg, Client &client, Server &server, Channe
 	}
 }
 
-void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
+	(void) cmdArg;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -101,8 +131,9 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 	}
 }
 
-void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt)
+void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
+	(void) cmdArg;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -155,7 +186,7 @@ bool verifOption(std::string option)
 
 int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
 {
-	for (unsigned int i = 1; i < argSplit.size(); i++)
+	for (unsigned int i = 2; i < argSplit.size(); i++)
 	{
 		if (argSplit[i][0] == '+' || argSplit[i][0] == '-')
 		{

@@ -1,13 +1,12 @@
 1 ---> Faire les commandes :
-JOIN
 MODE
+PART
 
 2 --> Verifier si les commandes fonctionnent :
+JOIN
 Pass	OK
 NICK
 USER
-ADDCHANNEL
-DELCHANNEL
 INVITE
 TOPIC
 KICK
