@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commandMode.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/29 17:12:28 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/29 18:23:01 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,28 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	std::vector<std::string>																				argSplit;
 	std::queue<std::string>																					modeQueue;
 	std::string																								allowedOption = "itkol";
-	
+
+	std::cout << "MODE: " << arg << std::endl;
 	argSplit = ft_split(arg, ' ');
 	if(argSplit.size() < 2)
 	{
 		client.sendInfo(0, 461, "MODE :Not enough parameters");
 		return ;
 	}
+	std::cout << "size 2" << std::endl;
 	if (server.getChannel(argSplit[0], 0, 0) == 0)
 	{
 		client.sendInfo(0, 403, argSplit[0] + " :No such channel");
 		return ;
 	}
+	std::cout << "get channel" << std::endl;
 	Channel *channel = server.getChannel(argSplit[0], 0, 0);
 	if (pushInQueue(argSplit, modeQueue, client))
+	{
+		std::cout << "error in pushInQueue" << std::endl;
 		return ;
+	}
+	std::cout << "queue fincish to fill" << std::endl;
 	functmode.push_back(commandModeI);
 	functmode.push_back(commandModeT);
 	functmode.push_back(commandModeK);
@@ -57,33 +64,40 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 				client.sendInfo(0, 472, optionc + " :is unknown mode char to me for " + argSplit[0]);
 				return ;
 			}
+			std::cout << "optionc[i]: " << optionc[i] << std::endl;
+			std::cout << "i = " << i << std::endl;
 			functmode[allowedOption.find(optionc[i])](arg, client, server, *channel, optionc, modeQueue.front());
 			if (modeQueue.empty())
 				break ;
 			modeQueue.pop();
 		}
 	}
-	
+
 }
 
 /*--------------------------------- Options ----------------------------------*/
 void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
 	(void) cmdArg;
+	std::cout << "exec Mode I" << std::endl;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
+		std::cout << "mode privilege" << std::endl;
 		return ;
 	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Channel mode is invite only");
+		std::cout << "mode invite only" << std::endl;
 		chnl.setInviteOnly(true);
 	}
 	else if (cmdOpt[0] == '-')
 	{
 		client.sendInfo(0, 324, ":Channel mode is not invite only");
 		chnl.setInviteOnly(false);
+		std::cout << "mode not invite only" << std::endl;
+
 	}
 }
 
@@ -186,12 +200,15 @@ bool verifOption(std::string option)
 
 int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
 {
-	for (unsigned int i = 2; i < argSplit.size(); i++)
+	for (unsigned int i = 1; i < argSplit.size(); i++)
 	{
 		if (argSplit[i][0] == '+' || argSplit[i][0] == '-')
 		{
 			if (verifOption(argSplit[i]))
+			{
 				modeQueue.push(argSplit[i]);
+				std::cout << "option: " << argSplit[i] << std::endl;
+			}
 			else
 			{
 				client.sendInfo(0, 472, argSplit[i] + " :is unknown mode char to me for " + argSplit[0]);
