@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 17:15:03 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:15:38 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	commandModeT(const std::string &arg, Client &client, Server &server, Channe
 	(void) cmdArg;
 	if (!chnl.isOperator(&client))
 	{
-		client.sendInfo(0, 482, "MODE :More privileges needed");
+		client.sendInfo(&chnl, 482, ":More privileges needed");
 		return ;
 	}
 	if (cmdOpt[0] == '+')
@@ -114,7 +114,7 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 {
 	if (!chnl.isOperator(&client))
 	{
-		client.sendInfo(0, 482, "MODE :More privileges needed");
+		client.sendInfo(&chnl, 482, ":More privileges needed");
 		return ;
 	}
 	if (cmdOpt[0] == '-')
@@ -125,7 +125,7 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 	{
 		if (cmdArg.empty())
 		{
-			client.sendInfo(0, 461, "MODE :Not enough parameters");
+			client.sendInfo(&chnl, 461, "Mode: Not enough parameters"); // c'est bon ce message tom ?
 			return ;
 		}
 		chnl.setPassword(cmdArg);
@@ -138,7 +138,7 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 	(void) cmdArg;
 	if (!chnl.isOperator(&client))
 	{
-		client.sendInfo(0, 482, "MODE :More privileges needed");
+		client.sendInfo(&chnl, 482, ":More privileges needed");
 		return ;
 	}
 	if (cmdOpt[0] == '+')
@@ -151,17 +151,16 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 {
 	if (!chnl.isOperator(&client))
 	{
-		client.sendInfo(0, 482, "MODE :More privileges needed");
+		client.sendInfo(&chnl, 482, ":More privileges needed");
 		return ;
 	}
 	if (cmdOpt[0] == '+')
 	{
 		if (cmdArg.empty())
 		{
-			client.sendInfo(0, 461, "MODE :Not enough parameters");
+			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
 			return ;
 		}
-		client.sendInfo(0, 324, ":Set the channel limit to " + arg);
 		if (stdStringToLongUnsignedInt(cmdArg) > MAX_CHANNEL_USER)
 			chnl.setUserLimit(MAX_CHANNEL_USER, &client);
 		else
@@ -169,7 +168,7 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 		cmdArg.clear();
 	}
 	else if (cmdOpt[0] == '-')
-		client.sendInfo(0, 324, ":Unset the channel limit");
+		chnl.setUserLimit(MAX_CHANNEL_USER);
 }
 
 /*---------------------------------- Utils -----------------------------------*/
