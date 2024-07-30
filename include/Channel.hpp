@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 21:06:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 15:51:35 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ class Channel
 		void		setUserLimit(long unsigned int limit);
 		void		setTopicOperatorOnly(bool boolean);
 
+		std::string				getMode();
 		std::string				getName(void);
 		std::string				getTopic(void);
 		std::string				getPassword(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/29 21:27:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:15 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ void Channel::init()
 	this->_userLimit = 1000;
 	this->_inviteOnly = false;
 	this->_topicOperatorOnly = false;
+}
+
+std::string	Channel::getMode()
+{
+	std::string res = "";
+
+	if(this->_inviteOnly)
+		res += "i";
+	if(this->_topicOperatorOnly)
+		res += "t";
+	if(this->_password.length())
+		res += "k";
+	if(this->_userLimit)
+		res += "l";
+	return(res);	
 }
 
 int	Channel::addClient(Client* client)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commandMode.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 15:25:50 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:49 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	std::string																								allowedOption = "itkol";
 
 	argSplit = ft_split(arg, ' ');
-	if(argSplit.size() < 2)
+	if(argSplit.size() < 1)
 	{
 		client.sendInfo(0, 461, "MODE :Not enough parameters");
 		return ;
@@ -39,6 +39,16 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 		return ;
 	}
 	Channel *channel = server.getChannel(argSplit[0], 0);
+	if (channel->isOnChannel(&client))
+	{
+		client.sendInfo(0, 442, argSplit[0] + " :You're not on that channel");
+		return ;
+	}
+	if (argSplit.size() == 1)
+	{
+		client.sendInfo(channel, 324, argSplit[0] + " " + channel->getMode());
+		return ;
+	}
 	if (pushInQueue(argSplit, modeQueue, client))
 		return ;
 	functmode.push_back(commandModeI);
@@ -83,13 +93,11 @@ void	commandModeI(const std::string &arg, Client &client, Server &server, Channe
 	}
 	if (cmdOpt[0] == '+')
 	{
-		client.sendInfo(0, 324, ":Channel mode is invite only");
 		std::cout << "set mode invite only" << std::endl;
 		chnl.setInviteOnly(true);
 	}
 	else if (cmdOpt[0] == '-')
 	{
-		client.sendInfo(0, 324, ":Channel mode is not invite only");
 		chnl.setInviteOnly(false);
 		std::cout << "mode not invite only" << std::endl;
 
