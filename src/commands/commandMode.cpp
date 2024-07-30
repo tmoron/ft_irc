@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 18:29:13 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:39:06 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,14 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
 			return ;
 		}
-		// chnl.addOperator(arg, &client);
+		if (cmdArg == client.getNick())
+			return ;
+		if (!server.getClient(cmdArg))
+		{
+			client.sendInfo(&chnl, 401, cmdArg + " :No such nick/channel");
+			return ;
+		}
+		chnl.addOperator(server.getClient(cmdArg), &client);
 	}
 	else if (cmdOpt[0] == '-')
 	{
@@ -163,7 +170,12 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
 			return ;
 		}
-		// chnl.delOperator(arg, &client);
+		if (!server.getClient(cmdArg))
+		{
+			client.sendInfo(&chnl, 401, cmdArg + " :No such nick/channel");
+			return ;
+		}
+		chnl.delOperator(server.getClient(cmdArg), &client);
 	}
 }
 
