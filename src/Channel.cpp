@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:22:39 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:28:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,9 +291,11 @@ void Channel::setUserLimit(long unsigned int limit, Client *client)
 {
 	std::stringstream msg;
 
-	msg << ":" << client->getNick() << " MODE " << this->_name << " ";	(limit ? ? "+i" : "-i");
-
-	msg << "+l " << limit;
+	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
+	if(limit == MAX_CHANNEL_USER)
+		msg << "-l";
+	else
+		msg << "+l " << limit;
 	this->sendStr(msg.str());
 	this->_userLimit = limit;
 }
