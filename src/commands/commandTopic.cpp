@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:25:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 21:25:26 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:30:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "include.hpp"
@@ -31,6 +31,11 @@ void	commandTopic(const std::string &arg, Client &client, Server &server)
 	else if (arg_split.size() >= 2 && server.getChannel(arg_split[0], 0))
 	{
 		Channel *chnl = server.getChannel(arg_split[0], 0);
+		if(chnl->getTopicOperatorOnly() && !chnl->isOperator(&client))
+		{
+			client.sendInfo(chnl, 482, ":You're not channel operator");
+			return;
+		}
 		chnl->setTopic(arg_split[1]);
 		chnl->sendStr(":" + client.getNick() + " TOPIC " + arg_split[0] + " " + arg_split[1]);
 	}

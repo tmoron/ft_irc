@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:37:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:57:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	Channel::delClient(Client *client,const std::string &reason)
 				this->sendStr(":" + client->getNick() + " PART " + this->_name + " " + reason);
 			else
 				this->sendStr(":" + client->getNick() + " PART " + this->_name);
-			this->delOperator(this->_clients[i]);
+			this->delOperator(this->_clients[i], 0);
 			this->_clients.erase(this->_clients.begin() + i);
 			return;
 		}
@@ -114,7 +114,7 @@ void	Channel::delClient(std::string &nick,const std::string &reason)
 				this->sendStr(":" + nick + " PART " + this->_name + " " + reason);
 			else
 				this->sendStr(":" + nick + " PART " + this->_name);
-			this->delOperator(this->_clients[i]);
+			this->delOperator(this->_clients[i], 0);
 			this->_clients.erase(this->_clients.begin() + i);
 			return;
 		}
@@ -127,20 +127,22 @@ void	Channel::delClient(std::string &nick)
 	{
 		if (this->_clients[i]->getNick() == nick)
 		{
-			this->delOperator(this->_clients[i]);
+			this->delOperator(this->_clients[i], 0);
 			this->_clients.erase(this->_clients.begin() + i);
 			return;
 		}
 	}
 }
 
-void Channel::delOperator(Client *client)
+void Channel::delOperator(Client *client, Client *from)
 {
 	std::vector<Client *>::iterator pos;
 
 	pos = std::find(this->_operators.begin(), this->_operators.end(), client);
 	if(pos == this->_operators.end())
 		return ;
+	if(from)
+		this->sendStr(":" + from->getNick() + " MODE -o " + client->getNick());
 	this->_operators.erase(pos);
 }
 
@@ -280,8 +282,12 @@ void	Channel::setPassword(std::string password, Client *client)
 	this->_password = password;
 }
 
-void Channel::addOperator(Client *newoperator)
-{
+void Channel::addOperator(Client *newoperator, Client *client)
+{	
+	if(this->isOperator(newoperator))
+		return ;
+	if(client)
+		this->sendStr(":" + client->getNick() + " MODE +o " + newoperator->getNick());
 	this->_operators.push_back(newoperator);
 }
 

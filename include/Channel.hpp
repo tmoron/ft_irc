@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:33:23 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:55:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Channel
 		void		setName(std::string name);
 		void		setTopic(std::string topic);
 		void		setPassword(std::string password, Client *client);
-		void		addOperator(Client *newoperator);
+		void		addOperator(Client *newoperator, Client *client);
 		void		setInviteOnly(bool boolean, Client *client);
 		void		setUserLimit(long unsigned int limit, Client *client);
 		void		setTopicOperatorOnly(bool boolean, Client *client);
@@ -66,7 +66,7 @@ class Channel
 		void		delClient(Client *client, const std::string &reason);
 		void		delClient(std::string &nick, const std::string &reason);
 		void		delClient(std::string &nick);
-		void		delOperator(Client *client);
+		void		delOperator(Client *client, Client *from);
 		void		delInvite(Client *client);
 		bool		isInvited(Client *client);
 		void		init();
