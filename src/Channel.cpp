@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:08:30 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/30 17:14:56 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ std::string	Channel::getMode()
 		res << "k";
 	if (_userLimit)
 		res << "l " << _userLimit;
-		
+
 	return (res.str());
 }
 
@@ -282,7 +282,7 @@ void Channel::setInviteOnly(bool boolean, Client *client)
 	std::stringstream msg;
 
 	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
-	msg << "+i " << boolean;
+	msg << boolean ? "+i" : "-i";
 	this->sendStr(msg.str());
 	this->_inviteOnly = boolean;
 }
