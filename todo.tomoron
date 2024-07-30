@@ -1,8 +1,5 @@
-1 ---> Faire les commandes :
-MODE
-PART
-
 2 --> Verifier si les commandes fonctionnent :
+MODE
 JOIN
 Pass	OK
 NICK

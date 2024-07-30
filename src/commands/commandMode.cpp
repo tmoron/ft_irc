@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 15:52:49 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/30 16:53:01 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 		return ;
 	}
 	Channel *channel = server.getChannel(argSplit[0], 0);
-	if (channel->isOnChannel(&client))
+	if (!channel->isOnChannel(&client))
 	{
 		client.sendInfo(0, 442, argSplit[0] + " :You're not on that channel");
 		return ;
 	}
 	if (argSplit.size() == 1)
 	{
-		client.sendInfo(channel, 324, argSplit[0] + " " + channel->getMode());
+		client.sendInfo(channel, 324, channel->getMode());
 		return ;
 	}
 	if (pushInQueue(argSplit, modeQueue, client))

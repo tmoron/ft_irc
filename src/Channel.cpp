@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 16:48:01 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:08:30 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@ void Channel::init()
 
 std::string	Channel::getMode()
 {
-	std::string res = "";
+	std::stringstream res;
 
-	if(this->_inviteOnly)
-		res += "i";
-	if(this->_topicOperatorOnly)
-		res += "t";
-	if(this->_password.length())
-		res += "k";
-	if(this->_userLimit)
-		res += "l";
-	return(res);	
+	if (_inviteOnly)
+		res << "i";
+	if (_topicOperatorOnly)
+		res << "t";
+	if (_password.length())
+		res << "k";
+	if (_userLimit)
+		res << "l " << _userLimit;
+		
+	return (res.str());
 }
 
 int	Channel::addClient(Client* client, const std::string &pass)
