@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 18:32:28 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:43:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ void Channel::delOperator(Client *client, Client *from)
 	if(pos == this->_operators.end())
 		return ;
 	if(from)
-		this->sendStr(":" + from->getNick() + " MODE -o " + client->getNick());
+		this->sendStr(":" + from->getNick() + " MODE "  + this->_name + 
+		" -o " + client->getNick());
 	this->_operators.erase(pos);
 }
 
@@ -287,7 +288,8 @@ void Channel::addOperator(Client *newoperator, Client *client)
 	if(this->isOperator(newoperator))
 		return ;
 	if(client)
-		this->sendStr(":" + client->getNick() + " MODE +o " + newoperator->getNick());
+		this->sendStr(":" + client->getNick() + " MODE " + this->_name + 
+			" +o " + newoperator->getNick());
 	this->_operators.push_back(newoperator);
 }
 
