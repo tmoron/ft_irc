@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:36:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:37:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,9 +273,9 @@ void	Channel::setPassword(std::string password, Client *client)
 
 	ss << ":" << client->getNick() << " MODE " << this->_name;
 	if(password.length())
-		ss << "+k " << password;
+		ss << " +k " << password;
 	else
-		ss << "-k";
+		ss << " -k";
 	client->sendStr(ss.str());
 	this->_password = password;
 }
