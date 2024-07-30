@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:57:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:32:28 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ std::string	Channel::getMode()
 		res << "t";
 	if (_password.length())
 		res << "k";
-	if (_userLimit)
+	if (_userLimit != MAX_CHANNEL_USER)
 		res << "l " << _userLimit;
 
 	return (res.str());
@@ -283,7 +283,7 @@ void	Channel::setPassword(std::string password, Client *client)
 }
 
 void Channel::addOperator(Client *newoperator, Client *client)
-{	
+{
 	if(this->isOperator(newoperator))
 		return ;
 	if(client)

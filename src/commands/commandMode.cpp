@@ -6,13 +6,14 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 17:34:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:29:13 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.hpp"
 
-int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client);
+int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client, Channel &chnl);
+
 
 // MODE <channel> {[+|-]|o|p|s|i|t|n|b|v} [<limit>] [<user>] [<ban mask>]
 // — i : Définir/supprimer le canal sur invitation uniquement
@@ -49,7 +50,7 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 		client.sendInfo(channel, 324, channel->getMode());
 		return ;
 	}
-	if (pushInQueue(argSplit, modeQueue, client))
+	if (pushInQueue(argSplit, modeQueue, client, *channel))
 		return ;
 	functmode.push_back(commandModeI);
 	functmode.push_back(commandModeT);
@@ -67,7 +68,9 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 				continue ;
 			if (allowedOption.find(optionc[i]) == std::string::npos)
 			{
-				client.sendInfo(0, 472, optionc + " :is unknown mode char to me for " + argSplit[0]);
+				std::stringstream ss;
+				ss << optionc[i] << " :is unknown mode char to me";
+				client.sendInfo(channel, 472, ss.str());
 				return ;
 			}
 			if (!modeQueue.empty() && arg.empty())
@@ -87,7 +90,7 @@ void	commandModeI(const std::string &arg, Client &client, Server &server, Channe
 	(void) cmdArg;
 	if (!chnl.isOperator(&client))
 	{
-		client.sendInfo(&chnl, 482, " :More privileges needed");
+		client.sendInfo(&chnl, 482, ":More privileges needed");
 		return ;
 	}
 	if (cmdOpt[0] == '+')
@@ -120,7 +123,10 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 	if (cmdOpt[0] == '-')
 		chnl.setPassword("", &client);
 	else if (chnl.getPassword() != "")
+	{
+		client.sendInfo(&chnl, 467, ":Channel key already set");
 		return ;
+	}
 	else if (cmdOpt[0] == '+')
 	{
 		if (cmdArg.empty())
@@ -142,9 +148,23 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 		return ;
 	}
 	if (cmdOpt[0] == '+')
-		chnl.setTopicOperatorOnly(true, &client);
+	{
+		if (arg.empty())
+		{
+			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
+			return ;
+		}
+		// chnl.addOperator(arg, &client);
+	}
 	else if (cmdOpt[0] == '-')
-		chnl.setTopicOperatorOnly(false, &client);
+	{
+		if (arg.empty())
+		{
+			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
+			return ;
+		}
+		// chnl.delOperator(arg, &client);
+	}
 }
 
 void	commandModeL(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
@@ -158,7 +178,7 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 	{
 		if (cmdArg.empty())
 		{
-			client.sendInfo(&chnl, 461, "MODE :Not enough parameters");
+			client.sendInfo(0, 461, "MODE :Not enough parameters");
 			return ;
 		}
 		if (stdStringToLongUnsignedInt(cmdArg) > MAX_CHANNEL_USER)
@@ -172,30 +192,32 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 }
 
 /*---------------------------------- Utils -----------------------------------*/
-bool verifOption(std::string option)
+static bool verifOption(std::string option, Client &client, Channel &chnl)
 {
 	std::string		allowedOption = "+-itkol";
 	for (size_t i = 0; i < option.length(); i++)
 	{
 		if (allowedOption.find(option[i]) == std::string::npos)
-			return false;
+		{
+			std::stringstream ss;
+			ss << option[i] << " :is unknown mode char to me";
+			client.sendInfo(&chnl, 472, ss.str());
+			return (false);
+		}
 	}
-	return true;
+	return (true);
 }
 
-int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client)
+int	pushInQueue(std::vector<std::string> &argSplit, std::queue<std::string> &modeQueue, Client &client, Channel &chnl)
 {
 	for (unsigned int i = 1; i < argSplit.size(); i++)
 	{
 		if (argSplit[i][0] == '+' || argSplit[i][0] == '-')
 		{
-			if (verifOption(argSplit[i]))
+			if (verifOption(argSplit[i], client, chnl))
 				modeQueue.push(argSplit[i]);
 			else
-			{
-				client.sendInfo(0, 472, argSplit[i] + " :is unknown mode char to me for " + argSplit[0]);
-				return 1;
-			}
+				return (1);
 		}
 		else
 			modeQueue.push(argSplit[i]);
