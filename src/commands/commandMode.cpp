@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commandMode.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/29 21:40:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 15:25:50 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	std::queue<std::string>																					modeQueue;
 	std::string																								allowedOption = "itkol";
 
-	std::cout << "MODE: " << arg << std::endl;
 	argSplit = ft_split(arg, ' ');
 	if(argSplit.size() < 2)
 	{
@@ -41,11 +40,7 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	}
 	Channel *channel = server.getChannel(argSplit[0], 0);
 	if (pushInQueue(argSplit, modeQueue, client))
-	{
-		std::cout << "error in pushInQueue" << std::endl;
 		return ;
-	}
-	std::cout << "queue fincish to fill" << std::endl;
 	functmode.push_back(commandModeI);
 	functmode.push_back(commandModeT);
 	functmode.push_back(commandModeK);
@@ -54,6 +49,7 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 	while (!modeQueue.empty())
 	{
 		std::string optionc = modeQueue.front();
+		std::string arg = "";
 		modeQueue.pop();
 		for (size_t i = 0; i < optionc.length(); i++)
 		{
@@ -64,16 +60,12 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 				client.sendInfo(0, 472, optionc + " :is unknown mode char to me for " + argSplit[0]);
 				return ;
 			}
-			std::cout << "optionc[i]: " << optionc[i] << std::endl;
-			std::cout << "i = " << i << std::endl;
-			if (modeQueue.empty())
-				functmode[allowedOption.find(optionc[i])](arg, client, server, *channel, optionc, (std::string &)"lol");
-			else
+			if (!modeQueue.empty() && arg.empty())
 			{
-				std::string arg = modeQueue.front();
+				arg = modeQueue.front();
 				modeQueue.pop();
-				functmode[allowedOption.find(optionc[i])](arg, client, server, *channel, optionc, arg);
 			}
+			functmode[allowedOption.find(optionc[i])](arg, client, server, *channel, optionc, arg);
 		}
 	}
 
@@ -83,17 +75,16 @@ void	commandMode(const std::string &arg, Client &client, Server &server)
 void	commandModeI(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
 	(void) cmdArg;
-	std::cout << "exec Mode I" << std::endl;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
-		std::cout << "mode privilege" << std::endl;
+		std::cout << "need more privilege" << std::endl;
 		return ;
 	}
 	if (cmdOpt[0] == '+')
 	{
 		client.sendInfo(0, 324, ":Channel mode is invite only");
-		std::cout << "mode invite only" << std::endl;
+		std::cout << "set mode invite only" << std::endl;
 		chnl.setInviteOnly(true);
 	}
 	else if (cmdOpt[0] == '-')
@@ -108,7 +99,6 @@ void	commandModeI(const std::string &arg, Client &client, Server &server, Channe
 void	commandModeT(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
 	(void) cmdArg;
-	std::cout << "exec Mode T" << std::endl;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -128,7 +118,6 @@ void	commandModeT(const std::string &arg, Client &client, Server &server, Channe
 
 void	commandModeK(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
-	std::cout << "exec Mode K" << std::endl;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -146,14 +135,19 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 	}
 	else if (cmdOpt[0] == '+')
 	{
+		if (cmdArg.empty())
+		{
+			client.sendInfo(0, 461, "MODE :Not enough parameters");
+			return ;
+		}
 		client.sendInfo(0, 0, ":Set the channel key to " + cmdArg); // trouver le bon code
 		chnl.setPassword(cmdArg);
+		cmdArg.clear();
 	}
 }
 
 void	commandModeO(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
-	std::cout << "exec Mode O" << std::endl;
 	(void) cmdArg;
 	if (chnl.isOperator(&client))
 	{
@@ -174,7 +168,6 @@ void	commandModeO(const std::string &arg, Client &client, Server &server, Channe
 
 void	commandModeL(const std::string &arg, Client &client, Server &server, Channel &chnl, std::string &cmdOpt, std::string &cmdArg)
 {
-	std::cout << "exec Mode L" << std::endl;
 	if (chnl.isOperator(&client))
 	{
 		client.sendInfo(0, 482, "MODE :More privileges needed");
@@ -182,11 +175,17 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 	}
 	if (cmdOpt[0] == '+')
 	{
+		if (cmdArg.empty())
+		{
+			client.sendInfo(0, 461, "MODE :Not enough parameters");
+			return ;
+		}
 		client.sendInfo(0, 324, ":Set the channel limit to " + arg);
 		if (stdStringToLongUnsignedInt(cmdArg) > MAX_CHANNEL_USER)
 			chnl.setUserLimit(MAX_CHANNEL_USER);
 		else
 			chnl.setUserLimit(stdStringToLongUnsignedInt(cmdArg));
+		cmdArg.clear();
 	}
 	else if (cmdOpt[0] == '-')
 	{

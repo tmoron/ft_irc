@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:25:58 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 18:45:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 14:42:28 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 {
 	std::vector<std::string>	argSplit;
 
-	argSplit = ft_split_irc(arg);
+	argSplit = ft_split(arg, ' ');
 	if(argSplit.size() < 2)
 		client.sendInfo(0, 461, "KICK :Not enough parameters");
 
@@ -28,10 +28,6 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 	std::vector<std::string>	chnlName = ft_split(argSplit[0], ',');
 	std::vector<std::string>	kickName = ft_split(argSplit[1], ',');
 	std::string					reasonMsg;
-	std::cout << "\n\aOn commence kick: " << std::endl;
-	std::cout << "string recue: '" << arg << "'" << std::endl;
-	std::cout << "channels: " << chnlName[0] << std::endl;
-	std::cout << "kick names: " << kickName[0] << std::endl;
 
 	for (unsigned int i = 0; i < argSplit.size() - 2; i++)
 	{
@@ -53,8 +49,8 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 						continue ;
 					}
 					std::stringstream ss;
-					ss << ":" << client.getIdentifier() << " ";
-					ss << "KICK " << channels[i]->getName() << " " << kickName[k];
+					ss << ":" << client.getNick() << " ";
+					ss << "KICK " << kickName[k] << " from " << channels[i]->getName();
 					if (!reasonMsg.empty())
 					 	ss << " :" << reasonMsg;
 					channels[i]->sendStr(ss.str());
