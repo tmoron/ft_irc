@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 17:15:38 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:16:13 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	commandModeL(const std::string &arg, Client &client, Server &server, Channe
 		cmdArg.clear();
 	}
 	else if (cmdOpt[0] == '-')
-		chnl.setUserLimit(MAX_CHANNEL_USER);
+		chnl.setUserLimit(MAX_CHANNEL_USER, &client);
 }
 
 /*---------------------------------- Utils -----------------------------------*/

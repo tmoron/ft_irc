@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:14:56 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:22:39 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void Channel::init()
 	this->_invite.empty();
 	this->_topic = "";
 	this->_password = "";
-	this->_userLimit = 2;
+	this->_userLimit = MAX_CHANNEL_USER;
 	this->_inviteOnly = false;
 	this->_topicOperatorOnly = false;
 }
@@ -282,7 +282,7 @@ void Channel::setInviteOnly(bool boolean, Client *client)
 	std::stringstream msg;
 
 	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
-	msg << boolean ? "+i" : "-i";
+	msg << (boolean ? "+i" : "-i");
 	this->sendStr(msg.str());
 	this->_inviteOnly = boolean;
 }
@@ -291,7 +291,8 @@ void Channel::setUserLimit(long unsigned int limit, Client *client)
 {
 	std::stringstream msg;
 
-	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
+	msg << ":" << client->getNick() << " MODE " << this->_name << " ";	(limit ? ? "+i" : "-i");
+
 	msg << "+l " << limit;
 	this->sendStr(msg.str());
 	this->_userLimit = limit;

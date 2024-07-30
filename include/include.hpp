@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:32:26 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/26 18:06:04 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:20:35 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ extern int g_sig;
 # include  "AllException.hpp"
 
 # define MAX_MSG_SIZE 50000
-# define MAX_CLIENT 100
-# define MAX_CHANNEL_USER 100
+# define MAX_CLIENT 100000
+# define MAX_CHANNEL_USER 100000
 
 #endif
