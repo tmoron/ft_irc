@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:36:14 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 17:16:13 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:34:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,17 +118,17 @@ void	commandModeK(const std::string &arg, Client &client, Server &server, Channe
 		return ;
 	}
 	if (cmdOpt[0] == '-')
-		chnl.setPassword("");
+		chnl.setPassword("", &client);
 	else if (chnl.getPassword() != "")
 		return ;
 	else if (cmdOpt[0] == '+')
 	{
 		if (cmdArg.empty())
 		{
-			client.sendInfo(&chnl, 461, "Mode: Not enough parameters"); // c'est bon ce message tom ?
+			client.sendInfo(&chnl, 461, "MODE: Not enough parameters"); // c'est bon ce message tom ?
 			return ;
 		}
-		chnl.setPassword(cmdArg);
+		chnl.setPassword(cmdArg, &client);
 		cmdArg.clear();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 16:48:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:33:23 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class Channel
 
 		void		setName(std::string name);
 		void		setTopic(std::string topic);
-		void		setPassword(std::string password);
+		void		setPassword(std::string password, Client *client);
 		void		addOperator(Client *newoperator);
 		void		setInviteOnly(bool boolean, Client *client);
 		void		setUserLimit(long unsigned int limit, Client *client);
