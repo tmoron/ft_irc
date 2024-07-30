@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 15:52:15 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/30 16:48:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void Channel::init()
 	this->_invite.empty();
 	this->_topic = "";
 	this->_password = "";
-	this->_userLimit = 1000;
+	this->_userLimit = 2;
 	this->_inviteOnly = false;
 	this->_topicOperatorOnly = false;
 }
@@ -54,7 +54,7 @@ std::string	Channel::getMode()
 	return(res);	
 }
 
-int	Channel::addClient(Client* client)
+int	Channel::addClient(Client* client, const std::string &pass)
 {
 	if(!this->_clients.size())
 	{
@@ -63,11 +63,22 @@ int	Channel::addClient(Client* client)
 	}
 	if(!client)
 		return(0);
-	if (_clients.size() > this->_userLimit)
+	if (_clients.size() >= this->_userLimit)
 	{
-		client->sendInfo(0, 471, this->_name + " :Cannot join channel (+l)");
+		client->sendInfo(this, 471, ":Cannot join channel (+l)");
 		return(0);
 	}
+	if(this->_inviteOnly && !this->isInvited(client))
+	{
+		client->sendInfo(this, 473, ":Cannot join channel (+i)");
+		return(0);
+	}
+	if(this->_password.length() && pass != this->_password)
+	{
+		client->sendInfo(this, 475, ":Cannot join channel (+k)");
+		return(0);
+	}
+	this->delInvite(client);
 	if(std::find(this->_clients.begin(), this->_clients.end(), client) == this->_clients.end())
 		this->_clients.push_back(client);
 	return(1);
@@ -141,6 +152,21 @@ int	Channel::inviteInChannel(Client &invitor, Client &invited, Channel &channel)
 	invited.sendStr(":" + invitor.getNick() + " INVITE " + invited.getNick() + " " + channel.getName());
 	channel.getInvite().push_back(&invited);
 	return (0);
+}
+
+void	Channel::delInvite(Client *client)
+{
+	std::vector<Client *>::iterator pos;
+
+	pos = std::find(this->_invite.begin(), this->_invite.end(), client);
+	if(pos == this->_invite.end())
+		return;
+	this->_invite.erase(pos);
+}
+
+bool Channel::isInvited(Client *client)
+{
+	return(std::find(this->_invite.begin(), this->_invite.end(), client) != this->_invite.end());
 }
 
 bool Channel::isOperator(Client *client)
@@ -250,17 +276,32 @@ void Channel::addOperator(Client *newoperator)
 	this->_operators.push_back(newoperator);
 }
 
-void Channel::setInviteOnly(bool boolean)
+void Channel::setInviteOnly(bool boolean, Client *client)
 {
+	std::stringstream msg;
+
+	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
+	msg << "+i " << boolean;
+	this->sendStr(msg.str());
 	this->_inviteOnly = boolean;
 }
 
-void Channel::setUserLimit(long unsigned int limit)
+void Channel::setUserLimit(long unsigned int limit, Client *client)
 {
+	std::stringstream msg;
+
+	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
+	msg << "+l " << limit;
+	this->sendStr(msg.str());
 	this->_userLimit = limit;
 }
 
-void Channel::setTopicOperatorOnly(bool boolean)
+void Channel::setTopicOperatorOnly(bool boolean, Client *client)
 {
+	std::stringstream msg;
+
+	msg << ":" << client->getNick() << " MODE " << this->_name << " ";
+	msg << (boolean ? "+t" : "-t");
+	this->sendStr(msg.str());
 	this->_topicOperatorOnly = boolean;
 }

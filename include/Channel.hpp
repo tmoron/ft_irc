@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 15:51:35 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/07/30 16:48:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ class Channel
 		void		setTopic(std::string topic);
 		void		setPassword(std::string password);
 		void		addOperator(Client *newoperator);
-		void		setInviteOnly(bool boolean);
-		void		setUserLimit(long unsigned int limit);
-		void		setTopicOperatorOnly(bool boolean);
+		void		setInviteOnly(bool boolean, Client *client);
+		void		setUserLimit(long unsigned int limit, Client *client);
+		void		setTopicOperatorOnly(bool boolean, Client *client);
 
 		std::string				getMode();
 		std::string				getName(void);
@@ -62,11 +62,13 @@ class Channel
 		void					sendMsg(Client &client, const std::string &message);
 
 		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
-		int			addClient(Client* client);
+		int			addClient(Client* client, const std::string &pass);
 		void		delClient(Client *client, const std::string &reason);
 		void		delClient(std::string &nick, const std::string &reason);
 		void		delClient(std::string &nick);
 		void		delOperator(Client *client);
+		void		delInvite(Client *client);
+		bool		isInvited(Client *client);
 		void		init();
 };
 
