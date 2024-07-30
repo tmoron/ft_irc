@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 18:43:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 19:08:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,10 @@ void Channel::delOperator(Client *client, Client *from)
 	this->_operators.erase(pos);
 }
 
-int	Channel::inviteInChannel(Client &invitor, Client &invited, Channel &channel)
+int	Channel::inviteInChannel(Client &invitor, Client &invited)
 {
-	if (!isOperator(&invitor))
-	{
-		invitor.sendInfo(0, 482, ":You're not channel operator");
-	}
-	invited.sendStr(":" + invitor.getNick() + " INVITE " + invited.getNick() + " " + channel.getName());
-	channel.getInvite().push_back(&invited);
+	invited.sendStr(":" + invitor.getNick() + " INVITE " + invited.getNick() + " " + this->_name);
+	this->_invite.push_back(&invited);
 	return (0);
 }
 

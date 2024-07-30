@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 17:55:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/30 19:06:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ class Channel
 		bool					getTopicOperatorOnly();
 		void					sendMsg(Client &client, const std::string &message);
 
-		int			inviteInChannel(Client &invitor, Client &invited,  Channel &channel);
+		int			inviteInChannel(Client &invitor, Client &invited);
 		int			addClient(Client* client, const std::string &pass);
 		void		delClient(Client *client, const std::string &reason);
 		void		delClient(std::string &nick, const std::string &reason);
