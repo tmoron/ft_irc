@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:25:58 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/30 14:42:28 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:03:56 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 				{
 					if (!channels[i]->isOperator(&client)) // is not operator
 					{
-						client.sendInfo(0, 482, "KICK :More privileges needed");
+						client.sendInfo(channels[i], 482, ":More privileges needed");
 						continue ;
 					}
 					std::stringstream ss;
