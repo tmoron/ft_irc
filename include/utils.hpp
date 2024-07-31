@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:29:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/27 00:21:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/31 01:08:10 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ void Handler(int signum);
 long unsigned int	stdStringToLongUnsignedInt(std::string str);
 std::string removeChar(const std::string &input, char c);
 std::vector<std::string> ft_split_irc(std::string str);
+void    ft_bzero(void *s, size_t n);
 
 #endif

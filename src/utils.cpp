@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/27 01:58:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/07/31 14:04:06 by tomoron          ###   ########.fr       */
 /*   Updated: 2024/07/26 20:02:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -97,3 +97,18 @@ std::string removeChar(const std::string &input, char c)
 	}
 	return(str);
 }
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned long int	i;
+	char				*ptr;
+
+	ptr = (char *)s;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+}
+

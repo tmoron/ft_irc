@@ -6,7 +6,7 @@
 #    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/29 23:39:39 by tomoron          ###   ########.fr        #
+#    Updated: 2024/07/31 18:05:00 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,13 @@ SRCS =	src/main.cpp\
 		src/commands/commandPart.cpp\
 		src/commands/commandQuit.cpp\
 
+SRCS_BONUS =	bonus/main.cpp\
+				bonus/Bot.cpp\
+				bonus/utils.cpp
+
 OBJS = $(SRCS:.cpp=.o)
+
+OBJS_BONUS = $(SRCS_BONUS:.cpp=.o)
 
 FLAGS = -g -Wall -std=c++98 -Iinclude #-Wextra -Werror
 
@@ -44,15 +50,20 @@ all:
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
+bonus: bot
+
+bot: $(OBJS_BONUS)
+	$(CC) $(FLAGS) $(OBJS_BONUS) -o bot
+
 .cpp.o:
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) bot
 
 re: fclean all
 
-.PHONY: clean all re fclean
+.PHONY: clean all re fclean bonus

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:32:26 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/30 17:20:35 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/07/31 01:09:09 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ extern int g_sig;
 # include "utils.hpp"
 # include <signal.h>
 # include <algorithm>
+# include <arpa/inet.h>
 # include <queue>
 # include  "AllException.hpp"
 
