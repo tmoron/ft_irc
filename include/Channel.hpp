@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:38:54 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 19:06:33 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/01 13:59:39 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ class Channel
 		std::string				getNames();
 		bool					isOperator(Client *client);
 		bool					isOnChannel(Client *client);
+		bool					isOnChannelStr(std::string client);
 		void					sendStr(std::string str);
 		bool					getInviteOnly();
 		long unsigned int		getUserLimit();

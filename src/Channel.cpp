@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/01 14:20:22 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/01 15:50:20 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void Channel::delOperator(Client *client, Client *from)
 	if(pos == this->_operators.end())
 		return ;
 	if(from)
-		this->sendStr(":" + from->getNick() + " MODE "  + this->_name + 
+		this->sendStr(":" + from->getNick() + " MODE "  + this->_name +
 			" -o " + client->getNick());
 	this->_operators.erase(pos);
 }
@@ -178,6 +178,17 @@ bool Channel::isOnChannel(Client *client)
 {
 	return(std::find(this->_clients.begin(), this->_clients.end(), client) != this->_clients.end());
 }
+
+bool Channel::isOnChannelStr(std::string client)
+{
+	for (unsigned int i = 0; i < this->_clients.size(); i++)
+	{
+		if (this->_clients[i]->getNick() == client)
+			return (true);
+	}
+	return (false);
+}
+
 
 std::string Channel::getNames()
 {
@@ -284,7 +295,7 @@ void Channel::addOperator(Client *newoperator, Client *client)
 	if(this->isOperator(newoperator))
 		return ;
 	if(client)
-		this->sendStr(":" + client->getNick() + " MODE " + this->_name + 
+		this->sendStr(":" + client->getNick() + " MODE " + this->_name +
 			" +o " + newoperator->getNick());
 	this->_operators.push_back(newoperator);
 }

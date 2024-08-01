@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:25:58 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/31 16:03:56 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:45:09 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 	std::vector<Channel*>		channels = server.getChannels();
 	std::vector<std::string>	chnlName = ft_split(argSplit[0], ',');
 	std::vector<std::string>	kickName = ft_split(argSplit[1], ',');
-	std::string					reasonMsg;
+	std::string					reasonMsg = "";
 
 	for (unsigned int i = 0; i < argSplit.size() - 2; i++)
 	{
@@ -48,13 +48,15 @@ void	commandKick(const std::string &arg, Client &client, Server &server)
 						client.sendInfo(channels[i], 482, ":More privileges needed");
 						continue ;
 					}
+					if (!channels[i]->isOnChannelStr(kickName[k])) // is not in channel
+						continue ;
 					std::stringstream ss;
 					ss << ":" << client.getNick() << " ";
-					ss << "KICK " << kickName[k] << " from " << channels[i]->getName();
-					if (!reasonMsg.empty())
-					 	ss << " :" << reasonMsg;
+					ss << "KICK " << kickName[k] << " " << channels[i]->getName();
+					if (reasonMsg.length() != 0)
+					 	ss << " " << reasonMsg;
 					channels[i]->sendStr(ss.str());
-					channels[i]->delClient(kickName[k]);
+					channels[i]->delClient(kickName[k], reasonMsg);
 				}
 			}
 		}
