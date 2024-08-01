@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:38:40 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/01 14:55:39 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/01 17:41:01 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ class GPTHistory
         
         std::string             getName() const;
         std::vector<t_history>  getHistory() const;
-                                        
+
+        GPTHistory &operator=(const GPTHistory &other);
         ~GPTHistory();
 };
 

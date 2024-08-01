@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 00:43:51 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/01 15:18:09 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/01 17:50:56 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int main(int argc, char **argv)
 	ip = argv[1];
 	port = argv[2];
 	pass = argv[3];
-	try{
+	// try{
 		
 		Bot bot(ip, port);
 		bot.login(pass);
 		bot.listen();
-	}catch(std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
+	// }catch(std::exception &e)
+	// {
+	// 	std::cerr << e.what() << std::endl;
+	// }
 		
 }

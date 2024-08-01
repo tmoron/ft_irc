@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Bot.hpp"
-#include "include.hpp"
 
 /*------------------------------- Constructors -------------------------------*/
 
@@ -66,6 +65,31 @@ void Bot::send(std::string str)
 	::send(this->_connFd, str.c_str(), str.length(),MSG_DONTWAIT); 
 }
 
+void	Bot::exec(unsigned long len)
+{
+	std::vector<std::string> argSplit = ft_split_irc(_buffer);
+
+	std::cout << "exec : " << _buffer << std::endl;
+	if (_buffer.find("PRIVMSG") != std::string::npos)
+	{
+		if (argSplit.size() < 4)
+			return;
+		addHistory(argSplit[0], argSplit[3]);
+	}
+}
+
+void	Bot::handleBuffer()
+{
+	unsigned long	len;
+
+	while(_buffer.find('\n', 0) != std::string::npos) 
+	{
+		len = _buffer.find('\n', 0);
+		exec(len);
+		_buffer.erase(0, len + 1);
+	}
+}
+
 void Bot::listen()
 {
 	char tmp[1024];
@@ -77,10 +101,12 @@ void Bot::listen()
 		{
 			len = recv(this->_connFd, tmp, 1024, MSG_DONTWAIT);
 			if(len == (unsigned long)-1)
-				this->_stop = 1;		
+				return;		
 			if(len)
 				this->_buffer += std::string(tmp, len);
 			std::cout << _buffer << std::endl;
+			Bot::handleBuffer();
+			std::cout << "buffer : " << _buffer << std::endl;
 		}
 	}
 		
@@ -91,4 +117,11 @@ void Bot::login(std::string pass)
 	this->send("PASS " + pass + "\r\n");
 	this->send("NICK bot\r\n");
 	this->send("USER bot 0 * :bot\r\n");
+}
+
+void	Bot::addHistory(std::string name, std::string msg)
+{
+	if(_histories.find(name) == _histories.end())
+		_histories[name] = new GPTHistory(name);
+	_histories[name]->addHistory("user", msg);
 }
