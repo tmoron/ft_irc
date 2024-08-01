@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   include.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:32:26 by hubourge          #+#    #+#             */
-/*   Updated: 2024/07/31 01:09:09 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/01 14:33:28 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ extern int g_sig;
 # include <algorithm>
 # include <arpa/inet.h>
 # include <queue>
+# include <map>
 # include  "AllException.hpp"
 
 # define MAX_MSG_SIZE 50000

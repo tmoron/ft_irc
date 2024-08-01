@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 19:08:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/01 14:20:22 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void Channel::delOperator(Client *client, Client *from)
 		return ;
 	if(from)
 		this->sendStr(":" + from->getNick() + " MODE "  + this->_name + 
-		" -o " + client->getNick());
+			" -o " + client->getNick());
 	this->_operators.erase(pos);
 }
 

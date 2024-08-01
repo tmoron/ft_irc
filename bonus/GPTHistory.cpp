@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bot.hpp                                            :+:      :+:    :+:   */
+/*   GPTHistory.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/31 00:51:45 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/01 14:44:20 by pageblanche      ###   ########.fr       */
+/*   Created: 2024/08/01 14:39:41 by pageblanche       #+#    #+#             */
+/*   Updated: 2024/08/01 14:56:40 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "GPTHistory.hpp"
-#include "include.hpp"
 
-#ifndef BOT_HPP
-# define BOT_HPP
+GPTHistory::GPTHistory(std::string name) : _name(name) {}
 
-class Bot
+void GPTHistory::addHistory(std::string role, std::string message)
 {
-	private:
-		int 						_connFd;
-		struct pollfd 				_pollfd;
-		std::string 				_buffer;
-		bool						_stop;
-		std::vector<GPTHistory>		_history;
+    t_history history;
+    
+    history.role = role;
+    history.message = message;
+    _history.push_back(history);
+}
 
-	public:
-		Bot(std::string ip, std::string port);
-		~Bot();
-		int init_connection(const char *ip, uint16_t port);
-		void	send(std::string str);
-		void listen();
-};
+std::string GPTHistory::getName() const
+{
+    return _name;
+}
 
-#endif
+std::vector<t_history> GPTHistory::getHistory() const
+{
+    return _history;
+}
 
+GPTHistory::~GPTHistory() {}
