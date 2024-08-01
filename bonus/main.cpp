@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 00:43:51 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/31 14:07:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/01 15:18:09 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,16 @@ int main(int argc, char **argv)
 		std::cerr << "	usage : " << argv[0] << " <ip> <port> <pass>" << std::endl;
 		return(1);
 	}
+	signal(SIGINT, Handler);
+	signal(SIGPIPE, SIG_IGN);
 	ip = argv[1];
 	port = argv[2];
 	pass = argv[3];
 	try{
-		Bot bot(ip, port);
-		while(1)
-		{
 		
-		}
-		//bot.login(pass)
-		//bot.listen();
+		Bot bot(ip, port);
+		bot.login(pass);
+		bot.listen();
 	}catch(std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;

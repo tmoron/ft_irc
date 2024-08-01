@@ -29,8 +29,9 @@ Bot::Bot(std::string ip, std::string port)
 	if(_connFd == -1)
 		throw InvaldPortException();
 	this->_pollfd.fd = _connFd;
-	this->_pollfd.events = 0;
+	this->_pollfd.events = POLLIN;
 	this->_pollfd.revents = 0;
+	this->_stop = 0;
 }
 
 Bot::~Bot(void)
@@ -79,7 +80,15 @@ void Bot::listen()
 				this->_stop = 1;		
 			if(len)
 				this->_buffer += std::string(tmp, len);
+			std::cout << _buffer << std::endl;
 		}
 	}
 		
+}
+
+void Bot::login(std::string pass)
+{
+	this->send("PASS " + pass + "\r\n");
+	this->send("NICK bot\r\n");
+	this->send("USER bot 0 * :bot\r\n");
 }

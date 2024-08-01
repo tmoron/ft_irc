@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 00:51:45 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/01 14:44:20 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/01 14:59:37 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ class Bot
 	public:
 		Bot(std::string ip, std::string port);
 		~Bot();
-		int init_connection(const char *ip, uint16_t port);
+		int 	init_connection(const char *ip, uint16_t port);
 		void	send(std::string str);
-		void listen();
+		void 	listen();
+		void	login(std::string pass);
 };
 
 #endif

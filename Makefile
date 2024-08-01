@@ -6,7 +6,7 @@
 #    By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/19 16:47:55 by tomoron           #+#    #+#              #
-#    Updated: 2024/07/31 18:05:00 by tomoron          ###   ########.fr        #
+#    Updated: 2024/08/01 15:05:10 by pageblanche      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRCS =	src/main.cpp\
 
 SRCS_BONUS =	bonus/main.cpp\
 				bonus/Bot.cpp\
-				bonus/utils.cpp
+				bonus/utils.cpp\
+				bonus/GPTHistory.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
