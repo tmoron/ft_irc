@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/31 14:04:06 by tomoron          ###   ########.fr       */
-/*   Updated: 2024/07/26 20:02:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 15:13:15 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "utils.hpp"
 
@@ -51,6 +51,8 @@ std::vector<std::string> ft_split_irc(std::string str)
 	std::vector <std::string>	res;
 	unsigned long				len;
 
+	if (str[0] == ':')
+		str.erase(0, 1);
 	while (str.length())
 	{
 		if(str[0] == ':')

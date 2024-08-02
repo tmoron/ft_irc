@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 00:51:45 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/01 17:45:54 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/02 15:34:14 by pageblanche      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ class GPTHistory;
 class Bot
 {
 	private:
-		int 								_connFd;
-		struct pollfd 						_pollfd;
-		std::string 						_buffer;
-		bool								_stop;
+		int 									_connFd;
+		struct pollfd 							_pollfd;
+		std::string 							_buffer;
+		bool									_stop;
 		std::map<std::string, GPTHistory *> 	_histories;
 	public:
 		Bot(std::string ip, std::string port);
@@ -35,7 +35,7 @@ class Bot
 		void	login(std::string pass);
 
 		void 	handleBuffer();
-		void	exec(unsigned long len);
+		void	exec(std::string buffer);
 		void	addHistory(std::string name, std::string msg);
 };
 

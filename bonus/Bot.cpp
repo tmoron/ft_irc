@@ -47,16 +47,13 @@ int Bot::init_connection(const char *ip, uint16_t port)
 
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (sock_fd < 0)
-	{
-		std::cout << "A" << std::endl;
-		throw std::exception();
-	}
+		throw SocketCreationException();
     ft_bzero(&serv_addr, sizeof(struct sockaddr_in));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = inet_addr(ip);
     serv_addr.sin_port = port >> 8 | port << 8;
     if(connect(sock_fd, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in)))
-		throw std::exception();
+		throw ConnexionException();
     return (sock_fd);
 }
 
@@ -65,12 +62,23 @@ void Bot::send(std::string str)
 	::send(this->_connFd, str.c_str(), str.length(),MSG_DONTWAIT); 
 }
 
-void	Bot::exec(unsigned long len)
+void	Bot::exec(std::string buffer)
 {
-	std::vector<std::string> argSplit = ft_split_irc(_buffer);
+	std::vector<std::string> argSplit = ft_split_irc(buffer);
 
-	std::cout << "exec : " << _buffer << std::endl;
-	if (_buffer.find("PRIVMSG") != std::string::npos)
+	std::cout << "exec : " << buffer << std::endl;
+	if (argSplit.size() < 2)
+		return;
+	if (argSplit[1] == "433")
+	{
+		//appel a api pour un nouveau nickname
+		return;
+	}
+	if (argSplit[1] == "464")
+	{
+		throw WrongPasswordException();
+	}
+	if (buffer.find("PRIVMSG") != std::string::npos)
 	{
 		if (argSplit.size() < 4)
 			return;
@@ -81,11 +89,10 @@ void	Bot::exec(unsigned long len)
 void	Bot::handleBuffer()
 {
 	unsigned long	len;
-
 	while(_buffer.find('\n', 0) != std::string::npos) 
 	{
 		len = _buffer.find('\n', 0);
-		exec(len);
+		exec(_buffer.substr(0, len));
 		_buffer.erase(0, len + 1);
 	}
 }
@@ -106,7 +113,6 @@ void Bot::listen()
 				this->_buffer += std::string(tmp, len);
 			std::cout << _buffer << std::endl;
 			Bot::handleBuffer();
-			std::cout << "buffer : " << _buffer << std::endl;
 		}
 	}
 		
