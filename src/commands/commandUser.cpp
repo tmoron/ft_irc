@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 00:24:30 by tomoron           #+#    #+#             */
-/*   Updated: 2024/07/29 00:41:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:11:10 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "include.hpp"
@@ -16,6 +16,8 @@ void	commandUser(const std::string &arg, Client &client, Server &server)
 {
 	std::vector<std::string> arg_split;
 
+	if(!client.getLoggedIn())
+		return;
 	if(client.isRegistered())
 	{
 		client.sendInfo(0, 462, ":You may not reregister");

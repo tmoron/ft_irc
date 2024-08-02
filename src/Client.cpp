@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/02 15:38:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:19:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,17 +117,31 @@ std::string Client::getWho(Channel *channel)
 }
 
 /*--------------------------------- Setters ----------------------------------*/
+
+void	Client::welcome()
+{
+	if(this->_user.length() && this->_nick.length())
+	this->sendStr(":localhost 001 " + this->_nick + " :welcome to the best irc server you've ever seen");
+}
+
 void	Client::setUser(std::string user)
 {
 	this->_user = user;
+	welcome();
 }
+
 void	Client::setNick(std::string nick)
 {
 	if(!this->_nick.length())
-		this->sendStr(":localhost 001 " + nick + " :welcome to the best irc server you've ever seen");
+	{
+		this->_nick = nick;
+		welcome();
+	}
 	else
+	{
 		this->_server.sendStr(":" + this->_nick+" NICK " + nick);
-	this->_nick = nick;
+		this->_nick = nick;
+	}
 }
 void	Client::setLoggedIn(bool b)
 {

@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:55 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/07/30 00:03:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 16:20:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Client
 		Client(int fd, Server &srv);
 		~Client(void);
 
+		void		welcome();
 		void		setUser(std::string user);
 		void		setNick(std::string nick);
 		void		setLoggedIn(bool b);
