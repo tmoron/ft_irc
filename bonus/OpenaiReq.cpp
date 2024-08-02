@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:31 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/02 01:13:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 14:23:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ std::string OpenaiReq::getChunk(std::stringstream &body)
 	int expected_len;
 	int lst_read_len;
 
+	expected_len = 0;
 	body >> std::hex >> expected_len;
 	body.readsome(buffer, 2);
 	if(!expected_len)

@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:39:41 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/01 17:47:39 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/02 15:36:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ GPTHistory::~GPTHistory()
 		_history[i].role.clear();
 		_history[i].message.clear();
 	}
+}
+
+std::string GPTHistory::getHistoryJson() const
+{
+	std::stringstream res;
+
+	res << "[";
+	res << "{\"role\":\"system\",\"content\":\"you are an irc bot\"}";
+	if(_history.size())
+		res << ",";
+	for(unsigned long i = 0;i < _history.size(); i++)
+	{
+		res << "{\"role\":\"" << _history[i].role << "\",\"";
+		res << "\"content\":\"" << _history[i].message << "\"}";
+		if(i != (_history.size() - 1))
+			res << ",";
+	}
+	std::cout << "res : " << res.str() << std::endl;
+	return(res.str());
 }

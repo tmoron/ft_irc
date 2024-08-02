@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:05:52 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/01 15:52:38 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/02 15:38:56 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	Client::handleBuffer()
 
 void	Client::sendStr(std::string msg)
 {
-	msg += "\n";
+	msg += "\r\n";
 	send(this->_fd, msg.c_str(), msg.length(), MSG_DONTWAIT);
 }
 
