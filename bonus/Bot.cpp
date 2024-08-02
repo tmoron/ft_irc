@@ -19,6 +19,7 @@ Bot::Bot(std::string ip, std::string port)
 	unsigned int		port_int;
 	std::stringstream	port_stream(port);
 
+	_name = "bot";
 	port_stream >> port_int;
 	if(port_stream.fail() || !port_stream.eof() || port_stream.bad())
 		throw InvaldPortException();
@@ -37,6 +38,8 @@ Bot::~Bot(void)
 {
 	if(this->_connFd > 2)
 		close(this->_connFd);
+	for (std::map<std::string, GPTHistory *>::iterator it = _histories.begin(); it != _histories.end(); it++)
+		delete it->second;
 }
 
 /*--------------------------------- Methods ----------------------------------*/
@@ -67,6 +70,8 @@ void	Bot::exec(std::string buffer)
 	std::vector<std::string> argSplit = ft_split_irc(buffer);
 
 	std::cout << "exec : " << buffer << std::endl;
+	for (unsigned long i = 0; i < argSplit.size(); i++)
+		std::cout << "argSplit[" << i << "] : " << argSplit[i] << std::endl;
 	if (argSplit.size() < 2)
 		return;
 	if (argSplit[1] == "433")
@@ -78,11 +83,11 @@ void	Bot::exec(std::string buffer)
 	{
 		throw WrongPasswordException();
 	}
-	if (buffer.find("PRIVMSG") != std::string::npos)
+	if (buffer.find("PRIVMSG") != std::string::npos && argSplit.size() >= 4)
 	{
-		if (argSplit.size() < 4)
-			return;
+		std::string name = argSplit[0].substr(0, argSplit[0].find('!'));
 		addHistory(argSplit[0], argSplit[3]);
+		send("PRIVMSG " + name + " :je suis un bot\n");
 	}
 }
 
@@ -120,9 +125,9 @@ void Bot::listen()
 
 void Bot::login(std::string pass)
 {
-	this->send("PASS " + pass + "\r\n");
-	this->send("NICK bot\r\n");
-	this->send("USER bot 0 * :bot\r\n");
+	send("PASS " + pass + "\r\n");
+	send("NICK " + _name + "\r\n");
+	send("USER " + _name + " 0 * :" + _name + "\r\n");
 }
 
 void	Bot::addHistory(std::string name, std::string msg)
