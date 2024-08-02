@@ -6,11 +6,12 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:39:41 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/02 23:14:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 23:24:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "GPTHistory.hpp"
+#include "prompts.hpp"
 
 GPTHistory::GPTHistory(std::string name) : _name(name) {}
 
@@ -53,7 +54,7 @@ std::string GPTHistory::getHistoryJson() const
 	std::stringstream res;
 
 	res << "[";
-	res << "{\"role\":\"system\",\"content\":\"you are an irc bot\"}";
+	res << "{\"role\":\"system\",\"content\":\"" SYSTEM_PROMPT "\"}";
 	if(_history.size())
 		res << ",";
 	for(unsigned long i = 0;i < _history.size(); i++)
