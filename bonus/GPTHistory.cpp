@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:39:41 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/02 16:13:18 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/02 23:14:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ std::string GPTHistory::getHistoryJson() const
 		res << ",";
 	for(unsigned long i = 0;i < _history.size(); i++)
 	{
-		res << "{\"role\":\"" << _history[i].role << "\",\"";
+		res << "{\"role\":\"" << _history[i].role << "\",";
 		res << "\"content\":\"" << _history[i].message << "\"}";
 		if(i != (_history.size() - 1))
 			res << ",";
 	}
+	res << "]";
 	std::cout << "res : " << res.str() << std::endl;
 	return(res.str());
 }

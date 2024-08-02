@@ -6,11 +6,13 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/07/31 17:57:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 23:10:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bot.hpp"
+#include "OpenaiReq.hpp"
+#include "prompts.hpp"
 
 /*------------------------------- Constructors -------------------------------*/
 
@@ -19,7 +21,7 @@ Bot::Bot(std::string ip, std::string port)
 	unsigned int		port_int;
 	std::stringstream	port_stream(port);
 
-	_name = "bot";
+	genName();
 	port_stream >> port_int;
 	if(port_stream.fail() || !port_stream.eof() || port_stream.bad())
 		throw InvaldPortException();
@@ -43,6 +45,17 @@ Bot::~Bot(void)
 }
 
 /*--------------------------------- Methods ----------------------------------*/
+void Bot::genName()
+{
+	this->_name = " ";
+	while(this->_name.find(' ', 0) != std::string::npos)
+	{
+		OpenaiReq nameReq("[{\"role\":\"user\",\"content\":\"" NAME_PROMPT "\"}]");
+		this->_name = nameReq.send();
+		std::cout << "generated name : " << this->_name << std::endl;
+	}
+}
+
 int Bot::init_connection(const char *ip, uint16_t port)
 {
     int                 sock_fd;
@@ -67,16 +80,18 @@ void Bot::send(std::string str)
 
 void	Bot::exec(std::string buffer)
 {
+	buffer = removeChar(buffer, '\r');
 	std::vector<std::string> argSplit = ft_split_irc(buffer);
+	std::string response;
 
-	std::cout << "exec : " << buffer << std::endl;
-	for (unsigned long i = 0; i < argSplit.size(); i++)
-		std::cout << "argSplit[" << i << "] : " << argSplit[i] << std::endl;
+	for(unsigned int i = 0; i < argSplit.size(); i++)
+		std::cout << i << " : " << argSplit[i] << std::endl;
 	if (argSplit.size() < 2)
 		return;
 	if (argSplit[1] == "433")
 	{
-		//appel a api pour un nouveau nickname
+		genName();
+		send("NICK " + this->_name + "\r\n");
 		return;
 	}
 	if (argSplit[1] == "464")
@@ -86,8 +101,13 @@ void	Bot::exec(std::string buffer)
 	if (buffer.find("PRIVMSG") != std::string::npos && argSplit.size() >= 4)
 	{
 		std::string name = argSplit[0].substr(0, argSplit[0].find('!'));
-		addHistory(argSplit[0], argSplit[3]);
-		send("PRIVMSG " + name + " :je suis un bot\n");
+		if(name == this->_name)
+			return ;
+		addHistory(argSplit[0], argSplit[3], "user");
+		OpenaiReq req(_histories[argSplit[0]]->getHistoryJson());
+		response = req.send(); 
+		send("PRIVMSG " + name + " :" + response + "\r\n");
+		addHistory(argSplit[0], response, "assistant");
 	}
 }
 
@@ -116,7 +136,6 @@ void Bot::listen()
 				return;		
 			if(len)
 				this->_buffer += std::string(tmp, len);
-			std::cout << _buffer << std::endl;
 			Bot::handleBuffer();
 		}
 	}
@@ -130,9 +149,9 @@ void Bot::login(std::string pass)
 	send("USER " + _name + " 0 * :" + _name + "\r\n");
 }
 
-void	Bot::addHistory(std::string name, std::string msg)
+void	Bot::addHistory(std::string name, std::string msg,const std::string role)
 {
 	if(_histories.find(name) == _histories.end())
 		_histories[name] = new GPTHistory(name);
-	_histories[name]->addHistory("user", msg);
+	_histories[name]->addHistory(role, msg);
 }

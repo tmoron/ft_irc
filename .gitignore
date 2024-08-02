@@ -2,4 +2,4 @@
 *ircserv
 *.vscode
 bot
-.secret
+include/secret.hpp

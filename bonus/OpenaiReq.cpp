@@ -6,18 +6,21 @@
 /*   By: tomoron <tomoron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:33:31 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/02 14:23:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/02 22:13:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "OpenaiReq.hpp"
+#include "secret.hpp"
 #include <netdb.h>
 
-OpenaiReq::OpenaiReq(std::string body)
+OpenaiReq::OpenaiReq(std::string messages)
 {
+	std::string body;
+
 	this->_address = "openai.tmoron.fr";
 	this->_path = "/";
-
+	body = "{\"apiKey\":\"" OPENAI_SECRET "\",\"messages\":" + messages + "}";
 	this->_reqBuffer = getInitialBody(body);
 }
 OpenaiReq::~OpenaiReq()
