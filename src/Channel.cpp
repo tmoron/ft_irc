@@ -6,7 +6,7 @@
 /*   By: hubourge <hubourge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:42:37 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/01 15:50:20 by hubourge         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:00:18 by hubourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	Channel::addClient(Client* client, const std::string &pass)
 		client->sendInfo(this, 475, ":Cannot join channel (+k)");
 		return(0);
 	}
+	if (!this->_password.length() && pass.length())
+		this->_password = pass;
 	this->delInvite(client);
 	if(std::find(this->_clients.begin(), this->_clients.end(), client) == this->_clients.end())
 		this->_clients.push_back(client);
