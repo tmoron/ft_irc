@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:39:41 by pageblanche       #+#    #+#             */
-/*   Updated: 2024/08/02 23:24:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:49:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void GPTHistory::addHistory(std::string role, std::string message)
 {
     t_history history;
     
+	message = replaceAll(message, "\\", "\\\\");
+	message = replaceAll(message, "\"", "\\\"");
     history.role = role;
     history.message = message;
     _history.push_back(history);

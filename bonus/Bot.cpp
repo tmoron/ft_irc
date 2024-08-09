@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/08/02 23:10:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:48:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void	Bot::exec(std::string buffer)
 	std::vector<std::string> argSplit = ft_split_irc(buffer);
 	std::string response;
 
-	for(unsigned int i = 0; i < argSplit.size(); i++)
-		std::cout << i << " : " << argSplit[i] << std::endl;
 	if (argSplit.size() < 2)
 		return;
 	if (argSplit[1] == "433")

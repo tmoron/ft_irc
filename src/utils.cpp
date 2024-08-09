@@ -6,7 +6,7 @@
 /*   By: pageblanche <pageblanche@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 20:31:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/08/02 15:13:15 by pageblanche      ###   ########.fr       */
+/*   Updated: 2024/08/09 14:34:13 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,17 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
+std::string replaceAll(std::string line, std::string s1, std::string s2)
+{
+    unsigned long pos;
+
+    if(!s1.length())
+        return(line);
+    pos = line.find(s1, 0);
+    while(pos != std::string::npos)
+    {
+        line = line.substr(0, pos) + s2 + line.substr(pos + s1.length());
+        pos = line.find(s1, pos+s2.length());
+    }
+    return(line);
+}
