@@ -1,5 +1,0 @@
-*.o
-*ircserv
-*.vscode
-bot
-include/secret.hpp
