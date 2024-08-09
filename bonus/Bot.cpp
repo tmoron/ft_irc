@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:04:07 by tomoron          #+#    #+#             */
-/*   Updated: 2024/08/09 14:48:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/08/09 15:26:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ Bot::~Bot(void)
 void Bot::genName()
 {
 	this->_name = " ";
-	while(this->_name.find(' ', 0) != std::string::npos)
+	while(this->_name.find(' ', 0) != std::string::npos && !g_sig)
 	{
 		OpenaiReq nameReq("[{\"role\":\"user\",\"content\":\"" NAME_PROMPT "\"}]");
 		this->_name = nameReq.send();
