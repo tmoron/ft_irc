@@ -17,9 +17,9 @@ Server-to-server communication was intentionally not implemented, as required by
 
 ## Bonus
 ### About
-The bonus asked by the subject is a Bot. We implemented a bot that let you speak with ChatGPT.
-Since we didn't find a name for it, every time it starts, A name is asked to chatGPT and that will be the name used until stopped.
-The bot keeps track of every conversation with every user until stopped, ChatGPT will have the context of previous messages.
+The bonus asked by the subject is a Bot. We implemented a bot that let you speak with ChatGPT.  
+Since we didn't find a name for it, every time it starts, A name is asked to chatGPT and that will be the name used until stopped.  
+The bot keeps track of every conversation with every user until stopped, ChatGPT will have the context of previous messages.  
 
 The HTTP requests implementation is very basic and does not support HTTPS. To make requests to OpenAI, you will need a unsecured server that forwards your HTTP requests.
 
